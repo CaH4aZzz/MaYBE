@@ -5,4 +5,88 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
+        <changeSet id="maybe_6_create_table_employee" author="Artem Kostenko">
+            <createTable tableName="employee">
+                <column name="id" type="bigint" autoIncrement="true">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="name" type="varchar(100)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="login" type="varchar(50)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="password" type="varchar(60)">
+                <constraints nullable="false"/>
+                </column>
+                <column name="role_id" type="tinyint(1))">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+        </changeSet>
+
+    <changeSet id="maybe_6_create_table_table" author="Artem Kostenko">
+        <createTable tableName="table">
+            <column name="id" type="smallint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="maybe_6_create_table_product" author="Artem Kostenko">
+        <createTable tableName="product">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="double(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_order" author="Artem Kostenko">
+        <createTable tableName="order">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="dt_created" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="table_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_order_table" references="table(id)"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_order_product" references="product(id)"/>
+            </column>
+            <column name="dt_closed" type="datetime"/>
+            <column name="total" type="double(12,2)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_product_order" author="Artem Kostenko">
+        <createTable tableName="order_item">
+            <column name="id" type="bigint" autoIncrement="true" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_product_order_order" references="order(id)"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_product_order_product" references="product(id)"/>
+            </column>
+            <column name="quantity" type="double(15,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="double(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
 </databaseChangeLog>
