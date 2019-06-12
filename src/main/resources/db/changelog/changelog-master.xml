@@ -50,6 +50,74 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="maybe_6_create_table_component" author="Dima Klitsenko">
+        <createTable tableName="component">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)" >
+                <constraints nullable="false"/>
+            </column>
+            <column name="measure_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="double(15,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="double(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="maybe_6_create_table_component_product" author="Dima Klitsenko">
+        <createTable tableName="component_product">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_component_product_product"
+                             references="product(id)"/>
+            </column>
+            <column name="component_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fr_component_product_component"
+                             references="component(id)"/>
+            </column>
+            <column name="quantity" type="double(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="maybe_6_create_table_invoice_type" author="Dima Klitesnko">
+        <createTable tableName="invoice_type">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="maybe_6_create_table_invoice" author="Dima Klitsenko">
+        <createTable tableName="invoice">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="invoice_type_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_invoice_invoice_type"
+                             references="invoice_type(id)"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employ_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_invoice_employee"
+                             references="employee(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
     <changeSet id="maybe_6_create_table_order" author="Artem Kostenko">
         <createTable tableName="order">
             <column name="id" type="bigint" autoIncrement="true">
@@ -66,9 +134,33 @@
             </column>
             <column name="dt_closed" type="datetime"/>
             <column name="total" type="double(12,2)"/>
+            <column name="invoice_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_order_invoice"
+                             references="invoice(id)"/>
+            </column>
         </createTable>
     </changeSet>
-
+    <changeSet id="maybe_6_create_table_invoice_item" author="Dima Klitsenko">
+        <createTable tableName="invoice_item">
+            <column name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="invoice_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_invoice_item_invoice"
+                             references="invoice(id)"/>
+            </column>
+            <column name="component_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_invoice_item_component"
+                             references="component(id)"/>
+            </column>
+            <column name="quantity" type="double(13,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="double(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
     <changeSet id="maybe_6_create_table_product_order" author="Artem Kostenko">
         <createTable tableName="order_item">
             <column name="id" type="bigint" autoIncrement="true">
@@ -88,5 +180,4 @@
             </column>
         </createTable>
     </changeSet>
-
 </databaseChangeLog>
