@@ -2,22 +2,37 @@ package com.maybe.maybe.entity;
 
 import com.maybe.maybe.entity.enums.Measure;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
+@Table(name = "component")
 public class Component extends AbstractEntity {
     @NotNull
-    @Column(name = "component_name")
+    @Column(name = "component_name",nullable = false)
     private String componentName;
     @NotNull
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "measure", nullable = false)
     private Measure measure;
     @NotNull
+    @Column(name = "quantity", nullable = false)
     private Double quantity;
     @NotNull
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
+    @ManyToMany
+    private List<ComponentProduct> componentProduct;
+
+    public List<ComponentProduct> getComponentProduct() {
+        return componentProduct;
+    }
+
+    public void setComponentProduct(List<ComponentProduct> componentProduct) {
+        this.componentProduct = componentProduct;
+    }
 
     public Component() {
     }

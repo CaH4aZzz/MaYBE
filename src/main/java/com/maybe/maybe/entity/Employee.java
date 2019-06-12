@@ -2,21 +2,24 @@ package com.maybe.maybe.entity;
 
 import com.maybe.maybe.entity.enums.UserRole;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "employee")
 public class Employee extends AbstractEntity {
     @NotNull
-    @Column(name = "user_name")
+    @Column(name = "user_name", nullable = false, unique = false)
     private String userName;
     @NotNull
+    @Column(name = "login", nullable = false)
     private String login;
     @NotNull
+    @Column(name = "password", nullable = false, length = 10)
     private String password;
     @NotNull
-    @Column(name = "role")
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "role", nullable = false)
     private UserRole userRole;
 
 

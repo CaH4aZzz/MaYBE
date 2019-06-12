@@ -1,18 +1,28 @@
 package com.maybe.maybe.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "invoice_item")
 public class InvoiceItem extends AbstractEntity {
     @NotNull
+    @Column(name = "invoice", nullable = false)
+    @JoinColumn(name = "invoice_id")
     private Invoice invoice;
     @NotNull
+    @Column(name = "component", nullable = false)
+    @JoinColumn(name = "component_id")
     private Component component;
     @NotNull
+    @Column(name = "quantity", nullable = false)
     private Double quantity;
     @NotNull
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     public InvoiceItem() {

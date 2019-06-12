@@ -1,19 +1,22 @@
 package com.maybe.maybe.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
+@Table(name = "component_product")
 public class ComponentProduct extends AbstractEntity {
     @NotNull
+    @Column(name = "product", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
     @NotNull
-    @OneToMany
+    @ManyToMany(mappedBy = "componentProduct")
+    @Column(name = "component", nullable = false)
     private List<Component> components;
     @NotNull
+    @Column(name = "quantity", nullable = false)
     private Double quantity;
 
     public ComponentProduct() {

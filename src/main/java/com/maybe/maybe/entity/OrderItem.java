@@ -1,18 +1,28 @@
 package com.maybe.maybe.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
+@Table(name = "order_item")
 public class OrderItem extends AbstractEntity {
     @NotNull
+    @Column(name = "order", nullable = false)
+    @JoinColumn(name = "product_id")
     private Order order;
     @NotNull
+    @Column(name = "product", nullable = false)
+    @JoinColumn(name = "product_id")
     private Product product;
     @NotNull
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
     @NotNull
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     public OrderItem() {

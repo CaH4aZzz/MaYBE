@@ -1,23 +1,36 @@
 package com.maybe.maybe.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "order")
 public class Order extends AbstractEntity {
     @NotNull
+    @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
     @NotNull
+    @Column(name = "customer", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
     @NotNull
+    @Column(name = "employee", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
     @NotNull
+    @Column(name = "close_date", nullable = false)
     private LocalDateTime closeDate;
     @NotNull
+    @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
     @NotNull
+    @Column(name = "invoice", nullable = false)
+    @JoinColumn(name = "invoice_id")
     private Invoice invoice;
 
     public Order() {

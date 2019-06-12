@@ -2,19 +2,28 @@ package com.maybe.maybe.entity;
 
 import com.maybe.maybe.entity.enums.InvoiceType;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "invoice")
 public class Invoice extends AbstractEntity {
     @NotNull
+    @Column(name = "invoice_type", nullable = false)
     private InvoiceType invoiceType;
     @NotNull
+    @Column(name = "invoice_name", nullable = false,unique = true)
     private String invoiceName;
     @NotNull
+    @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
     @NotNull
+    @Column(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     public Invoice() {
