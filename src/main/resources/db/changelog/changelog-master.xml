@@ -10,7 +10,7 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(100)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="login" type="varchar(50)">
@@ -19,18 +19,18 @@
             <column name="password" type="varchar(60)">
                 <constraints nullable="false"/>
             </column>
-            <column name="role_id" type="tinyint(1))">
+            <column name="role_id" type="tinyint">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="maybe_6_create_table_table" author="Artem Kostenko">
-        <createTable tableName="table">
-            <column name="id" type="smallint" autoIncrement="true">
+    <changeSet id="maybe_6_create_table_customer" author="Artem Kostenko">
+        <createTable tableName="customer">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(50)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -41,7 +41,7 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(100)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="price" type="double(12,2)">
@@ -55,7 +55,7 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(100)" >
+            <column name="name" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
             <column name="measure_name" type="varchar(100)">
@@ -123,16 +123,16 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="dt_created" type="datetime">
+            <column name="date_created" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="table_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_order_table" references="table(id)"/>
+            <column name="customer_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_order_customer" references="customer(id)"/>
             </column>
             <column name="product_id" type="bigint">
                 <constraints nullable="false" foreignKeyName="fk_order_product" references="product(id)"/>
             </column>
-            <column name="dt_closed" type="datetime"/>
+            <column name="date_closed" type="datetime"/>
             <column name="total" type="double(12,2)"/>
             <column name="invoice_id" type="bigint">
                 <constraints nullable="false" foreignKeyName="fk_order_invoice"
