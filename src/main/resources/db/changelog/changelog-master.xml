@@ -55,13 +55,13 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(100)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="measure_name" type="varchar(100)">
+            <column name="measure_name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="quantity" type="double(15,2)">
+            <column name="quantity" type="double(15,3)">
                 <constraints nullable="false"/>
             </column>
             <column name="price" type="double(12,2)">
@@ -92,7 +92,7 @@
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="name" type="varchar(100)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -106,7 +106,7 @@
                 <constraints nullable="false" foreignKeyName="fk_invoice_invoice_type"
                              references="invoice_type(id)"/>
             </column>
-            <column name="name" type="varchar(100)">
+            <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="date_created" type="datetime">
@@ -153,7 +153,7 @@
                 <constraints nullable="false" foreignKeyName="fk_invoice_item_component"
                              references="component(id)"/>
             </column>
-            <column name="quantity" type="double(13,2)">
+            <column name="quantity" type="double(15,3)">
                 <constraints nullable="false"/>
             </column>
             <column name="price" type="double(12,2)">
