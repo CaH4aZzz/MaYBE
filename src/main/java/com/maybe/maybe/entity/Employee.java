@@ -4,41 +4,39 @@ import com.maybe.maybe.entity.enums.UserRole;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "employee")
-public class Employee extends AbstractEntity {
-    @NotNull
-    @Column(name = "user_name", nullable = false, unique = false)
-    private String userName;
+public class Employee extends AbstractNameEntity {
     @NotNull
     @Column(name = "login", nullable = false)
     private String login;
+
     @NotNull
-    @Column(name = "password", nullable = false, length = 10)
+    @Column(name = "password", nullable = false, length = 60)
     private String password;
+
     @NotNull
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "role", nullable = false)
+    @Column(name = "role_id", nullable = false)
     private UserRole userRole;
+
+    @OneToMany(mappedBy = "employee")
+    private Set<Invoice> invoiceList;
 
 
     public Employee() {
     }
 
-    public Employee(String userName, String login, String password, UserRole userRole) {
-        this.userName = userName;
+    public Employee(Set<Invoice> invoiceList, String userName, String login, String password, UserRole userRole) {
+        this.invoiceList = invoiceList;
+        this.setName(userName);
         this.login = login;
         this.password = password;
         this.userRole = userRole;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getLogin() {
@@ -63,5 +61,13 @@ public class Employee extends AbstractEntity {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public Set<Invoice> getInvoiceList() {
+        return invoiceList;
+    }
+
+    public void setInvoiceList(Set<Invoice> invoiceList) {
+        this.invoiceList = invoiceList;
     }
 }

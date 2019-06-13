@@ -1,12 +1,10 @@
 package com.maybe.maybe.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "order")
@@ -14,24 +12,30 @@ public class Order extends AbstractEntity {
     @NotNull
     @Column(name = "create_date", nullable = false)
     private LocalDateTime createDate;
+
     @NotNull
-    @Column(name = "customer", nullable = false)
-    @JoinColumn(name = "customer_id")
+    @Column(name = "customer_id", nullable = false)
     private Customer customer;
+
     @NotNull
-    @Column(name = "employee", nullable = false)
-    @JoinColumn(name = "employee_id")
+    @Column(name = "employee_id", nullable = false)
     private Employee employee;
+
     @NotNull
     @Column(name = "close_date", nullable = false)
     private LocalDateTime closeDate;
+
     @NotNull
     @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
+
     @NotNull
-    @Column(name = "invoice", nullable = false)
-    @JoinColumn(name = "invoice_id")
+    @Column(name = "invoice_id", nullable = false)
     private Invoice invoice;
+
+    @NotNull
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItems;
 
     public Order() {
     }
@@ -91,5 +95,13 @@ public class Order extends AbstractEntity {
 
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }

@@ -1,9 +1,6 @@
 package com.maybe.maybe.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -11,24 +8,27 @@ import java.math.BigDecimal;
 @Table(name = "order_item")
 public class OrderItem extends AbstractEntity {
     @NotNull
-    @Column(name = "order", nullable = false)
-    @JoinColumn(name = "product_id")
+    @ManyToOne
+    @JoinColumn(name = "order_id",nullable = false)
     private Order order;
+
     @NotNull
-    @Column(name = "product", nullable = false)
-    @JoinColumn(name = "product_id")
+    @ManyToOne
+    @JoinColumn(name = "product_id",nullable = false)
     private Product product;
+
     @NotNull
     @Column(name = "price", nullable = false)
     private BigDecimal price;
+
     @NotNull
     @Column(name = "quantity", nullable = false)
-    private Integer quantity;
+    private Double quantity;
 
     public OrderItem() {
     }
 
-    public OrderItem(Order order, Product product, BigDecimal price, Integer quantity) {
+    public OrderItem(Order order, Product product, BigDecimal price, Double quantity) {
         this.order = order;
         this.product = product;
         this.price = price;
@@ -59,11 +59,11 @@ public class OrderItem extends AbstractEntity {
         this.price = price;
     }
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 }

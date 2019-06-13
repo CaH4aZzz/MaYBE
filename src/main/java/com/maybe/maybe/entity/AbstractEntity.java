@@ -12,21 +12,21 @@ import java.math.BigInteger;
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private BigInteger id;
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private Long id;
 
     public AbstractEntity() {
     }
 
-    public AbstractEntity(BigInteger id) {
+    public AbstractEntity(Long id) {
         this.id = id;
     }
 
-    public BigInteger getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

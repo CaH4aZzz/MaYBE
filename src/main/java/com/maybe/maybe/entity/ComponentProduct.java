@@ -8,23 +8,25 @@ import java.util.List;
 @Table(name = "component_product")
 public class ComponentProduct extends AbstractEntity {
     @NotNull
-    @Column(name = "product", nullable = false)
-    @JoinColumn(name = "product_id")
+    @ManyToOne
+    @JoinColumn(name = "product_id",nullable = false)
     private Product product;
+
     @NotNull
-    @ManyToMany(mappedBy = "componentProduct")
-    @Column(name = "component", nullable = false)
-    private List<Component> components;
+    @ManyToOne
+    @JoinColumn(name = "component_id",nullable = false)
+    private Component component;
+
     @NotNull
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity", nullable = false, scale = 15,precision = 3)
     private Double quantity;
 
     public ComponentProduct() {
     }
 
-    public ComponentProduct(Product product, List<Component> components, Double quantity) {
+    public ComponentProduct(Product product, Component component, Double quantity) {
         this.product = product;
-        this.components = components;
+        this.component = component;
         this.quantity = quantity;
     }
 
@@ -36,12 +38,12 @@ public class ComponentProduct extends AbstractEntity {
         this.product = product;
     }
 
-    public List<Component> getComponents() {
-        return components;
+    public Component  getComponents() {
+        return component;
     }
 
-    public void setComponents(List<Component> components) {
-        this.components = components;
+    public void setComponents(Component component) {
+        this.component = component;
     }
 
     public Double getQuantity() {

@@ -9,22 +9,27 @@ import java.util.List;
 
 @Entity
 @Table(name = "component")
-public class Component extends AbstractEntity {
-    @NotNull
-    @Column(name = "component_name",nullable = false)
-    private String componentName;
+public class Component extends AbstractNameEntity {
     @NotNull
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "measure", nullable = false)
     private Measure measure;
+
     @NotNull
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity", nullable = false, scale = 15,precision = 3)
     private Double quantity;
+
     @NotNull
     @Column(name = "price", nullable = false)
     private BigDecimal price;
-    @ManyToMany
+
+    @NotNull
+    @OneToMany(mappedBy = "component")
     private List<ComponentProduct> componentProduct;
+
+    @NotNull
+    @OneToMany(mappedBy = "component")
+    private List<InvoiceItem> invoiceItems;
 
     public List<ComponentProduct> getComponentProduct() {
         return componentProduct;
@@ -37,19 +42,11 @@ public class Component extends AbstractEntity {
     public Component() {
     }
 
-    public Component(String componentName, Measure measure, Double quantity, BigDecimal price) {
-        this.componentName = componentName;
+    public Component(String name, Measure measure, Double quantity, BigDecimal price) {
+        this.setName(name);
         this.measure = measure;
         this.quantity = quantity;
         this.price = price;
-    }
-
-    public String getComponentName() {
-        return componentName;
-    }
-
-    public void setComponentName(String componentName) {
-        this.componentName = componentName;
     }
 
     public Measure getMeasure() {
@@ -74,5 +71,13 @@ public class Component extends AbstractEntity {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public List<InvoiceItem> getInvoiceItems() {
+        return invoiceItems;
+    }
+
+    public void setInvoiceItems(List<InvoiceItem> invoiceItems) {
+        this.invoiceItems = invoiceItems;
     }
 }
