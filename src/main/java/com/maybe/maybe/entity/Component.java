@@ -12,7 +12,7 @@ import java.util.List;
 public class Component extends AbstractNameEntity {
     @NotNull
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "measure", nullable = false)
+    @Column(name = "measure_name", nullable = false)
     private Measure measure;
 
     @NotNull
@@ -20,7 +20,7 @@ public class Component extends AbstractNameEntity {
     private Double quantity;
 
     @NotNull
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = false,scale = 12,precision = 2)
     private BigDecimal price;
 
     @NotNull

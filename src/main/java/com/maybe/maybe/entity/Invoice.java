@@ -14,12 +14,12 @@ public class Invoice extends AbstractNameEntity {
     private InvoiceType invoiceType;
 
     @NotNull
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    @Column(name = "date_created", nullable = false)
+    private LocalDateTime dateCreated;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "employee_id",nullable = false)
+    @JoinColumn(name = "employ_id",nullable = false)
     private Employee employee;
 
     public Invoice() {
@@ -28,7 +28,7 @@ public class Invoice extends AbstractNameEntity {
     public Invoice(InvoiceType invoiceType, String name, LocalDateTime createDate, Employee employee) {
         this.invoiceType = invoiceType;
         this.setName(name);
-        this.createDate = createDate;
+        this.dateCreated = createDate;
         this.employee = employee;
     }
 
@@ -40,12 +40,12 @@ public class Invoice extends AbstractNameEntity {
         this.invoiceType = invoiceType;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Employee getEmployee() {

@@ -1,30 +1,26 @@
 package com.maybe.maybe.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
 @Table(name = "product")
-public class Product extends AbstractEntity {
-    @NotNull
-    @Column(name = "product_name", nullable = false)
-    private String productName;
-
+public class Product extends AbstractNameEntity {
     @NotNull
     @Column(name = "price", nullable = false)
     private BigDecimal price;
+    @NotNull
+    @OneToMany(mappedBy = "product")
+    private List<ComponentProduct> componentProducts;
 
-    public String getProductName() {
-        return productName;
+    public List<ComponentProduct> getComponentProducts() {
+        return componentProducts;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setComponentProducts(List<ComponentProduct> componentProducts) {
+        this.componentProducts = componentProducts;
     }
 
     public BigDecimal getPrice() {

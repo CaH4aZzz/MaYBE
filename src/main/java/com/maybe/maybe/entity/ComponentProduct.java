@@ -18,7 +18,7 @@ public class ComponentProduct extends AbstractEntity {
     private Component component;
 
     @NotNull
-    @Column(name = "quantity", nullable = false, scale = 15,precision = 3)
+    @Column(name = "quantity", nullable = false, scale = 12,precision = 2)
     private Double quantity;
 
     public ComponentProduct() {

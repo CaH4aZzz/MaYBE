@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "employee")
 public class Employee extends AbstractNameEntity {
     @NotNull
-    @Column(name = "login", nullable = false)
+    @Column(name = "login", nullable = false, length = 50)
     private String login;
 
     @NotNull

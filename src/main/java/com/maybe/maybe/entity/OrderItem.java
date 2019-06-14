@@ -9,12 +9,12 @@ import java.math.BigDecimal;
 public class OrderItem extends AbstractEntity {
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "order_id",nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "product_id",nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @NotNull
@@ -22,7 +22,7 @@ public class OrderItem extends AbstractEntity {
     private BigDecimal price;
 
     @NotNull
-    @Column(name = "quantity", nullable = false)
+    @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
     private Double quantity;
 
     public OrderItem() {

@@ -10,8 +10,8 @@ import java.util.List;
 @Table(name = "order")
 public class Order extends AbstractEntity {
     @NotNull
-    @Column(name = "create_date", nullable = false)
-    private LocalDateTime createDate;
+    @Column(name = "date_created", nullable = false)
+    private LocalDateTime dateCreated;
 
     @NotNull
     @Column(name = "customer_id", nullable = false)
@@ -22,12 +22,12 @@ public class Order extends AbstractEntity {
     private Employee employee;
 
     @NotNull
-    @Column(name = "close_date", nullable = false)
-    private LocalDateTime closeDate;
+    @Column(name = "date_closed", nullable = false)
+    private LocalDateTime dateClosed;
 
     @NotNull
-    @Column(name = "total_price", nullable = false)
-    private BigDecimal totalPrice;
+    @Column(name = "total", nullable = false, scale = 12, precision = 2)
+    private BigDecimal total;
 
     @NotNull
     @Column(name = "invoice_id", nullable = false)
@@ -41,20 +41,20 @@ public class Order extends AbstractEntity {
     }
 
     public Order(LocalDateTime createDate, Customer customer, Employee employee, LocalDateTime closeDate, BigDecimal totalPrice, Invoice invoice) {
-        this.createDate = createDate;
+        this.dateCreated = createDate;
         this.customer = customer;
         this.employee = employee;
-        this.closeDate = closeDate;
-        this.totalPrice = totalPrice;
+        this.dateClosed = closeDate;
+        this.total = totalPrice;
         this.invoice = invoice;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
+    public LocalDateTime getDateCreated() {
+        return dateCreated;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
+    public void setDateCreated(LocalDateTime dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Customer getCustomer() {
@@ -73,20 +73,20 @@ public class Order extends AbstractEntity {
         this.employee = employee;
     }
 
-    public LocalDateTime getCloseDate() {
-        return closeDate;
+    public LocalDateTime getDateClosed() {
+        return dateClosed;
     }
 
-    public void setCloseDate(LocalDateTime closeDate) {
-        this.closeDate = closeDate;
+    public void setDateClosed(LocalDateTime dateClosed) {
+        this.dateClosed = dateClosed;
     }
 
-    public BigDecimal getTotalPrice() {
-        return totalPrice;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public void setTotalPrice(BigDecimal totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     public Invoice getInvoice() {

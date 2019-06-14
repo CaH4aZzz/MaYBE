@@ -9,20 +9,19 @@ import java.math.BigDecimal;
 public class InvoiceItem extends AbstractEntity {
     @NotNull
     @Column(name = "invoice_id", nullable = false)
-    @JoinColumn(name = "invoice_id")
     private Invoice invoice;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "component_id",nullable = false)
+    @JoinColumn(name = "component_id", nullable = false)
     private Component component;
 
     @NotNull
-    @Column(name = "quantity", nullable = false,scale = 15,precision = 3)
+    @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
     private Double quantity;
 
     @NotNull
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
 
     public InvoiceItem() {
