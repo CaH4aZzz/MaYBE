@@ -58,7 +58,7 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="measure_name" type="varchar(255)">
+            <column name="measure_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="quantity" type="double(15,3)">
@@ -101,7 +101,7 @@
             <column name="date_created" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="employ_id" type="bigint">
+            <column name="employee_id" type="bigint">
                 <constraints nullable="false" foreignKeyName="fk_invoice_employee"
                              references="employee(id)"/>
             </column>
