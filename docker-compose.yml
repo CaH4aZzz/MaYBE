@@ -1,0 +1,21 @@
+version: '2'
+services:
+  app:
+    build: .
+    image: app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    environment:
+      - DB_PASSWORD=postgres
+      - DB_USER=postgres
+      - DB_DB=maybe
+    volumes:
+      - sample_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+volumes:
+  sample_db: {}
