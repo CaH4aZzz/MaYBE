@@ -118,8 +118,8 @@
             <column name="customer_id" type="bigint">
                 <constraints nullable="false" foreignKeyName="fk_order_customer" references="customer(id)"/>
             </column>
-            <column name="product_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_order_product" references="product(id)"/>
+            <column name="employee_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_order_employee" references="employee(id)"/>
             </column>
             <column name="date_closed" type="datetime"/>
             <column name="total" type="double(12,2)"/>
