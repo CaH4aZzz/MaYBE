@@ -27,18 +27,6 @@ public class Employee extends AbstractNameEntity {
     @OneToMany(mappedBy = "employee")
     private Set<Invoice> invoiceList;
 
-
-    public Employee() {
-    }
-
-    public Employee(Set<Invoice> invoiceList, String userName, String login, String password, UserRole userRole) {
-        this.invoiceList = invoiceList;
-        this.setName(userName);
-        this.login = login;
-        this.password = password;
-        this.userRole = userRole;
-    }
-
     public String getLogin() {
         return login;
     }

@@ -9,8 +9,9 @@ import java.util.List;
 @Table(name = "product")
 public class Product extends AbstractNameEntity {
     @NotNull
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
+
     @NotNull
     @OneToMany(mappedBy = "product")
     private List<ComponentProduct> componentProducts;

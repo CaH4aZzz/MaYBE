@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Table(name = "invoice")
 public class Invoice extends AbstractNameEntity {
     @NotNull
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "invoice_type_id", nullable = false)
     private InvoiceType invoiceType;
 
@@ -19,18 +20,8 @@ public class Invoice extends AbstractNameEntity {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "employ_id",nullable = false)
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
-
-    public Invoice() {
-    }
-
-    public Invoice(InvoiceType invoiceType, String name, LocalDateTime createDate, Employee employee) {
-        this.invoiceType = invoiceType;
-        this.setName(name);
-        this.dateCreated = createDate;
-        this.employee = employee;
-    }
 
     public InvoiceType getInvoiceType() {
         return invoiceType;

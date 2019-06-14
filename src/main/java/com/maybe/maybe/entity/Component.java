@@ -12,15 +12,15 @@ import java.util.List;
 public class Component extends AbstractNameEntity {
     @NotNull
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "measure_name", nullable = false)
+    @Column(name = "measure_id", nullable = false)
     private Measure measure;
 
     @NotNull
-    @Column(name = "quantity", nullable = false, scale = 15,precision = 3)
+    @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
     private Double quantity;
 
     @NotNull
-    @Column(name = "price", nullable = false,scale = 12,precision = 2)
+    @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
 
     @NotNull
@@ -37,16 +37,6 @@ public class Component extends AbstractNameEntity {
 
     public void setComponentProduct(List<ComponentProduct> componentProduct) {
         this.componentProduct = componentProduct;
-    }
-
-    public Component() {
-    }
-
-    public Component(String name, Measure measure, Double quantity, BigDecimal price) {
-        this.setName(name);
-        this.measure = measure;
-        this.quantity = quantity;
-        this.price = price;
     }
 
     public Measure getMeasure() {

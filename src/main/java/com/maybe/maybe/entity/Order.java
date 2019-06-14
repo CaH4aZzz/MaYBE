@@ -14,10 +14,12 @@ public class Order extends AbstractEntity {
     private LocalDateTime dateCreated;
 
     @NotNull
+    @ManyToOne
     @Column(name = "customer_id", nullable = false)
     private Customer customer;
 
     @NotNull
+    @ManyToOne
     @Column(name = "employee_id", nullable = false)
     private Employee employee;
 
@@ -30,6 +32,7 @@ public class Order extends AbstractEntity {
     private BigDecimal total;
 
     @NotNull
+    @OneToOne
     @Column(name = "invoice_id", nullable = false)
     private Invoice invoice;
 
@@ -37,17 +40,6 @@ public class Order extends AbstractEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
 
-    public Order() {
-    }
-
-    public Order(LocalDateTime createDate, Customer customer, Employee employee, LocalDateTime closeDate, BigDecimal totalPrice, Invoice invoice) {
-        this.dateCreated = createDate;
-        this.customer = customer;
-        this.employee = employee;
-        this.dateClosed = closeDate;
-        this.total = totalPrice;
-        this.invoice = invoice;
-    }
 
     public LocalDateTime getDateCreated() {
         return dateCreated;

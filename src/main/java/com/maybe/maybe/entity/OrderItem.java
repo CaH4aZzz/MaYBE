@@ -18,22 +18,13 @@ public class OrderItem extends AbstractEntity {
     private Product product;
 
     @NotNull
-    @Column(name = "price", nullable = false)
+    @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
 
     @NotNull
     @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
-    private Double quantity;
+    private BigDecimal quantity;
 
-    public OrderItem() {
-    }
-
-    public OrderItem(Order order, Product product, BigDecimal price, Double quantity) {
-        this.order = order;
-        this.product = product;
-        this.price = price;
-        this.quantity = quantity;
-    }
 
     public Order getOrder() {
         return order;
@@ -59,11 +50,11 @@ public class OrderItem extends AbstractEntity {
         this.price = price;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 }

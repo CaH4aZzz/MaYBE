@@ -2,6 +2,7 @@ package com.maybe.maybe.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -9,26 +10,17 @@ import java.util.List;
 public class ComponentProduct extends AbstractEntity {
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "product_id",nullable = false)
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "component_id",nullable = false)
+    @JoinColumn(name = "component_id", nullable = false)
     private Component component;
 
     @NotNull
-    @Column(name = "quantity", nullable = false, scale = 12,precision = 2)
-    private Double quantity;
-
-    public ComponentProduct() {
-    }
-
-    public ComponentProduct(Product product, Component component, Double quantity) {
-        this.product = product;
-        this.component = component;
-        this.quantity = quantity;
-    }
+    @Column(name = "quantity", nullable = false, scale = 12, precision = 2)
+    private BigDecimal quantity;
 
     public Product getProduct() {
         return product;
@@ -38,7 +30,7 @@ public class ComponentProduct extends AbstractEntity {
         this.product = product;
     }
 
-    public Component  getComponents() {
+    public Component getComponents() {
         return component;
     }
 
@@ -46,11 +38,11 @@ public class ComponentProduct extends AbstractEntity {
         this.component = component;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 }
