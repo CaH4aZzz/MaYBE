@@ -87,24 +87,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="maybe_6_create_table_invoice_type" author="Dima Klitesnko">
-        <createTable tableName="invoice_type">
-            <column name="id" type="bigint">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="name" type="varchar(255)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-    </changeSet>
     <changeSet id="maybe_6_create_table_invoice" author="Dima Klitsenko">
         <createTable tableName="invoice">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="invoice_type_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_invoice_invoice_type"
-                             references="invoice_type(id)"/>
+                <constraints nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
