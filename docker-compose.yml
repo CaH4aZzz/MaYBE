@@ -6,14 +6,13 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - postres
-  postres:
+      - postgres
+  postgres:
     image: postgres
     environment:
       - DB_PASSWORD=postgres
       - DB_USER=postgres
       - DB_DB=maybe
-      - PGHOST=localhost
     volumes:
       - sample_db:/var/lib/postgresql/data
     ports:
