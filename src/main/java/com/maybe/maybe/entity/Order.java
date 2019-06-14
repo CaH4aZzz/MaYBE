@@ -15,12 +15,12 @@ public class Order extends AbstractEntity {
 
     @NotNull
     @ManyToOne
-    @Column(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     @NotNull
     @ManyToOne
-    @Column(name = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
     @NotNull
@@ -33,7 +33,7 @@ public class Order extends AbstractEntity {
 
     @NotNull
     @OneToOne
-    @Column(name = "invoice_id", nullable = false)
+    @JoinColumn(name = "invoice_id", nullable = false)
     private Invoice invoice;
 
     @NotNull
