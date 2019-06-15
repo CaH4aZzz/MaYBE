@@ -1,6 +1,7 @@
 package com.maybe.maybe.entity;
 
 import com.maybe.maybe.entity.enums.UserRole;
+import com.maybe.maybe.entity.enums.converter.UserRoleConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -20,7 +21,7 @@ public class Employee extends AbstractNameEntity {
     private String password;
 
     @NotNull
-    @Enumerated(EnumType.ORDINAL)
+    @Convert(converter = UserRoleConverter.class)
     @Column(name = "role_id", nullable = false)
     private UserRole userRole;
 
