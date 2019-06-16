@@ -1,6 +1,7 @@
 package com.maybe.maybe.entity;
 
 import com.maybe.maybe.entity.enums.Measure;
+import com.maybe.maybe.entity.enums.converter.MeasureConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import java.util.List;
 @Table(name = "component")
 public class Component extends AbstractNameEntity {
     @NotNull
-    @Enumerated(EnumType.ORDINAL)
+    @Convert(converter = MeasureConverter.class)
     @Column(name = "measure_id", nullable = false)
     private Measure measure;
 
