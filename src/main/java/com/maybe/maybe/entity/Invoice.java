@@ -1,6 +1,7 @@
 package com.maybe.maybe.entity;
 
 import com.maybe.maybe.entity.enums.InvoiceType;
+import com.maybe.maybe.entity.enums.converter.InvoiceTypeConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "invoice")
 public class Invoice extends AbstractNameEntity {
     @NotNull
-    @Enumerated(EnumType.ORDINAL)
+    @Convert(converter = InvoiceTypeConverter.class)
     @Column(name = "invoice_type_id", nullable = false)
     private InvoiceType invoiceType;
 
