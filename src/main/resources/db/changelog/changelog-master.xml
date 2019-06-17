@@ -44,7 +44,7 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="price" type="double(12,2)">
+            <column name="price" type="decimal(12,2)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -61,32 +61,48 @@
             <column name="measure_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="quantity" type="double(15,3)">
+            <column name="quantity" type="decimal(15,3)">
                 <constraints nullable="false"/>
             </column>
-            <column name="price" type="double(12,2)">
+            <column name="price" type="decimal(12,2)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
+
     <changeSet id="maybe_6_create_table_component_product" author="Dima Klitsenko">
         <createTable tableName="component_product">
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_component_product_product"
-                             references="product(id)"/>
+                <constraints nullable="false"/>
             </column>
             <column name="component_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fr_component_product_component"
-                             references="component(id)"/>
+                <constraints nullable="false"/>
             </column>
-            <column name="quantity" type="double(12,2)">
+            <column name="quantity" type="decimal(12,2)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="maybe_6_component_product_add_component_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="component_id"
+                                 baseTableName="component_product"
+                                 constraintName="fr_component_product_component"
+                                 referencedColumnNames="id"
+                                 referencedTableName="component"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_component_product_add_product_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="component_product"
+                                 constraintName="fk_component_product_product"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+    </changeSet>
+
     <changeSet id="maybe_6_create_table_invoice" author="Dima Klitsenko">
         <createTable tableName="invoice">
             <column name="id" type="bigint">
@@ -102,11 +118,19 @@
                 <constraints nullable="false"/>
             </column>
             <column name="employee_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_invoice_employee"
-                             references="employee(id)"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="maybe_6_invoice_add_employee_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="invoice"
+                                 constraintName="fk_invoice_employee"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+    </changeSet>
+
     <changeSet id="maybe_6_create_table_order" author="Artem Kostenko">
         <createTable tableName="order">
             <column name="id" type="bigint" autoIncrement="true">
@@ -116,57 +140,112 @@
                 <constraints nullable="false"/>
             </column>
             <column name="customer_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_order_customer" references="customer(id)"/>
+                <constraints nullable="false"/>
             </column>
             <column name="employee_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_order_employee" references="employee(id)"/>
+                <constraints nullable="false"/>
             </column>
             <column name="date_closed" type="datetime"/>
-            <column name="total" type="double(12,2)"/>
+            <column name="total" type="decimal(12,2)"/>
             <column name="invoice_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_order_invoice"
-                             references="invoice(id)"/>
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="maybe_6_order_add_invoice_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="invoice_id"
+                                 baseTableName="order"
+                                 constraintName="fk_order_invoice"
+                                 referencedColumnNames="id"
+                                 referencedTableName="invoice"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_order_add_employee_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="order"
+                                 constraintName="fk_order_employee"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_order_add_customer_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="customer_id"
+                                 baseTableName="order"
+                                 constraintName="fk_order_customer"
+                                 referencedColumnNames="id"
+                                 referencedTableName="customer"/>
+    </changeSet>
+
     <changeSet id="maybe_6_create_table_invoice_item" author="Dima Klitsenko">
         <createTable tableName="invoice_item">
             <column name="id" type="bigint">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="invoice_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_invoice_item_invoice"
-                             references="invoice(id)"/>
-            </column>
-            <column name="component_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_invoice_item_component"
-                             references="component(id)"/>
-            </column>
-            <column name="quantity" type="double(15,3)">
                 <constraints nullable="false"/>
             </column>
-            <column name="price" type="double(12,2)">
+            <column name="component_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="decimal(15,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal(12,2)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet id="maybe_6_invoice_item_add_invoice_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="invoice_id"
+                                 baseTableName="invoice_item"
+                                 constraintName="fk_invoice_item_invoice"
+                                 referencedColumnNames="id"
+                                 referencedTableName="invoice"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_invoice_item_component_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="component_id"
+                                 baseTableName="invoice_item"
+                                 constraintName="fk_invoice_item_component"
+                                 referencedColumnNames="id"
+                                 referencedTableName="component"/>
+    </changeSet>
+
     <changeSet id="maybe_6_create_table_product_order" author="Artem Kostenko">
         <createTable tableName="order_item">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="order_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_product_order_order" references="order(id)"/>
-            </column>
-            <column name="product_id" type="bigint">
-                <constraints nullable="false" foreignKeyName="fk_product_order_product" references="product(id)"/>
-            </column>
-            <column name="quantity" type="double(15,3)">
                 <constraints nullable="false"/>
             </column>
-            <column name="price" type="double(12,2)">
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="decimal(15,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal(12,2)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_order_item_add_order_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="order_id"
+                                 baseTableName="order_item"
+                                 constraintName="fk_product_order_order"
+                                 referencedColumnNames="id"
+                                 referencedTableName="order"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_order_item_add_product_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="order_item"
+                                 constraintName="fk_product_order_product"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
     </changeSet>
 </databaseChangeLog>
