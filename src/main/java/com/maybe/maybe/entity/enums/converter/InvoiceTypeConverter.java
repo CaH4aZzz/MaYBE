@@ -4,7 +4,6 @@ import com.maybe.maybe.entity.enums.InvoiceType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import java.util.Arrays;
 
 @Converter
 public class InvoiceTypeConverter implements AttributeConverter<InvoiceType, Integer> {
@@ -19,9 +18,7 @@ public class InvoiceTypeConverter implements AttributeConverter<InvoiceType, Int
 
     @Override
     public InvoiceType convertToEntityAttribute(Integer id) {
-        return Arrays.stream(InvoiceType.values())
-                .filter(a -> a.getId().equals(id)).findFirst().
-                        orElse(null);
+        return InvoiceType.getById(id);
     }
 }
 

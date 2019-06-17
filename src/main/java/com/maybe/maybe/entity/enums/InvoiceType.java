@@ -1,5 +1,7 @@
 package com.maybe.maybe.entity.enums;
 
+import java.util.Arrays;
+
 public enum InvoiceType {
     ;
 
@@ -17,5 +19,11 @@ public enum InvoiceType {
 
     public String getCaption() {
         return caption;
+    }
+
+    public static InvoiceType getById(Integer id) {
+        return Arrays.stream(InvoiceType.values())
+                .filter(a -> a.getId().equals(id)).findFirst().
+                        orElse(null);
     }
 }
