@@ -2,15 +2,16 @@ language: java
 jdk:
   - oraclejdk8
 
+install: true
 before_script:
   - echo "Starting build"
 script:
-  - mvn clean package
-  - mvn cobertura:cobertura
+  - ./mvnw clean verify
 after_script:
   - echo "Script finished"
 after_success:
   - echo "Build was successful"
+  - mvn cobertura:cobertura
   - bash <(curl -s https://codecov.io/bash)
 after_failure:
   - echo "Build was failed"
