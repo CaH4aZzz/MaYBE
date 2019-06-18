@@ -24,11 +24,9 @@ public class Component extends AbstractNameEntity {
     @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
 
-    @NotNull
     @OneToMany(mappedBy = "component")
     private List<ComponentProduct> componentProduct;
 
-    @NotNull
     @OneToMany(mappedBy = "component")
     private List<InvoiceItem> invoiceItems;
 
