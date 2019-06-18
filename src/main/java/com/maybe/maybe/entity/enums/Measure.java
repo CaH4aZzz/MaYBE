@@ -1,6 +1,6 @@
 package com.maybe.maybe.entity.enums;
 
-public enum Measure {
+public enum Measure implements EnumDB {
     ;
 
     private Integer id;
@@ -11,10 +11,12 @@ public enum Measure {
         this.caption = caption;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public String getCaption() {
         return caption;
     }
