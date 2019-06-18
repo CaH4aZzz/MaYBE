@@ -4,7 +4,7 @@ install: true
 before_script:
   - echo "Starting build"
 script:
-  - ./mvnw clean verify
+  - ./mvnw clean install
 after_script:
   - echo "Script finished"
 after_success:
