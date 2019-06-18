@@ -1,8 +1,6 @@
 package com.maybe.maybe.entity.enums;
 
-import java.util.Arrays;
-
-public enum UserRole {
+public enum UserRole implements EnumDB {
     ADMIN(1, "Administrator"),
     USER(2, "User");
 
@@ -14,17 +12,13 @@ public enum UserRole {
         this.caption = caption;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public String getCaption() {
         return caption;
-    }
-
-    public static UserRole getById(Integer id) {
-        return Arrays.stream(UserRole.values())
-                .filter(a -> a.getId().equals(id)).findFirst().
-                        orElse(null);
     }
 }

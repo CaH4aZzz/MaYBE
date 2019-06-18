@@ -4,21 +4,19 @@ import com.maybe.maybe.entity.enums.InvoiceType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.util.Optional;
 
 @Converter
-public class InvoiceTypeConverter implements AttributeConverter<InvoiceType, Integer> {
+public class InvoiceTypeConverter
+        extends EnumDBConverter<InvoiceType>
+        implements AttributeConverter<InvoiceType, Integer> {
 
-    @Override
-    public Integer convertToDatabaseColumn(InvoiceType invoiceType) {
-        if (invoiceType == null) {
-            return null;
-        }
-        return invoiceType.getId();
+    public InvoiceTypeConverter() {
+        super(InvoiceType.class);
     }
 
-    @Override
-    public InvoiceType convertToEntityAttribute(Integer id) {
-        return InvoiceType.getById(id);
+    public static Optional<InvoiceType> getById(Integer id) {
+        return getById(InvoiceType.class, id);
     }
 }
 

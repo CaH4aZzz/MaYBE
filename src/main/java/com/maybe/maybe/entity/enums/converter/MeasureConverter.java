@@ -4,21 +4,19 @@ import com.maybe.maybe.entity.enums.Measure;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.util.Optional;
 
 @Converter
-public class MeasureConverter implements AttributeConverter<Measure, Integer> {
+public class MeasureConverter
+        extends EnumDBConverter<Measure>
+        implements AttributeConverter<Measure, Integer> {
 
-    @Override
-    public Integer convertToDatabaseColumn(Measure measure) {
-        if (measure == null) {
-            return null;
-        }
-        return measure.getId();
+    public MeasureConverter() {
+        super(Measure.class);
     }
 
-    @Override
-    public Measure convertToEntityAttribute(Integer id) {
-        return Measure.getById(id);
+    public static Optional<Measure> getById(Integer id) {
+        return getById(Measure.class, id);
     }
 }
 

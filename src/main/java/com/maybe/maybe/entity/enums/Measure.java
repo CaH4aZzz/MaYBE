@@ -1,8 +1,6 @@
 package com.maybe.maybe.entity.enums;
 
-import java.util.Arrays;
-
-public enum Measure {
+public enum Measure implements EnumDB {
     ;
 
     private Integer id;
@@ -13,17 +11,13 @@ public enum Measure {
         this.caption = caption;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public String getCaption() {
         return caption;
-    }
-
-    public static Measure getById(Integer id) {
-        return Arrays.stream(Measure.values())
-                .filter(a -> a.getId().equals(id)).findFirst().
-                        orElse(null);
     }
 }

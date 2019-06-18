@@ -4,21 +4,18 @@ import com.maybe.maybe.entity.enums.UserRole;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import java.util.Optional;
 
 @Converter
-public class UserRoleConverter implements AttributeConverter<UserRole, Integer> {
+public class UserRoleConverter
+        extends EnumDBConverter<UserRole>
+        implements AttributeConverter<UserRole, Integer> {
 
-    @Override
-    public Integer convertToDatabaseColumn(UserRole userRole) {
-        if (userRole == null) {
-            return null;
-        }
-        return userRole.getId();
+    public UserRoleConverter() {
+        super(UserRole.class);
     }
 
-    @Override
-    public UserRole convertToEntityAttribute(Integer id) {
-        return UserRole.getById(id);
+    public static Optional<UserRole> getById(Integer id) {
+        return getById(UserRole.class, id);
     }
 }
-
