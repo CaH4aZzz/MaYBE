@@ -1,5 +1,7 @@
 language: java
 
+before_install:
+  - chmod +x mvnw
 install: true
 before_script:
   - echo "Starting build"
