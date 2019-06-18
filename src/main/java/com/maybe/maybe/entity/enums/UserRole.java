@@ -1,6 +1,6 @@
 package com.maybe.maybe.entity.enums;
 
-public enum UserRole {
+public enum UserRole implements EnumDB {
     ADMIN(1, "Administrator"),
     USER(2, "User");
 
@@ -12,10 +12,12 @@ public enum UserRole {
         this.caption = caption;
     }
 
+    @Override
     public Integer getId() {
         return id;
     }
 
+    @Override
     public String getCaption() {
         return caption;
     }
