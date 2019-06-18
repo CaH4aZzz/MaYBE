@@ -6,10 +6,12 @@ before_script:
   - echo "Starting build"
 script:
   - mvn clean package
+  - mvn cobertura:cobertura
 after_script:
   - echo "Script finished"
 after_success:
-  - echo "Build was successful. $TRAVIS_TEST_RESULT"
+  - echo "Build was successful"
+  - bash <(curl -s https://codecov.io/bash)
 after_failure:
   - echo "Build was failed"
 
