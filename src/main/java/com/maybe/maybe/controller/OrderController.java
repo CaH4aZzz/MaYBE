@@ -4,7 +4,10 @@ import com.maybe.maybe.entity.Order;
 import com.maybe.maybe.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -20,27 +23,17 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<?> getAllOrders() {
-        return ResponseEntity.of(Optional.of(orderService.getAll()));
+        return ResponseEntity.ok(Optional.of(orderService.getAll()));
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
 
         Optional<Order> order = orderService.getById(id);
 
         if (!order.isPresent()){
-            return ResponseEntity.status(404).build();
+            return new ResponseEntity<Order>(HttpStatus.BAD_REQUEST);
         }
-
         return ResponseEntity.ok(Optional.of(order));
     }
-
-    @PostMapping("/create")
-    public ResponseEntity<?> createOrder(@RequestBody Order order) {
-
-        orderService.save(order);
-
-        return ResponseEntity.status(HttpStatus.OK).body(order.getId().toString() + " was created!");
-    }
-
 }

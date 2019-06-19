@@ -3,6 +3,7 @@ package com.maybe.maybe.controller;
 import com.maybe.maybe.entity.Order;
 import com.maybe.maybe.entity.OrderItem;
 import com.maybe.maybe.service.OrderItemService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,15 +24,15 @@ public class OrderItemController {
         return ResponseEntity.of(Optional.of(orderItemService.getAllInOrder(order)));
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Long id){
 
         Optional<OrderItem> orderItem = orderItemService.getById(id);
 
         if (!orderItem.isPresent()){
-            return ResponseEntity.status(404).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        return ResponseEntity.ok(Optional.of(orderItem));
+        return ResponseEntity.ok(orderItem);
     }
 }
