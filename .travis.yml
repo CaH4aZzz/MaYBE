@@ -6,15 +6,6 @@ jdk:
   cache:
     directories:
       - $HOME/.m2
-      -
-before_script:
-  - echo "Starting build"
-
-script:
-  -./mvnw test -B
-
-after_script:
-  - echo "Script finished"
 
 after_success:
   - echo "Build was successful"
