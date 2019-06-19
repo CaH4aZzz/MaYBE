@@ -1,16 +1,19 @@
 language: java
 
-before_install:
-  - chmod +x mvnw
+jdk:
+  - oraclejdk8
+#before_install:
+#  - chmod +x mvnw
 before_script:
   - echo "Starting build"
 script:
   - ./mvnw clean install
+  - ./mvnw cobertura:cobertura
+  #  -./mvnw test -B
 after_script:
   - echo "Script finished"
 after_success:
   - echo "Build was successful"
-  - ./mvnw cobertura:cobertura
   - bash <(curl -s https://codecov.io/bash)
 after_failure:
   - echo "Build was failed"
@@ -19,11 +22,16 @@ notifications:
   email:
     recipients:
       - CaH4aZzz@gmail.com
-      - kosten27@gmail.com
-      - artem.sobolenko@gmail.com
-      - kjuby009@gmail.com
-      - xvanyax2008@gmail.com
-      - yurasicv@gmail.com
-      - klitsenko.dmitriy@gmail.com
+    #      - kosten27@gmail.com
+    #      - artem.sobolenko@gmail.com
+    #      - kjuby009@gmail.com
+    #      - xvanyax2008@gmail.com
+    #      - yurasicv@gmail.com
+    #      - klitsenko.dmitriy@gmail.com
     on_success: never
     on_failure: always
+
+
+    cache:
+      directories:
+        - $HOME/.m2
