@@ -1,20 +1,25 @@
 language: java
 
 jdk:
-  - openjdk8
-#before_install:
-#  - chmod +x mvnw
+  - oraclejdk8
+
+  cache:
+    directories:
+      - $HOME/.m2
+      -
 before_script:
   - echo "Starting build"
+
 script:
-  - ./mvnw clean install
-  - ./mvnw cobertura:cobertura
-  #  -./mvnw test -B
+  -./mvnw test -B
+
 after_script:
   - echo "Script finished"
+
 after_success:
   - echo "Build was successful"
   - bash <(curl -s https://codecov.io/bash)
+
 after_failure:
   - echo "Build was failed"
 
@@ -32,6 +37,3 @@ notifications:
     on_failure: always
 
 
-    cache:
-      directories:
-        - $HOME/.m2
