@@ -2,7 +2,6 @@ language: java
 
 before_install:
   - chmod +x mvnw
-install: true
 before_script:
   - echo "Starting build"
 script:
@@ -11,7 +10,7 @@ after_script:
   - echo "Script finished"
 after_success:
   - echo "Build was successful"
-  - mvn cobertura:cobertura
+  - ./mvnw cobertura:cobertura
   - bash <(curl -s https://codecov.io/bash)
 after_failure:
   - echo "Build was failed"
