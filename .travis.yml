@@ -1,17 +1,15 @@
 language: java
 
-before_install:
-  - chmod +x mvnw
+install:
+  - mvn -N io.takari:maven:wrapper
+  - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 before_script:
   - echo "Starting build"
-script:
-  - ./mvnw clean install
 after_script:
   - echo "Script finished"
 after_success:
   - echo "Build was successful"
   - bash <(curl -s https://codecov.io/bash)
-
 after_failure:
   - echo "Build was failed"
 cache:
