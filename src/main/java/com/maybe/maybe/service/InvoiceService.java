@@ -8,8 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Service
 public class InvoiceService {
@@ -21,8 +21,17 @@ public class InvoiceService {
         this.employeeService = employeeService;
     }
 
-    public Optional<Invoice> findById(Long id) {
-        return invoiceRepository.findById(id);
+    public Invoice findById(Long id) {
+        return invoiceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find invoice id=" + id));
+    }
+
+    public void deleteById(Long id) {
+        invoiceRepository.deleteById(id);
+    }
+
+    public void save(Invoice invoice) {
+        invoiceRepository.save(invoice);
     }
 
     public Page<Invoice> findAllByPeriod(LocalDateTime dateFrom, LocalDateTime dateTo, Pageable pageable) {
@@ -40,17 +49,13 @@ public class InvoiceService {
     public Invoice createFromDTO(InvoiceDTO invoiceDTO) {
         Invoice invoice = new Invoice();
         invoice.setDateCreated(LocalDateTime.now());
-        return updateFromDTO(invoice, invoiceDTO);
-    }
-
-    public Invoice updateFromDTO(Invoice invoice, InvoiceDTO invoiceDTO) {
-        invoice.setName(invoiceDTO.getName());
-//        invoice.setEmployee(employeeService.findById(invoiceDTO.getEmployeeId()));
-//        invoice.setInvoiceType(InvoiceTypeConverter.getById(invoiceDTO.getInvoiceTypeId()));
+        updateFromDTO(invoice, invoiceDTO);
         return invoice;
     }
 
-    public Invoice save(Invoice invoice) {
-        return invoiceRepository.save(invoice);
+    public void updateFromDTO(Invoice invoice, InvoiceDTO invoiceDTO) {
+        invoice.setName(invoiceDTO.getName());
+        invoice.setEmployee(employeeService.findById(invoiceDTO.getEmployeeId()));
+        invoice.setInvoiceType(InvoiceTypeConverter.getById(invoiceDTO.getInvoiceTypeId()));
     }
 }

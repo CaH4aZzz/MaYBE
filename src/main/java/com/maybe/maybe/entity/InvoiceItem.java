@@ -8,7 +8,8 @@ import java.math.BigDecimal;
 @Table(name = "invoice_item")
 public class InvoiceItem extends AbstractEntity {
     @NotNull
-    @Column(name = "invoice_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "invoice_id", nullable = false)
     private Invoice invoice;
 
     @NotNull

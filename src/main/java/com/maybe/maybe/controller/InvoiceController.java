@@ -28,47 +28,44 @@ public class InvoiceController {
     @GetMapping("/invoices/")
     public ResponseEntity<Page<Invoice>> getInvoices(
             @RequestParam(name = "dateFrom", required = false)
-                @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDateTime dateFrom,
+                @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime dateFrom,
             @RequestParam(name = "dateTo", required = false)
-                @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDateTime dateTo,
+                @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime dateTo,
             @PageableDefault(page=0, size=10) Pageable pageable) {
-
         Page<Invoice> invoices = invoiceService.findAllByPeriod(dateFrom, dateTo, pageable);
-        if (invoices.isEmpty()) {
-            return new ResponseEntity<>(invoices, HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(invoices, HttpStatus.OK);
     }
 
     @GetMapping("/invoices/{invoiceId}")
-    public ResponseEntity<Invoice> getInvoice(@PathVariable("invoiceId") @Min(1) Long invoiceId) {
-        Invoice invoice = invoiceService.findById(invoiceId)
-                .orElse(null);
-//                .orElseThrow(() -> new CustomException("Invoice not found", HttpStatus.NOT_FOUND));
+    public ResponseEntity<Invoice> getInvoice(
+            @PathVariable("invoiceId") @Min(1) Long invoiceId) {
+        Invoice invoice = invoiceService.findById(invoiceId);
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 
     @PostMapping("/invoices/")
-    public ResponseEntity<Invoice> createInvoice(@Valid @RequestBody InvoiceDTO invoiceDTO) {
+    public ResponseEntity<Invoice> createInvoice(
+            @Valid @RequestBody InvoiceDTO invoiceDTO) {
         Invoice invoice = invoiceService.createFromDTO(invoiceDTO);
         invoiceService.save(invoice);
         return new ResponseEntity<>(invoice, HttpStatus.CREATED);
     }
 
     @PutMapping("/invoices/{invoiceId}")
-    public ResponseEntity<Invoice> updateInvoice(@PathVariable("invoiceId") @Min(1) Long invoiceId,
-                                                 @Valid @RequestBody InvoiceDTO invoiceDTO) {
-        Invoice invoice = invoiceService.findById(invoiceId)
-                .orElse(null);
-//                .orElseThrow(() -> new CustomException("Invoice not found", HttpStatus.NOT_FOUND));
+    public ResponseEntity<Invoice> updateInvoice(
+            @PathVariable("invoiceId") @Min(1) Long invoiceId,
+            @Valid @RequestBody InvoiceDTO invoiceDTO) {
+        Invoice invoice = invoiceService.findById(invoiceId);
         invoiceService.updateFromDTO(invoice, invoiceDTO);
+        invoiceService.save(invoice);
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 
     @DeleteMapping("/invoices/{invoiceId}")
-    public ResponseEntity<Invoice> deleteInvoice(@PathVariable("invoiceId") @Min(1) Long invoiceId) {
-        // TODO
-        Invoice invoice = new Invoice();
+    public ResponseEntity<Invoice> deleteInvoice(
+            @PathVariable("invoiceId") @Min(1) Long invoiceId) {
+        Invoice invoice = invoiceService.findById(invoiceId);
+        invoiceService.deleteById(invoiceId);
         return new ResponseEntity<>(invoice, HttpStatus.NO_CONTENT);
     }
 }
