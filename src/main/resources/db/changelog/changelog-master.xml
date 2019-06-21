@@ -248,4 +248,53 @@
                                  referencedColumnNames="id"
                                  referencedTableName="product"/>
     </changeSet>
+
+    <changeSet id="maybe_6_add_column_version" author="Yurii Vislobodskyi">
+        <addColumn tableName="employee">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="customer">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="product">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="component">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="component_product">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="invoice">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="order">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="invoice_item">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="order_item">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
