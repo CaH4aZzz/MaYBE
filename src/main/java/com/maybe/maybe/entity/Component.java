@@ -1,5 +1,6 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.maybe.maybe.entity.enums.Measure;
 import com.maybe.maybe.entity.enums.converter.MeasureConverter;
 
@@ -26,10 +27,12 @@ public class Component extends AbstractNameEntity {
 
     @NotNull
     @OneToMany(mappedBy = "component")
+    @JsonBackReference
     private List<ComponentProduct> componentProduct;
 
     @NotNull
     @OneToMany(mappedBy = "component")
+    @JsonBackReference
     private List<InvoiceItem> invoiceItems;
 
     public List<ComponentProduct> getComponentProduct() {

@@ -30,10 +30,6 @@ public class InvoiceService {
         invoiceRepository.deleteById(id);
     }
 
-    public void save(Invoice invoice) {
-        invoiceRepository.save(invoice);
-    }
-
     public Page<Invoice> findAllByPeriod(LocalDateTime dateFrom, LocalDateTime dateTo, Pageable pageable) {
         if (dateFrom != null && dateTo != null) {
             return invoiceRepository.findAllByDateCreatedIsBetween(dateFrom, dateTo, pageable);
@@ -49,13 +45,13 @@ public class InvoiceService {
     public Invoice createFromDTO(InvoiceDTO invoiceDTO) {
         Invoice invoice = new Invoice();
         invoice.setDateCreated(LocalDateTime.now());
-        updateFromDTO(invoice, invoiceDTO);
-        return invoice;
+        return updateFromDTO(invoice, invoiceDTO);
     }
 
-    public void updateFromDTO(Invoice invoice, InvoiceDTO invoiceDTO) {
+    public Invoice updateFromDTO(Invoice invoice, InvoiceDTO invoiceDTO) {
         invoice.setName(invoiceDTO.getName());
         invoice.setEmployee(employeeService.findById(invoiceDTO.getEmployeeId()));
         invoice.setInvoiceType(InvoiceTypeConverter.getById(invoiceDTO.getInvoiceTypeId()));
+        return invoiceRepository.save(invoice);
     }
 }

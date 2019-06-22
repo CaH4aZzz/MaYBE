@@ -25,13 +25,13 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-    @GetMapping("/invoices/")
+    @GetMapping("/invoices")
     public ResponseEntity<Page<Invoice>> getInvoices(
             @RequestParam(name = "dateFrom", required = false)
-                @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime dateFrom,
+                @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime dateFrom,
             @RequestParam(name = "dateTo", required = false)
-                @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDateTime dateTo,
-            @PageableDefault(page=0, size=10) Pageable pageable) {
+                @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime dateTo,
+            @PageableDefault(size=Integer.MAX_VALUE) Pageable pageable) {
         Page<Invoice> invoices = invoiceService.findAllByPeriod(dateFrom, dateTo, pageable);
         return new ResponseEntity<>(invoices, HttpStatus.OK);
     }
@@ -43,11 +43,10 @@ public class InvoiceController {
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 
-    @PostMapping("/invoices/")
+    @PostMapping("/invoices")
     public ResponseEntity<Invoice> createInvoice(
             @Valid @RequestBody InvoiceDTO invoiceDTO) {
         Invoice invoice = invoiceService.createFromDTO(invoiceDTO);
-        invoiceService.save(invoice);
         return new ResponseEntity<>(invoice, HttpStatus.CREATED);
     }
 
@@ -57,7 +56,6 @@ public class InvoiceController {
             @Valid @RequestBody InvoiceDTO invoiceDTO) {
         Invoice invoice = invoiceService.findById(invoiceId);
         invoiceService.updateFromDTO(invoice, invoiceDTO);
-        invoiceService.save(invoice);
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 
@@ -66,6 +64,6 @@ public class InvoiceController {
             @PathVariable("invoiceId") @Min(1) Long invoiceId) {
         Invoice invoice = invoiceService.findById(invoiceId);
         invoiceService.deleteById(invoiceId);
-        return new ResponseEntity<>(invoice, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 }

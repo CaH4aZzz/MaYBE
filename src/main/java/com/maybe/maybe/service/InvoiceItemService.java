@@ -13,11 +13,14 @@ import javax.persistence.EntityNotFoundException;
 public class InvoiceItemService {
     private InvoiceItemRepository invoiceItemRepository;
     private ComponentService componentService;
+    private InvoiceService invoiceService;
 
     public InvoiceItemService(InvoiceItemRepository invoiceItemRepository,
-                              ComponentService componentService) {
+                              ComponentService componentService,
+                              InvoiceService invoiceService) {
         this.invoiceItemRepository = invoiceItemRepository;
         this.componentService = componentService;
+        this.invoiceService = invoiceService;
     }
 
     public InvoiceItem findById(Long id) {
@@ -29,23 +32,20 @@ public class InvoiceItemService {
         invoiceItemRepository.deleteById(id);
     }
 
-    public void save(InvoiceItem invoiceItem) {
-        invoiceItemRepository.save(invoiceItem);
+    public Page<InvoiceItem> findAllByInvoice_Id(Long invoiceId, Pageable pageable) {
+        return invoiceItemRepository.findAllByInvoice_Id(invoiceId, pageable);
     }
 
-    public InvoiceItem createFromDTO(InvoiceItemDTO invoiceItemDTO) {
+    public InvoiceItem createFromDTO(InvoiceItemDTO invoiceItemDTO, Long invoiceId) {
         InvoiceItem invoiceItem = new InvoiceItem();
-        updateFromDTO(invoiceItem, invoiceItemDTO);
-        return invoiceItem;
+        invoiceItem.setInvoice(invoiceService.findById(invoiceId));
+        return updateFromDTO(invoiceItem, invoiceItemDTO);
     }
 
-    public void updateFromDTO(InvoiceItem invoiceItem, InvoiceItemDTO invoiceItemDTO) {
+    public InvoiceItem updateFromDTO(InvoiceItem invoiceItem, InvoiceItemDTO invoiceItemDTO) {
         invoiceItem.setPrice(invoiceItemDTO.getPrice());
         invoiceItem.setQuantity(invoiceItemDTO.getQuantity());
         invoiceItem.setComponent(componentService.findById(invoiceItemDTO.getComponentId()));
-    }
-
-    public Page<InvoiceItem> findAllByInvoice_Id(Long invoiceId, Pageable pageable) {
-        return invoiceItemRepository.findAllByInvoice_Id(invoiceId, pageable);
+        return invoiceItemRepository.save(invoiceItem);
     }
 }

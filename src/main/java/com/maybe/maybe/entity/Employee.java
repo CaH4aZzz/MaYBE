@@ -1,5 +1,6 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.maybe.maybe.entity.enums.UserRole;
 import com.maybe.maybe.entity.enums.converter.UserRoleConverter;
 
@@ -26,6 +27,7 @@ public class Employee extends AbstractNameEntity {
     private UserRole userRole;
 
     @OneToMany(mappedBy = "employee")
+    @JsonBackReference
     private Set<Invoice> invoiceList;
 
     public String getLogin() {

@@ -1,15 +1,20 @@
 package com.maybe.maybe.dto;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class InvoiceDTO {
     @NotNull
+    @Size(min = 1, max = 50)
     private String name;
 
     @NotNull
+    @Min(0)
     private Integer invoiceTypeId;
 
     @NotNull
+    @Min(0)
     private Long employeeId;
 
     public String getName() {
@@ -34,5 +39,14 @@ public class InvoiceDTO {
 
     public void setEmployeeId(Long employeeId) {
         this.employeeId = employeeId;
+    }
+
+    @Override
+    public String toString() {
+        return "InvoiceDTO{" +
+                "name='" + name + '\'' +
+                ", invoiceTypeId=" + invoiceTypeId +
+                ", employeeId=" + employeeId +
+                '}';
     }
 }
