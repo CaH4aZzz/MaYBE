@@ -10,11 +10,11 @@ public class InvoiceDTO {
     private String name;
 
     @NotNull
-    @Min(0)
+    @Min(1)
     private Integer invoiceTypeId;
 
     @NotNull
-    @Min(0)
+    @Min(1)
     private Long employeeId;
 
     public String getName() {
