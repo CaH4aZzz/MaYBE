@@ -9,7 +9,7 @@ after_script:
   - echo "Script finished"
 after_success:
   - echo "Build was successful"
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -c
 after_failure:
   - echo "Build was failed"
 cache:
