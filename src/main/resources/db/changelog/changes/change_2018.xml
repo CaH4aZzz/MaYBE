@@ -286,7 +286,7 @@
             </column>
         </addColumn>
 
-        <addColumn tableName="order">
+        <addColumn tableName="orders">
             <column name="version" type="bigint">
                 <constraints nullable="true"/>
             </column>
