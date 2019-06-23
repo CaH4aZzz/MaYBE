@@ -72,7 +72,7 @@
 
     <changeSet id="maybe_6_create_table_component_product" author="Dima Klitsenko">
         <createTable tableName="component_product">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_id" type="bigint">
@@ -105,7 +105,7 @@
 
     <changeSet id="maybe_6_create_table_invoice" author="Dima Klitsenko">
         <createTable tableName="invoice">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="invoice_type_id" type="bigint">
@@ -179,7 +179,7 @@
 
     <changeSet id="maybe_6_create_table_invoice_item" author="Dima Klitsenko">
         <createTable tableName="invoice_item">
-            <column name="id" type="bigint">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="invoice_id" type="bigint">
@@ -248,4 +248,53 @@
                                  referencedColumnNames="id"
                                  referencedTableName="product"/>
     </changeSet>
+
+    <changeSet id="maybe_6_add_column_version" author="Yurii Vislobodskyi">
+        <addColumn tableName="employee">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="customer">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="product">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="component">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="component_product">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="invoice">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="order">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="invoice_item">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="order_item">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
