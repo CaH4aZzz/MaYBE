@@ -12,7 +12,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "employee")
-public class Employee extends AbstractNameEntity {
+public class Employee extends AbstractEntity {
+    @NotNull
+    @Column(name = "name",nullable = false)
+    private String name;
+
     @NotNull
     @Column(name = "login", nullable = false, length = 50)
     private String login;
@@ -29,6 +33,14 @@ public class Employee extends AbstractNameEntity {
     @OneToMany(mappedBy = "employee")
     @JsonBackReference
     private Set<Invoice> invoiceList;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getLogin() {
         return login;

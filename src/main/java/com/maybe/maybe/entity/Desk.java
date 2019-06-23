@@ -1,11 +1,14 @@
 package com.maybe.maybe.entity;
 
 import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@MappedSuperclass
-public abstract class AbstractNameEntity extends AbstractEntity {
+
+@Entity
+@Table(name = "desk")
+public class Desk extends AbstractEntity {
     @NotNull
     @Column(name = "name",nullable = false)
     private String name;

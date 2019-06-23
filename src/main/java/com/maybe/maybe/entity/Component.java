@@ -8,10 +8,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "component")
-public class Component extends AbstractNameEntity {
+public class Component extends AbstractEntity {
+    @NotNull
+    @Column(name = "name",nullable = false)
+    private String name;
+
     @NotNull
     @Convert(converter = MeasureConverter.class)
     @Column(name = "measure_id", nullable = false)
@@ -27,20 +32,26 @@ public class Component extends AbstractNameEntity {
 
     @NotNull
     @OneToMany(mappedBy = "component")
-    @JsonBackReference
-    private List<ComponentProduct> componentProduct;
+    private Set<ComponentProduct> componentProduct;
 
     @NotNull
     @OneToMany(mappedBy = "component")
-    @JsonBackReference
-    private List<InvoiceItem> invoiceItems;
+    private Set<InvoiceItem> invoiceItems;
 
-    public List<ComponentProduct> getComponentProduct() {
+    public Set<ComponentProduct> getComponentProduct() {
         return componentProduct;
     }
 
-    public void setComponentProduct(List<ComponentProduct> componentProduct) {
+    public void setComponentProduct(Set<ComponentProduct> componentProduct) {
         this.componentProduct = componentProduct;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Measure getMeasure() {
@@ -67,11 +78,11 @@ public class Component extends AbstractNameEntity {
         this.price = price;
     }
 
-    public List<InvoiceItem> getInvoiceItems() {
+    public Set<InvoiceItem> getInvoiceItems() {
         return invoiceItems;
     }
 
-    public void setInvoiceItems(List<InvoiceItem> invoiceItems) {
+    public void setInvoiceItems(Set<InvoiceItem> invoiceItems) {
         this.invoiceItems = invoiceItems;
     }
 }
