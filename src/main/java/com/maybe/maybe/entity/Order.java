@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order extends AbstractEntity {
     @NotNull
     @Column(name = "date_created", nullable = false)
