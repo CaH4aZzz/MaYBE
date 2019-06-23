@@ -1,5 +1,7 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -39,6 +41,7 @@ public class Order extends AbstractEntity {
 
     @NotNull
     @OneToMany(mappedBy = "order")
+    @JsonBackReference
     private Set<OrderItem> orderItems;
 
 

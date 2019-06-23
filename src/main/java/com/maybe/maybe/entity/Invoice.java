@@ -34,6 +34,7 @@ public class Invoice extends AbstractEntity {
 
     @NotNull
     @OneToMany(mappedBy = "invoice")
+    @JsonBackReference
     private Set<InvoiceItem> invoiceItems;
 
     public String getName() {
