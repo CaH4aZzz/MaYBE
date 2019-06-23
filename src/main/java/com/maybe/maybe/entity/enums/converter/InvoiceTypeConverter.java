@@ -4,7 +4,6 @@ import com.maybe.maybe.entity.enums.InvoiceType;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import java.util.Optional;
 
 @Converter
 public class InvoiceTypeConverter
@@ -15,7 +14,7 @@ public class InvoiceTypeConverter
         super(InvoiceType.class);
     }
 
-    public static Optional<InvoiceType> getById(Integer id) {
+    public static InvoiceType getById(Integer id) {
         return getById(InvoiceType.class, id);
     }
 }
