@@ -63,7 +63,12 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.4.3.Final</version>
         </dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.1.5.RELEASE</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

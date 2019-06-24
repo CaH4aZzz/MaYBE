@@ -21,7 +21,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/employee/{id}")
+    @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -35,7 +35,7 @@ public class EmployeeController {
                 .body(employeeService.getEmployeeList());
     }
 
-    @PostMapping("/employees")
+    @PostMapping("/employee")
     private ResponseEntity<Employee> createEmployee(@Valid @RequestBody EmployeeRequest employeeRequest){
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -49,7 +49,7 @@ public class EmployeeController {
                 .body(employeeService.createEmployeeList(employeeRequest));
     }
 
-    @PutMapping("/employee/{id}")
+    @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployeeById(@PathVariable Long id,
                                                    @RequestBody EmployeeRequest employeeRequest){
         return ResponseEntity.status(HttpStatus.OK)
