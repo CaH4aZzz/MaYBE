@@ -1,5 +1,7 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.maybe.maybe.entity.enums.InvoiceType;
 import com.maybe.maybe.entity.enums.converter.InvoiceTypeConverter;
 
@@ -22,6 +24,7 @@ public class Invoice extends AbstractNameEntity {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
+    @JsonManagedReference
     private Employee employee;
 
     public InvoiceType getInvoiceType() {

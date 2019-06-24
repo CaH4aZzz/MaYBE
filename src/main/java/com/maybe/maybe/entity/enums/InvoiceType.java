@@ -1,21 +1,18 @@
 package com.maybe.maybe.entity.enums;
 
-public enum InvoiceType {
+public enum InvoiceType implements EnumDB {
+    INCOME(1),
+    ORDER(2)
     ;
 
     private Integer id;
-    private String caption;
 
-    InvoiceType(Integer id, String caption) {
+    InvoiceType(Integer id) {
         this.id = id;
-        this.caption = caption;
     }
 
+    @Override
     public Integer getId() {
         return id;
-    }
-
-    public String getCaption() {
-        return caption;
     }
 }
