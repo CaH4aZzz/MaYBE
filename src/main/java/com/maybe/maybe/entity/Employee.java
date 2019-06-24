@@ -1,6 +1,7 @@
 package com.maybe.maybe.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maybe.maybe.entity.enums.UserRole;
 import com.maybe.maybe.entity.enums.converter.UserRoleConverter;
 
@@ -23,6 +24,7 @@ public class Employee extends AbstractEntity {
 
     @NotNull
     @Column(name = "password", nullable = false, length = 60)
+    @JsonIgnore
     private String password;
 
     @NotNull
