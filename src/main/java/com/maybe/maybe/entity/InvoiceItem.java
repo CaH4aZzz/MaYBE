@@ -1,5 +1,8 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -8,12 +11,15 @@ import java.math.BigDecimal;
 @Table(name = "invoice_item")
 public class InvoiceItem extends AbstractEntity {
     @NotNull
-    @Column(name = "invoice_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "invoice_id", nullable = false)
+    @JsonManagedReference
     private Invoice invoice;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "component_id", nullable = false)
+    @JsonManagedReference
     private Component component;
 
     @NotNull

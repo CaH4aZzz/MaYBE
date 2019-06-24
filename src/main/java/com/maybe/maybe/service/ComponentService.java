@@ -16,10 +16,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
 public class ComponentService {
     private ComponentRepository componentRepository;
-//    private ModelMapper modelMapper;
 
     public ComponentService(ComponentRepository componentRepository) {
         this.componentRepository = componentRepository;
@@ -67,5 +68,10 @@ public class ComponentService {
         Component component = componentRepository.findById(id).orElse(null);
 //        return modelMapper.map(component, ComponentDTO.class);
         return convertEntityToDTO(component);
+    }
+
+    public Component findById(Long id) {
+        return componentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find component id=" + id));
     }
 }
