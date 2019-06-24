@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "component")
 public class Component extends AbstractEntity {
     @NotNull
-    @Column(name = "name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull

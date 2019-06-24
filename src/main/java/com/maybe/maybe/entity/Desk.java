@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "desk")
 public class Desk extends AbstractEntity {
     @NotNull
-    @Column(name = "name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     public String getName() {

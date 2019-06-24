@@ -7,15 +7,13 @@ import com.maybe.maybe.entity.enums.converter.UserRoleConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "employee")
 public class Employee extends AbstractEntity {
     @NotNull
-    @Column(name = "name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @NotNull
