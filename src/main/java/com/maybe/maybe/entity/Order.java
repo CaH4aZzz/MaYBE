@@ -52,11 +52,11 @@ public class Order extends AbstractEntity {
         this.dateCreated = dateCreated;
     }
 
-    public Desk getCustomer() {
+    public Desk getDesk() {
         return desk;
     }
 
-    public void setCustomer(Desk desk) {
+    public void setDesk(Desk desk) {
         this.desk = desk;
     }
 
