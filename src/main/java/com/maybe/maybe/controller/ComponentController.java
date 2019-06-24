@@ -24,7 +24,7 @@ public class ComponentController {
 
     @GetMapping
     public List<ComponentDTO> getAllComponents() {
-        return componentService.findAllComponent();
+        return componentService.findAllComponents();
     }
 
     @PostMapping

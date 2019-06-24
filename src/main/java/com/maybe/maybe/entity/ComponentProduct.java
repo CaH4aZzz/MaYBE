@@ -30,11 +30,11 @@ public class ComponentProduct extends AbstractEntity {
         this.product = product;
     }
 
-    public Component getComponents() {
+    public Component getComponent() {
         return component;
     }
 
-    public void setComponents(Component component) {
+    public void setComponent(Component component) {
         this.component = component;
     }
 

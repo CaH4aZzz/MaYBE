@@ -18,7 +18,7 @@ public class Component extends AbstractNameEntity {
 
     @NotNull
     @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
-    private Double quantity;
+    private BigDecimal quantity;
 
     @NotNull
     @Column(name = "price", nullable = false, scale = 12, precision = 2)
@@ -46,11 +46,11 @@ public class Component extends AbstractNameEntity {
         this.measure = measure;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
