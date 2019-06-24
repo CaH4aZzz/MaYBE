@@ -22,7 +22,8 @@
             <column name="price" type="NUMERIC"/>
         </loadUpdateData>
 
-        <loadUpdateData tableName="component_product" primaryKey="id" file="db/data/component_product.csv" separator=";">
+        <loadUpdateData tableName="component_product" primaryKey="id" file="db/data/component_product.csv"
+                        separator=";">
             <column name="id" type="NUMERIC"/>
             <column name="name" type="STRING"/>
             <column name="price" type="NUMERIC"/>

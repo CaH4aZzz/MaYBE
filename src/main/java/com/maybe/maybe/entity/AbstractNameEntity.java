@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 @MappedSuperclass
 public abstract class AbstractNameEntity extends AbstractEntity {
     @NotNull
-    @Column(name = "name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     public String getName() {
