@@ -1,49 +1,42 @@
 package com.maybe.maybe.controller;
 
 import com.maybe.maybe.dto.ComponentDTO;
+import com.maybe.maybe.entity.Component;
 import com.maybe.maybe.service.ComponentService;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/components")
 public class ComponentController {
 
     private ComponentService componentService;
-    private ModelMapper modelMapper;
 
     public ComponentController(ComponentService componentService) {
         this.componentService = componentService;
-        this.modelMapper = new ModelMapper();
-        this.modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
     }
 
     @GetMapping
-    public List<ComponentDTO> getAllComponents() {
-        return componentService.findAllComponents();
+    public ResponseEntity<Page<Component>> getAllComponents(@PageableDefault Pageable pageable) {
+        return new ResponseEntity<>(componentService.findAll(pageable), HttpStatus.OK);
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ComponentDTO addComponent(ComponentDTO componentDTO) {
-        componentDTO.setId(null);
-        return componentService.save(componentDTO);
+    public ResponseEntity<Component> addComponent(ComponentDTO componentDTO) {
+        return new ResponseEntity<>(componentService.saveDTO(componentDTO), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ComponentDTO getComponent(@PathVariable Long id) {
-        return componentService.findById(id);
+    @GetMapping("/{componentId}")
+    public ResponseEntity<Component> getComponent(@PathVariable Long componentId) {
+        return new ResponseEntity<>(componentService.findById(componentId), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ComponentDTO saveComponent(@PathVariable Long id, ComponentDTO componentDTO) {
-        componentDTO.setId(id);
-        //TODO
-//        componentDTO.setMeasure(Measure.valueOfId(componentDTO.getMeasureId()));
-        return componentService.save(componentDTO);
+    @PutMapping("/{componentId}")
+    public ResponseEntity<Component> saveComponent(@PathVariable Long componentId, ComponentDTO componentDTO) {
+        return new ResponseEntity<>(componentService.saveDTO(componentId, componentDTO), HttpStatus.OK);
     }
 }
