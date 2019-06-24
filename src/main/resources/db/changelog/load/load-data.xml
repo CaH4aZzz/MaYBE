@@ -28,7 +28,7 @@
             <column name="price" type="NUMERIC"/>
         </loadUpdateData>
 
-        <loadUpdateData tableName="customer" primaryKey="id" file="db/data/customer.csv" separator=";">
+        <loadUpdateData tableName="desk" primaryKey="id" file="db/data/desk.csv" separator=";">
             <column name="id" type="NUMERIC"/>
             <column name="name" type="STRING"/>
         </loadUpdateData>

@@ -8,5 +8,5 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "customer")
-public class Customer extends AbstractNameEntity {
+public class Desk extends AbstractNameEntity {
 }

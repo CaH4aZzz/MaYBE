@@ -26,7 +26,7 @@
     </changeSet>
 
     <changeSet id="maybe_6_create_table_customer" author="Artem Kostenko">
-        <createTable tableName="customer">
+        <createTable tableName="desk">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -174,7 +174,7 @@
                                  baseTableName="orders"
                                  constraintName="fk_order_customer"
                                  referencedColumnNames="id"
-                                 referencedTableName="customer"/>
+                                 referencedTableName="desk"/>
     </changeSet>
 
     <changeSet id="maybe_6_create_table_invoice_item" author="Dima Klitsenko">
@@ -256,7 +256,7 @@
             </column>
         </addColumn>
 
-        <addColumn tableName="customer">
+        <addColumn tableName="desk">
             <column name="version" type="bigint">
                 <constraints nullable="true"/>
             </column>
