@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/statistics")
+@RequestMapping("/api/statistics")
 public class StatisticsController {
 
     private StatisticsService statisticsService;
@@ -23,9 +23,9 @@ public class StatisticsController {
 
     @GetMapping("/summary")
     public List<SummaryDTO> getSummaryReport(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateAt,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
             @RequestParam(required = false)  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo
     ) {
-        return statisticsService.getSummaryReport(dateAt, dateTo);
+        return statisticsService.getSummaryReport(dateFrom, dateTo);
     }
 }
