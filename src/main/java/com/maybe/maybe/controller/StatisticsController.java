@@ -33,12 +33,11 @@ public class StatisticsController {
     }
 
     @GetMapping("/component-report")
-    public ResponseEntity<List<ComponentReportDTO>> getComponentReportDTO(
+    public List<ComponentReportDTO> getComponentReportDTO(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo
     ) {
 
-        List report = statisticsService.getComponentReport(dateFrom, dateTo);
-        return new ResponseEntity<List<ComponentReportDTO>>(report, HttpStatus.OK);
+        return statisticsService.getComponentReport(dateFrom, dateTo);
     }
 }

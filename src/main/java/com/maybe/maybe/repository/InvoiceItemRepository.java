@@ -16,7 +16,7 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Long> 
     Page<InvoiceItem> findAllByInvoice_Id(Long invoiceId, Pageable pageable);
 
     @Query(value =
-            "SELECT new com.maybe.maybe.dto.ComponentReportDTO(c.name," +
+            "SELECT new com.maybe.maybe.dto.ComponentReportDTO(c.name, c.measure," +
                     "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.INCOME THEN ii.quantity ELSE 0 END),\n" +
                     "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.INCOME THEN (ii.price * ii.quantity) ELSE 0 END),\n" +
                     "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.ORDER THEN ii.quantity ELSE 0 END),\n" +
@@ -25,6 +25,6 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Long> 
                     "JOIN ii.invoice i\n" +
                     "JOIN ii.component c\n" +
                     "WHERE i.dateCreated BETWEEN :dateFrom AND :dateTo\n" +
-                    "GROUP BY c.name ORDER BY c.name")
+                    "GROUP BY c.name, c.measure ORDER BY c.name")
     List<ComponentReportDTO> getComponentReport(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 }

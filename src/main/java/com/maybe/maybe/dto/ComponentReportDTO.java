@@ -1,5 +1,7 @@
 package com.maybe.maybe.dto;
 
+import com.maybe.maybe.entity.enums.Measure;
+
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -7,6 +9,9 @@ public class ComponentReportDTO {
 
     @NotNull
     private String componentName;
+
+    @NotNull
+    private Measure measure;
 
     @NotNull
     private BigDecimal income;
@@ -23,9 +28,10 @@ public class ComponentReportDTO {
     public ComponentReportDTO() {
     }
 
-    public ComponentReportDTO(@NotNull String componentName, @NotNull BigDecimal income, @NotNull BigDecimal incomeTotal,
-                              @NotNull BigDecimal outcome, @NotNull BigDecimal outcomeTotal) {
+    public ComponentReportDTO(@NotNull String componentName, @NotNull Measure measure, @NotNull BigDecimal income,
+                              @NotNull BigDecimal incomeTotal, @NotNull BigDecimal outcome, @NotNull BigDecimal outcomeTotal) {
         this.componentName = componentName;
+        this.measure = measure;
         this.income = income;
         this.incomeTotal = incomeTotal;
         this.outcome = outcome;
@@ -34,6 +40,10 @@ public class ComponentReportDTO {
 
     public String getComponentName() {
         return componentName;
+    }
+
+    public Measure getMeasure() {
+        return measure;
     }
 
     public BigDecimal getIncome() {

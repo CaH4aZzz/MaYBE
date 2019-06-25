@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "component")
 public class Component extends AbstractNameEntity {
+
     @NotNull
     @Convert(converter = MeasureConverter.class)
     @Column(name = "measure_id", nullable = false)
