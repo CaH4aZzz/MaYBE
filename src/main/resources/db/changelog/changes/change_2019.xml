@@ -7,7 +7,7 @@
 
     <changeSet id="maybe_6_create_table_employee" author="Artem Kostenko">
         <createTable tableName="employee">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
@@ -27,7 +27,7 @@
 
     <changeSet id="maybe_6_create_table_customer" author="Artem Kostenko">
         <createTable tableName="customer">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
@@ -38,7 +38,7 @@
 
     <changeSet id="maybe_6_create_table_product" author="Artem Kostenko">
         <createTable tableName="product">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
@@ -52,7 +52,7 @@
 
     <changeSet id="maybe_6_create_table_component" author="Dima Klitsenko">
         <createTable tableName="component">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(255)">
@@ -72,7 +72,7 @@
 
     <changeSet id="maybe_6_create_table_component_product" author="Dima Klitsenko">
         <createTable tableName="component_product">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_id" type="bigint">
@@ -105,7 +105,7 @@
 
     <changeSet id="maybe_6_create_table_invoice" author="Dima Klitsenko">
         <createTable tableName="invoice">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="invoice_type_id" type="bigint">
@@ -133,7 +133,7 @@
 
     <changeSet id="maybe_6_create_table_order" author="Artem Kostenko">
         <createTable tableName="orders">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="date_created" type="datetime">
@@ -179,7 +179,7 @@
 
     <changeSet id="maybe_6_create_table_invoice_item" author="Dima Klitsenko">
         <createTable tableName="invoice_item">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
             <column name="invoice_id" type="bigint">
@@ -215,7 +215,7 @@
 
     <changeSet id="maybe_6_create_table_product_order" author="Artem Kostenko">
         <createTable tableName="order_item">
-            <column name="id" type="bigint" autoIncrement="true" startWith="1000">
+            <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="order_id" type="bigint">
@@ -303,6 +303,10 @@
                 <constraints nullable="true"/>
             </column>
         </addColumn>
+    </changeSet>
+
+    <changeSet id="MAYBE-23_add_hibernate_sequence" author="Ivan Denysenko">
+        <createSequence sequenceName="hibernate_sequence" startValue="10000" incrementBy="1"/>
     </changeSet>
 
 </databaseChangeLog>
