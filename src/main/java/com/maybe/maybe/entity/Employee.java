@@ -1,24 +1,28 @@
 package com.maybe.maybe.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maybe.maybe.entity.enums.UserRole;
 import com.maybe.maybe.entity.enums.converter.UserRoleConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "employee")
-public class Employee extends AbstractNameEntity {
+public class Employee extends AbstractEntity {
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @NotNull
     @Column(name = "login", nullable = false, length = 50)
     private String login;
 
     @NotNull
     @Column(name = "password", nullable = false, length = 60)
+    @JsonIgnore
     private String password;
 
     @NotNull
@@ -29,6 +33,14 @@ public class Employee extends AbstractNameEntity {
     @OneToMany(mappedBy = "employee")
     @JsonBackReference
     private Set<Invoice> invoiceList;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getLogin() {
         return login;
