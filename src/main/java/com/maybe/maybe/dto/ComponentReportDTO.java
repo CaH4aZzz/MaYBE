@@ -2,6 +2,7 @@ package com.maybe.maybe.dto;
 
 import com.maybe.maybe.entity.enums.Measure;
 
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -14,15 +15,19 @@ public class ComponentReportDTO {
     private Measure measure;
 
     @NotNull
+    @Digits(integer = 15, fraction = 3)
     private BigDecimal income;
 
     @NotNull
+    @Digits(integer = 12, fraction = 2)
     private BigDecimal incomeTotal;
 
     @NotNull
+    @Digits(integer = 15, fraction = 3)
     private BigDecimal outcome;
 
     @NotNull
+    @Digits(integer = 12, fraction = 2)
     private BigDecimal outcomeTotal;
 
     public ComponentReportDTO() {

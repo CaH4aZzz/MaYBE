@@ -25,6 +25,6 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Long> 
                     "JOIN ii.invoice i\n" +
                     "JOIN ii.component c\n" +
                     "WHERE i.dateCreated BETWEEN :dateFrom AND :dateTo\n" +
-                    "GROUP BY c.name, c.measure ORDER BY c.name")
+                    "GROUP BY c.id, c.measure ORDER BY c.name")
     List<ComponentReportDTO> getComponentReport(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 }
