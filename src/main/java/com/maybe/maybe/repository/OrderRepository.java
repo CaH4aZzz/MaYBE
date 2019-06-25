@@ -13,6 +13,8 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
+    Order getOrderById(Long id);
+
     @Query(value =
             "SELECT new com.maybe.maybe.dto.SummaryDTO(i.dateCreated, SUM(o.total), SUM(it.price * it.quantity))\n" +
             "FROM Order o, Invoice i, InvoiceItem it\n" +

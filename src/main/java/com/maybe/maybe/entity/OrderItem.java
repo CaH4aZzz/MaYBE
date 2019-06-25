@@ -1,5 +1,7 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -10,11 +12,13 @@ public class OrderItem extends AbstractEntity {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
+   // @JsonManagedReference
     private Order order;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
+   // @JsonManagedReference
     private Product product;
 
     @NotNull

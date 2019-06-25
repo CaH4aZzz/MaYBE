@@ -1,10 +1,13 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -16,11 +19,13 @@ public class Order extends AbstractEntity {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+   // @JsonManagedReference
     private Customer customer;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
+  //  @JsonManagedReference
     private Employee employee;
 
     @NotNull
@@ -38,7 +43,8 @@ public class Order extends AbstractEntity {
 
     @NotNull
     @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderItems;
+  //  @JsonBackReference
+    private Set<OrderItem> orderItems;
 
 
     public LocalDateTime getDateCreated() {
@@ -89,11 +95,11 @@ public class Order extends AbstractEntity {
         this.invoice = invoice;
     }
 
-    public List<OrderItem> getOrderItems() {
+    public Set<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
+    public void setOrderItems(Set<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 }
