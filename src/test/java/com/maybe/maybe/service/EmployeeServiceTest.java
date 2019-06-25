@@ -39,7 +39,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployeeById() {
+    public void getEmployeeByIdTest() {
         Long id = 1L;
         when(employeeRepository.findEmployeeById(id)).thenReturn(expectedEmployee);
 
@@ -49,7 +49,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployeeList() {
+    public void getEmployeeListTest() {
         List<Employee> expectedEmployeeList = new ArrayList<>();
         expectedEmployeeList.add(expectedEmployee);
         when(employeeRepository.findAll()).thenReturn(expectedEmployeeList);
@@ -60,7 +60,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void createEmployee() {
+    public void createEmployeeTest() {
         EmployeeRequest employeeRequest = new EmployeeRequest("name1","login1",
                 "password",2);
         when(employeeRepository.save(expectedEmployee)).thenReturn(expectedEmployee);
@@ -71,7 +71,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void updateEmployeeById() {
+    public void updateEmployeeByIdTest() {
         Long id = 1L;
         EmployeeRequest employeeRequest = new EmployeeRequest(
                 "name1","login1", "password1",1
