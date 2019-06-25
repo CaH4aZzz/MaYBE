@@ -18,51 +18,40 @@ public class DeskService {
         this.deskRepository = deskRepository;
     }
 
-    public Desk getCustomerById(Long id) {
+    public Desk getDeskById(Long id) {
         if (deskRepository.findDeskById(id) != null) {
             return deskRepository.findDeskById(id);
         } else {
-            throw new EntityNotFoundException("Can not find customer by id = " + id);
+            throw new EntityNotFoundException("Can not find desk by id = " + id);
         }
     }
 
-    public List<Desk> getCustomerList() {
-        if (deskRepository.findDeskById(1L) != null) {
+    public List<Desk> getDeskList() {
+        if (!deskRepository.findAll().isEmpty()) {
            return deskRepository.findAll();
+        } else {
+            throw new EntityNotFoundException("Can not find any desk");
         }
-        return null;
     }
 
-    public Desk createCustomer(DeskRequest deskRequest) {
-        if (deskRequest != null) {
+    public Desk createDesk(DeskRequest deskRequest) {
+        if (deskRepository.findDeskByName(deskRequest.getName()) == null) {
             Desk desk = new Desk();
             desk.setName(deskRequest.getName());
             return deskRepository.save(desk);
+        } else {
+            return null;
         }
-        return null;
     }
 
-    public List<Desk> createCustomerList(List<DeskRequest> deskRequests) {
-        if (deskRequests != null) {
-            List<Desk> deskList = new ArrayList<>();
-            for (DeskRequest deskRequest : deskRequests){
-                Desk desk = new Desk();
-                desk.setName(deskRequest.getName());
-                deskList.add(desk);
-            }
-            return deskRepository.saveAll(deskList);
-        }
-        return null;
-    }
-
-    public Desk updateCustomerById(Long id, DeskRequest deskRequest){
+    public Desk updateDeskById(Long id, DeskRequest deskRequest){
         if(deskRepository.findDeskById(id) != null){
             Desk desk = new Desk();
             desk.setName(deskRequest.getName());
             desk.setId(id);
             return deskRepository.save(desk);
+        }else {
+            throw new EntityNotFoundException("Can not update desk by id = " + id);
         }
-        return null;
-
     }
 }
