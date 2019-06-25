@@ -26,29 +26,32 @@ public class DeskServiceTest {
 
     private Desk expectedDesk;
 
+    private DeskRequest deskRequest;
+
     @Before
     public void setUp() {
         deskService = new DeskService(deskRepository);
         expectedDesk = new Desk();
         expectedDesk.setId(1L);
         expectedDesk.setName("name1");
+        deskRequest = new DeskRequest("name1");
     }
 
     @Test
-    public void getDeskById() {
+    public void getDeskByIdTest() {
         Long id = 1L;
         when(deskRepository.findDeskById(id)).thenReturn(expectedDesk);
 
-        Desk actualDesk = deskService.getDeskById(1L);
+        Desk actualDesk = deskService.getDeskById(id);
 
         assertEquals(expectedDesk.getName(), actualDesk.getName());
     }
 
     @Test
-    public void getDeskList() {
+    public void getDeskListTest() {
         List<Desk> expectedDeskList = new ArrayList<>();
         expectedDeskList.add(expectedDesk);
-        when(deskRepository.saveAll(expectedDeskList)).thenReturn(expectedDeskList);
+        when(deskRepository.findAll()).thenReturn(expectedDeskList);
 
         List<Desk> actualDeskList = deskService.getDeskList();
 
@@ -56,22 +59,19 @@ public class DeskServiceTest {
     }
 
     @Test
-    public void createDesk() {
-        DeskRequest deskRequest = new DeskRequest("name1");
+    public void createDeskTest() {
+        when(deskRepository.save(new Desk())).thenReturn(expectedDesk);
 
         Desk actualDesk = deskService.createDesk(deskRequest);
 
-        assertEquals(expectedDesk.getId(), actualDesk.getId());
+        assertEquals(expectedDesk.getName(), actualDesk.getName());
     }
 
     @Test
-    public void updateDeskById() {
+    public void updateDeskByIdTest() {
         Long id = 1L;
-        DeskRequest deskRequest = new DeskRequest("name1Update");
-        Desk expectedDesk = new Desk();
-        expectedDesk.setId(1L);
-        expectedDesk.setName("name1Update");
-        deskRepository.save(expectedDesk);
+        when(deskRepository.findDeskById(id)).thenReturn(expectedDesk);
+        when(deskRepository.save(expectedDesk)).thenReturn(expectedDesk);
 
         Desk actualDesk = deskService.updateDeskById(id, deskRequest);
 
