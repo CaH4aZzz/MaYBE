@@ -21,39 +21,29 @@ public class DeskController {
         this.deskService = deskService;
     }
 
-    @GetMapping("/customer/{id}")
+    @GetMapping("/desks/{id}")
     public ResponseEntity<Desk> getCustomerById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(deskService.getCustomerById(id));
     }
 
-    @GetMapping("/customers")
+    @GetMapping("/desks")
     public ResponseEntity<List<Desk>> getCustomerList() {
         return  ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
                 .body(deskService.getCustomerList());
     }
 
-    @PostMapping("/customer")
+    @PostMapping("/desks")
     public ResponseEntity<Desk> createCustomer(@Valid @RequestBody DeskRequest deskRequest){
          return ResponseEntity.status(HttpStatus.OK)
-                 .contentType(MediaType.APPLICATION_JSON)
                  .body(deskService.createCustomer(deskRequest));
     }
 
-    @PostMapping("/customers")
-    public ResponseEntity<List<Desk>> createCustomerList(@Valid @RequestBody List<DeskRequest> customerList){
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(deskService.createCustomerList(customerList));
-    }
-
-    @PutMapping("/customer/{id}")
+    @PutMapping("/desks/{id}")
     public ResponseEntity<Desk> updateCustomerById(@PathVariable Long id,
                                                    @Valid @RequestBody DeskRequest deskRequest){
         return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
                 .body(deskService.updateCustomerById(id, deskRequest));
     }
 }

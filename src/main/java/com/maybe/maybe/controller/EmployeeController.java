@@ -24,36 +24,25 @@ public class EmployeeController {
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
                 .body(employeeService.getEmployeeById(id));
     }
 
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getEmployeeList(){
         return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
                 .body(employeeService.getEmployeeList());
     }
 
     @PostMapping("/employee")
     private ResponseEntity<Employee> createEmployee(@Valid @RequestBody EmployeeRequest employeeRequest){
         return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
                 .body(employeeService.createEmployee(employeeRequest));
-    }
-
-    @PostMapping("/employees")
-    public ResponseEntity<List<Employee>> createEmployeeList(@Valid @RequestBody List<EmployeeRequest> employeeRequest) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(employeeService.createEmployeeList(employeeRequest));
     }
 
     @PutMapping("/employees/{id}")
     public ResponseEntity<Employee> updateEmployeeById(@PathVariable Long id,
                                                    @RequestBody EmployeeRequest employeeRequest){
         return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON)
                 .body(employeeService.updateEmployeeById(id,employeeRequest));
     }
 
