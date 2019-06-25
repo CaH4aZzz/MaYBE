@@ -15,8 +15,8 @@ public class Order extends AbstractEntity {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
+    @JoinColumn(name = "desk_id", nullable = false)
+    private Desk desk;
 
     @NotNull
     @ManyToOne
@@ -39,8 +39,6 @@ public class Order extends AbstractEntity {
     @NotNull
     @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
-
-
     public LocalDateTime getDateCreated() {
         return dateCreated;
     }
@@ -49,12 +47,12 @@ public class Order extends AbstractEntity {
         this.dateCreated = dateCreated;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Desk getDesk() {
+        return desk;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setDesk(Desk desk) {
+        this.desk = desk;
     }
 
     public Employee getEmployee() {
