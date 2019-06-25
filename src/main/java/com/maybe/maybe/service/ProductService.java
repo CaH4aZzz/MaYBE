@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 @Service
 public class ProductService {
@@ -35,7 +35,7 @@ public class ProductService {
             product = findById(productId);
         } else {
             product = new Product();
-            product.setComponentProducts(new ArrayList<>());
+            product.setComponentProducts(new HashSet<>());
         }
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());

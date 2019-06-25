@@ -28,7 +28,6 @@ public class Product extends AbstractEntity {
     public String getName() {
         return name;
     }
-    private List<ComponentProduct> componentProducts;
 
     public void setName(String name) {
         this.name = name;
