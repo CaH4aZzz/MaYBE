@@ -6,95 +6,66 @@ import com.maybe.maybe.repository.DeskRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
 public class DeskServiceTest {
 
-    @Autowired
+    @Mock
     private DeskRepository deskRepository;
 
     private DeskService deskService;
 
-    @Before
-    public void setUp(){
-        deskService = new DeskService(deskRepository);
-    }
+    private Desk expectedDesk;
 
-    @Test
-    public void getCustomerById() {
-        Desk expectedDesk = new Desk();
+    @Before
+    public void setUp() {
+        deskService = new DeskService(deskRepository);
+        expectedDesk = new Desk();
         expectedDesk.setId(1L);
         expectedDesk.setName("name1");
-        deskRepository.save(expectedDesk);
-
-        Desk actualDesk = deskService.getCustomerById(1L);
-
-        assertEquals(expectedDesk, actualDesk);
     }
 
     @Test
-    public void getCustomerList() {
-        List<Desk> expectedDeskList = new ArrayList<>();
-        Desk deskOne = new Desk();
-        Desk deskTwo = new Desk();
-        deskOne.setId(1L);
-        deskOne.setName("name1");
-        deskTwo.setId(2L);
-        deskTwo.setName("name2");
-        expectedDeskList.add(deskOne);
-        expectedDeskList.add(deskTwo);
-        deskRepository.saveAll(expectedDeskList);
+    public void getDeskById() {
+        Long id = 1L;
+        when(deskRepository.findDeskById(id)).thenReturn(expectedDesk);
 
-        List<Desk> actualDeskList = deskService.getCustomerList();
+        Desk actualDesk = deskService.getDeskById(1L);
+
+        assertEquals(expectedDesk.getName(), actualDesk.getName());
+    }
+
+    @Test
+    public void getDeskList() {
+        List<Desk> expectedDeskList = new ArrayList<>();
+        expectedDeskList.add(expectedDesk);
+        when(deskRepository.saveAll(expectedDeskList)).thenReturn(expectedDeskList);
+
+        List<Desk> actualDeskList = deskService.getDeskList();
 
         assertArrayEquals(expectedDeskList.toArray(), actualDeskList.toArray());
     }
 
     @Test
-    public void createCustomer() {
+    public void createDesk() {
         DeskRequest deskRequest = new DeskRequest("name1");
-        Desk expectedDesk = new Desk();
-        expectedDesk.setId(5L);
-        expectedDesk.setName("name5");
 
-        Desk actualDesk = deskService.createCustomer(deskRequest);
+        Desk actualDesk = deskService.createDesk(deskRequest);
 
         assertEquals(expectedDesk.getId(), actualDesk.getId());
     }
 
     @Test
-    public void createCustomerList() {
-        List<DeskRequest> deskRequestsList = new ArrayList<>();
-        DeskRequest deskRequestOne = new DeskRequest("name1");
-        DeskRequest deskRequestTwo = new DeskRequest("name2");
-        deskRequestsList.add(deskRequestOne);
-        deskRequestsList.add(deskRequestTwo);
-        List<Desk> expectedDeskList = new ArrayList<>();
-        Desk deskOne = new Desk();
-        Desk deskTwo = new Desk();
-        deskOne.setId(3L);
-        deskOne.setName("name3");
-        deskTwo.setId(4L);
-        deskTwo.setName("name4");
-        expectedDeskList.add(deskOne);
-        expectedDeskList.add(deskTwo);
-
-        List<Desk> actualDeskList = deskService.createCustomerList(deskRequestsList);
-
-        assertEquals(expectedDeskList.get(0).getId(), actualDeskList.get(0).getId());
-    }
-
-    @Test
-    public void updateCustomerById() {
+    public void updateDeskById() {
         Long id = 1L;
         DeskRequest deskRequest = new DeskRequest("name1Update");
         Desk expectedDesk = new Desk();
@@ -102,7 +73,7 @@ public class DeskServiceTest {
         expectedDesk.setName("name1Update");
         deskRepository.save(expectedDesk);
 
-        Desk actualDesk = deskService.updateCustomerById(id, deskRequest);
+        Desk actualDesk = deskService.updateDeskById(id, deskRequest);
 
         assertEquals(expectedDesk.getName(), actualDesk.getName());
     }
