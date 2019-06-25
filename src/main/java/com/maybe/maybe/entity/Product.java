@@ -1,15 +1,21 @@
 package com.maybe.maybe.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
-public class Product extends AbstractNameEntity {
+public class Product extends AbstractEntity {
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @NotNull
     @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
@@ -17,13 +23,22 @@ public class Product extends AbstractNameEntity {
     @NotNull
     @OneToMany(mappedBy = "product")
     @JsonManagedReference
+    private Set<ComponentProduct> componentProducts;
+
+    public String getName() {
+        return name;
+    }
     private List<ComponentProduct> componentProducts;
 
-    public List<ComponentProduct> getComponentProducts() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<ComponentProduct> getComponentProducts() {
         return componentProducts;
     }
 
-    public void setComponentProducts(List<ComponentProduct> componentProducts) {
+    public void setComponentProducts(Set<ComponentProduct> componentProducts) {
         this.componentProducts = componentProducts;
     }
 

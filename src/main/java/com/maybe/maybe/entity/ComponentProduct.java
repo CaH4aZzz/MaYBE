@@ -1,6 +1,7 @@
 package com.maybe.maybe.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ public class ComponentProduct extends AbstractEntity {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "component_id", nullable = false)
+    @JsonManagedReference
     private Component component;
 
     @NotNull

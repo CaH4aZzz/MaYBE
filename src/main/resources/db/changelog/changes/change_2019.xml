@@ -305,4 +305,8 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="MAYBE-23_add_hibernate_sequence" author="Ivan Denysenko">
+        <createSequence sequenceName="hibernate_sequence" startValue="10000" incrementBy="1"/>
+    </changeSet>
+
 </databaseChangeLog>
