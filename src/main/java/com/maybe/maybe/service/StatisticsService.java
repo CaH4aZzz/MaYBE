@@ -23,12 +23,13 @@ public class StatisticsService {
         this.orderRepository = orderRepository;
     }
 
-    public List<SummaryDTO> getSummaryReport(LocalDate dateAt, LocalDate dateTo) {
-        LOG.debug("getSummaryReport start for dateAt={}, dateTo={}", dateAt, dateTo);
+    public List<SummaryDTO> getSummaryReport(LocalDate dateFrom, LocalDate dateTo) {
+        LOG.debug("getSummaryReport start for dateFrom={}, dateTo={}", dateFrom, dateTo);
         if (Objects.isNull(dateTo)) {
             LOG.info("getSummaryReport dateTo is null - override by current date!");
             dateTo = LocalDate.now();
         }
-        return orderRepository.getSummaryReport(LocalDateTime.of(dateAt, LocalTime.MIDNIGHT), LocalDateTime.of(dateTo, LocalTime.MIDNIGHT));
+        return orderRepository.getSummaryReport(LocalDateTime.of(dateFrom, LocalTime.MIN),
+                LocalDateTime.of(dateTo, LocalTime.MAX));
     }
 }
