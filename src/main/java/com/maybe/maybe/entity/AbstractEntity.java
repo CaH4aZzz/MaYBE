@@ -1,10 +1,7 @@
 package com.maybe.maybe.entity;
 
 import javax.persistence.*;
-
-
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Objects;
 
 @MappedSuperclass
