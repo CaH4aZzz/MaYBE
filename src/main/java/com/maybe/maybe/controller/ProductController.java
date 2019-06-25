@@ -1,11 +1,16 @@
 package com.maybe.maybe.controller;
 
 import com.maybe.maybe.dto.ProductDTO;
+import com.maybe.maybe.entity.Product;
 import com.maybe.maybe.service.ProductService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/products")
@@ -18,15 +23,23 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductDTO> getAllProducts(@RequestParam(name = "state", defaultValue = "all") String state) {
-        return productService.findAllProducts();
+    public Page<Product> getAllProducts(@PageableDefault Pageable pageable) {
+        return productService.findAll(pageable);
     }
 
     @PostMapping
-    public ProductDTO addProduct(ProductDTO productDTO) {
-        productDTO.setId(null);
-        productDTO.getComponentProductDTOs().stream().forEach(c -> c.setId(null));
-        return productService.save(productDTO);
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductDTO productDTO) {
+        return new ResponseEntity<>(productService.saveDTO(productDTO), HttpStatus.CREATED);
     }
 
+    @GetMapping("/{productId}")
+    public Product getProduct(@PathVariable Long productId) {
+        return productService.findById(productId);
+    }
+
+    @PutMapping("/{productId}")
+    public Product saveProduct(@PathVariable Long productId,
+                                               @Valid @RequestBody ProductDTO productDTO) {
+        return productService.saveDTO(productId, productDTO);
+    }
 }

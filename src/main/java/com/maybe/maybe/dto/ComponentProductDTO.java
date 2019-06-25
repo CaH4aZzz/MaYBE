@@ -1,21 +1,14 @@
 package com.maybe.maybe.dto;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class ComponentProductDTO {
 
-    private Long id;
+    @NotNull
     private Long componentId;
-    private String componentName;
+    @NotNull
     private BigDecimal quantity;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getComponentId() {
         return componentId;
@@ -23,14 +16,6 @@ public class ComponentProductDTO {
 
     public void setComponentId(Long componentId) {
         this.componentId = componentId;
-    }
-
-    public String getComponentName() {
-        return componentName;
-    }
-
-    public void setComponentName(String componentName) {
-        this.componentName = componentName;
     }
 
     public BigDecimal getQuantity() {

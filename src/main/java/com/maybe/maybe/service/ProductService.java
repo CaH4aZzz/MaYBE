@@ -1,87 +1,57 @@
 package com.maybe.maybe.service;
 
-import com.maybe.maybe.dto.ComponentProductDTO;
 import com.maybe.maybe.dto.ProductDTO;
-import com.maybe.maybe.entity.Component;
-import com.maybe.maybe.entity.ComponentProduct;
 import com.maybe.maybe.entity.Product;
 import com.maybe.maybe.repository.ComponentRepository;
 import com.maybe.maybe.repository.ProductRepository;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 
 @Service
 public class ProductService {
     private ProductRepository productRepository;
     private ComponentRepository componentRepository;
-    private ModelMapper modelMapper;
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.modelMapper = new ModelMapper();
     }
 
-    public List<ProductDTO> findAllProducts() {
-        List<Product> products = productRepository.findAll();
-        Type listType = new TypeToken<List<ProductDTO>>() {
-        }.getType();
-        return modelMapper.map(products, listType);
+    public Page<Product> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     private Product convertDTOtoEntity(ProductDTO productDTO) {
-        Product product = new Product();
-        product.setId(productDTO.getId());
+        Long productId = null;
+        return convertDTOtoEntity(productId, productDTO);
+    }
+
+    private Product convertDTOtoEntity(Long productId, ProductDTO productDTO) {
+        Product product;
+        if (productId != null) {
+            product = findById(productId);
+        } else {
+            product = new Product();
+            product.setComponentProducts(new ArrayList<>());
+        }
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
-        List<ComponentProduct> componentProducts = productDTO.getComponentProductDTOs().stream()
-                .map(c -> convertComponentProductDTOtoEntity(c, product)).collect(Collectors.toList());
-        product.setComponentProducts(componentProducts);
         return product;
     }
 
-    private ComponentProduct convertComponentProductDTOtoEntity(ComponentProductDTO componentProductDTO,
-                                                                Product product) {
-        ComponentProduct componentProduct = new ComponentProduct();
-        componentProduct.setId(componentProductDTO.getId());
-        Optional<Component> componentOptional = componentRepository.findById(componentProductDTO.getComponentId());
-        componentOptional.ifPresent(componentProduct::setComponent);
-        componentProduct.setProduct(product);
-        componentProduct.setQuantity(componentProductDTO.getQuantity());
-        return componentProduct;
+    public Product findById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find product id=" + id));
     }
 
-    private ProductDTO convertEntityToDTO(Product product) {
-        ProductDTO productDTO = new ProductDTO();
-        productDTO.setId(product.getId());
-        productDTO.setName(product.getName());
-        productDTO.setPrice(product.getPrice());
-        List<ComponentProductDTO> componentProducts = product.getComponentProducts().stream()
-                .map(this::convertComponentProductEntityToDTO).collect(Collectors.toList());
-        productDTO.setComponentProductDTOs(componentProducts);
-        return productDTO;
+    public Product saveDTO(ProductDTO productDTO) {
+        return productRepository.save(convertDTOtoEntity(productDTO));
     }
 
-    private ComponentProductDTO convertComponentProductEntityToDTO(ComponentProduct componentProduct) {
-        ComponentProductDTO componentProductDTO = new ComponentProductDTO();
-        componentProductDTO.setId(componentProduct.getId());
-        componentProductDTO.setComponentId(componentProduct.getProduct().getId());
-        componentProductDTO.setComponentName(componentProduct.getProduct().getName());
-        componentProductDTO.setQuantity(componentProduct.getQuantity());
-        return componentProductDTO;
-    }
-
-    public ProductDTO save(ProductDTO productDTO) {
-        Product product = modelMapper.map(productDTO, Product.class);
-        Type listType = new TypeToken<List<ComponentProduct>>() {
-        }.getType();
-        product.setComponentProducts(modelMapper.map(productDTO.getComponentProductDTOs(), listType));
-        Product savedProduct = productRepository.save(product);
-        return modelMapper.map(savedProduct, ProductDTO.class);
+    public Product saveDTO(Long productId, ProductDTO productDTO) {
+        return productRepository.save(convertDTOtoEntity(productId, productDTO));
     }
 }

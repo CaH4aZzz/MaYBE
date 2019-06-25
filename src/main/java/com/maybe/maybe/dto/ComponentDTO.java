@@ -1,16 +1,16 @@
 package com.maybe.maybe.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.maybe.maybe.entity.enums.Measure;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
-public class ComponentDTO implements Serializable {
+public class ComponentDTO implements Serializable, Cloneable {
 
+    @NotEmpty
     private String name;
-    private Integer measureId;
-    private BigDecimal quantity;
-    private BigDecimal price;
+    @NotEmpty
+    private Measure measure;
 
     public String getName() {
         return name;
@@ -20,27 +20,11 @@ public class ComponentDTO implements Serializable {
         this.name = name;
     }
 
-    public Integer getMeasureId() {
-        return measureId;
+    public Measure getMeasure() {
+        return measure;
     }
 
-    public void setMeasureId(Integer measureId) {
-        this.measureId = measureId;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setMeasure(Measure measure) {
+        this.measure = measure;
     }
 }

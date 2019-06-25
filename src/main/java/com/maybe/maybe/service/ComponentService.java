@@ -2,8 +2,6 @@ package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.ComponentDTO;
 import com.maybe.maybe.entity.Component;
-import com.maybe.maybe.entity.enums.Measure;
-import com.maybe.maybe.entity.enums.converter.MeasureConverter;
 import com.maybe.maybe.repository.ComponentRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,10 +34,7 @@ public class ComponentService {
             component = new Component();
         }
         component.setName(componentDTO.getName());
-        Measure measure = MeasureConverter.getById(componentDTO.getMeasureId());
-        component.setMeasure(measure);
-        component.setQuantity(componentDTO.getQuantity());
-        component.setPrice(componentDTO.getPrice());
+        component.setMeasure(componentDTO.getMeasure());
         return component;
     }
 

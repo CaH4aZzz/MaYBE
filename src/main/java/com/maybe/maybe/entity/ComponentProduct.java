@@ -1,15 +1,17 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "component_product")
 public class ComponentProduct extends AbstractEntity {
     @NotNull
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 

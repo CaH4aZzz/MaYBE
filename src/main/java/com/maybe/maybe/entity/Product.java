@@ -1,5 +1,7 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -14,6 +16,7 @@ public class Product extends AbstractNameEntity {
 
     @NotNull
     @OneToMany(mappedBy = "product")
+    @JsonManagedReference
     private List<ComponentProduct> componentProducts;
 
     public List<ComponentProduct> getComponentProducts() {

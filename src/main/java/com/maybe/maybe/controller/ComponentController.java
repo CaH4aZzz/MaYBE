@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/components")
 public class ComponentController {
@@ -21,22 +23,22 @@ public class ComponentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Component>> getAllComponents(@PageableDefault Pageable pageable) {
-        return new ResponseEntity<>(componentService.findAll(pageable), HttpStatus.OK);
+    public Page<Component> getAllComponents(@PageableDefault Pageable pageable) {
+        return componentService.findAll(pageable);
     }
 
     @PostMapping
-    public ResponseEntity<Component> addComponent(ComponentDTO componentDTO) {
+    public ResponseEntity<Component> addComponent(@Valid @RequestBody ComponentDTO componentDTO) {
         return new ResponseEntity<>(componentService.saveDTO(componentDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/{componentId}")
-    public ResponseEntity<Component> getComponent(@PathVariable Long componentId) {
-        return new ResponseEntity<>(componentService.findById(componentId), HttpStatus.OK);
+    public Component getComponent(@PathVariable Long componentId) {
+        return componentService.findById(componentId);
     }
 
     @PutMapping("/{componentId}")
-    public ResponseEntity<Component> saveComponent(@PathVariable Long componentId, ComponentDTO componentDTO) {
-        return new ResponseEntity<>(componentService.saveDTO(componentId, componentDTO), HttpStatus.OK);
+    public Component saveComponent(@PathVariable Long componentId, @Valid @RequestBody ComponentDTO componentDTO) {
+        return componentService.saveDTO(componentId, componentDTO);
     }
 }
