@@ -73,4 +73,14 @@ public class Employee extends AbstractEntity {
     public void setInvoiceList(Set<Invoice> invoiceList) {
         this.invoiceList = invoiceList;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
+                ", invoiceList=" + invoiceList +
+                '}';
+    }
 }
