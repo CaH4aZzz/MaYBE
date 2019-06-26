@@ -26,7 +26,7 @@ public class InvoiceItemController {
     @GetMapping("/invoices/{invoiceId}/invoiceItems")
     public ResponseEntity<Page<InvoiceItem>> getInvoiceItems(
             @PathVariable("invoiceId") @Min(1) Long invoiceId,
-            @PageableDefault(size=Integer.MAX_VALUE) Pageable pageable) {
+            @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
         Page<InvoiceItem> invoiceItems = invoiceItemService.findAllByInvoice_Id(invoiceId, pageable);
         return new ResponseEntity<>(invoiceItems, HttpStatus.OK);
     }
