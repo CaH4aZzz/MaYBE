@@ -68,6 +68,9 @@ public class DeskService {
         } else {
             throw new EntityNotFoundException("No desks found for this state");
         }
+    }
 
+    Desk getDesk(Long id){
+        return deskRepository.getOne(id);
     }
 }

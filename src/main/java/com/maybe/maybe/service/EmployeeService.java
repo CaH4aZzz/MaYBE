@@ -61,4 +61,8 @@ public class EmployeeService {
             throw new EntityNotFoundException("Can not update employee by id = " + id);
         }
     }
+    public Employee findById(Long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Could not find employee id=" + id));
+    }
 }
