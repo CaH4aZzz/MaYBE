@@ -1,7 +1,12 @@
 package com.maybe.maybe.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class DeskDTO {
 
+    @NotNull
+    @Size(min = 1, max = 50)
     private String name;
 
     public DeskDTO() {
