@@ -11,7 +11,6 @@ public enum DeskState implements EnumDB {
         this.id = id;
     }
 
-
     @Override
     public Integer getId() {
         return id;
