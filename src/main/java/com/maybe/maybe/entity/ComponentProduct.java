@@ -1,5 +1,6 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 public class ComponentProduct extends AbstractEntity {
     @NotNull
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
@@ -32,11 +34,11 @@ public class ComponentProduct extends AbstractEntity {
         this.product = product;
     }
 
-    public Component getComponents() {
+    public Component getComponent() {
         return component;
     }
 
-    public void setComponents(Component component) {
+    public void setComponent(Component component) {
         this.component = component;
     }
 

@@ -29,12 +29,10 @@ public class Component extends AbstractEntity {
     @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
 
-    @NotNull
     @OneToMany(mappedBy = "component")
     @JsonBackReference
     private Set<ComponentProduct> componentProduct;
 
-    @NotNull
     @OneToMany(mappedBy = "component")
     @JsonBackReference
     private Set<InvoiceItem> invoiceItems;
