@@ -1,9 +1,11 @@
 package com.maybe.maybe.service;
 
+import com.maybe.maybe.dto.ComponentReportDTO;
+import com.maybe.maybe.dto.ProductReportDTO;
 import com.maybe.maybe.dto.SummaryDTO;
+import com.maybe.maybe.repository.InvoiceItemRepository;
+import com.maybe.maybe.repository.OrderItemRepository;
 import com.maybe.maybe.repository.OrderRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,21 +17,43 @@ import java.util.Objects;
 @Service
 public class StatisticsService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(StatisticsService.class);
+    private final static int FIRST_DAY = 1;
 
     private OrderRepository orderRepository;
+    private InvoiceItemRepository invoiceItemRepository;
+    private OrderItemRepository orderItemRepository;
 
-    public StatisticsService(OrderRepository orderRepository) {
+
+    public StatisticsService(OrderRepository orderRepository, InvoiceItemRepository invoiceItemRepository,
+                             OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
+        this.invoiceItemRepository = invoiceItemRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     public List<SummaryDTO> getSummaryReport(LocalDate dateFrom, LocalDate dateTo) {
-        LOG.debug("getSummaryReport start for dateFrom={}, dateTo={}", dateFrom, dateTo);
-        if (Objects.isNull(dateTo)) {
-            LOG.info("getSummaryReport dateTo is null - override by current date!");
-            dateTo = LocalDate.now();
-        }
-        return orderRepository.getSummaryReport(LocalDateTime.of(dateFrom, LocalTime.MIN),
-                LocalDateTime.of(dateTo, LocalTime.MAX));
+        return orderRepository.getSummaryReport(getDateFrom(dateFrom), getDateTo(dateTo));
+    }
+
+    public List<ComponentReportDTO> getComponentReport(LocalDate dateFrom, LocalDate dateTo) {
+        return invoiceItemRepository.getComponentReport(getDateFrom(dateFrom), getDateTo(dateTo));
+    }
+
+    public List<ProductReportDTO> getProductReport(LocalDate dateFrom, LocalDate dateTo) {
+
+        return orderItemRepository.getProductReport(getDateFrom(dateFrom), getDateTo(dateTo));
+    }
+
+    private LocalDateTime getDateFrom(LocalDate date) {
+        if (Objects.isNull(date)) {
+            return LocalDateTime.of(LocalDate.now().withDayOfMonth(FIRST_DAY), LocalTime.MIN);
+        } else return LocalDateTime.of(date, LocalTime.MIN);
+    }
+
+    private LocalDateTime getDateTo(LocalDate date) {
+        if (Objects.isNull(date)) {
+            System.out.println(LocalDate.now());
+            return LocalDateTime.now();
+        } else return LocalDateTime.of(date, LocalTime.MAX);
     }
 }

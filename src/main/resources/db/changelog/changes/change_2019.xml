@@ -309,6 +309,14 @@
         <createSequence sequenceName="hibernate_sequence" startValue="10000" incrementBy="1"/>
     </changeSet>
 
+    <changeSet id="MAYBE-20_add_column_state_id" author="Mykyta Amelin">
+        <addColumn tableName="desk">
+            <column name="desk_state_id" type="tinyint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
     <changeSet id="MAYBE-12_set_columns_not_nullable_in_component_table" author="Artem Kostenko">
         <dropNotNullConstraint tableName="component" columnName="quantity"/>
         <dropNotNullConstraint tableName="component" columnName="price"/>
