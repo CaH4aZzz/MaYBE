@@ -2,7 +2,9 @@ package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.InvoiceDTO;
 import com.maybe.maybe.entity.Invoice;
+import com.maybe.maybe.entity.enums.InvoiceType;
 import com.maybe.maybe.entity.enums.converter.InvoiceTypeConverter;
+import com.maybe.maybe.exception.UnmodifiedEntityException;
 import com.maybe.maybe.repository.InvoiceRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,6 +54,14 @@ public class InvoiceService {
         invoice.setName(invoiceDTO.getName());
         invoice.setEmployee(employeeService.findById(invoiceDTO.getEmployeeId()));
         invoice.setInvoiceType(InvoiceTypeConverter.getById(invoiceDTO.getInvoiceTypeId()));
+        validateUnmodifiedInvoice(invoice);
         return invoiceRepository.save(invoice);
+    }
+
+    void validateUnmodifiedInvoice(Invoice invoice) {
+        if (invoice.getInvoiceType().equals(InvoiceType.ORDER)) {
+            throw new UnmodifiedEntityException("Could not modified ordered invoice id=" +
+                    invoice.getId());
+        }
     }
 }

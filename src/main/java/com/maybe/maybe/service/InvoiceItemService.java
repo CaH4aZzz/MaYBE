@@ -46,6 +46,7 @@ public class InvoiceItemService {
         invoiceItem.setPrice(invoiceItemDTO.getPrice());
         invoiceItem.setQuantity(invoiceItemDTO.getQuantity());
         invoiceItem.setComponent(componentService.findById(invoiceItemDTO.getComponentId()));
+        invoiceService.validateUnmodifiedInvoice(invoiceItem.getInvoice());
         return invoiceItemRepository.save(invoiceItem);
     }
 }

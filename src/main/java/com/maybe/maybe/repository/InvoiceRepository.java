@@ -14,4 +14,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     Page<Invoice> findAllByDateCreatedIsBefore(LocalDateTime dateTo, Pageable pageable);
 
     Page<Invoice> findAllByDateCreatedIsBetween(LocalDateTime dateFrom, LocalDateTime dateTo, Pageable pageable);
+
+    Invoice findFirstBy();
 }

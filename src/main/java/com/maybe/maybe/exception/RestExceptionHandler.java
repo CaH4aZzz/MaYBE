@@ -1,6 +1,5 @@
 package com.maybe.maybe.exception;
 
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,9 +39,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
-    @ExceptionHandler(BeanCreationException.class)
-    protected ResponseEntity<Object> handleEntityCreation(BeanCreationException ex) {
-        ApiError apiError = new ApiError(HttpStatus.CONFLICT, ex.getMessage(), ex.getLocalizedMessage());
+    @ExceptionHandler(UnmodifiedEntityException.class)
+    protected ResponseEntity<Object> handleUnmodifiedEntity(
+            UnmodifiedEntityException ex) {
+        ApiError apiError = new ApiError(HttpStatus.NOT_MODIFIED, ex.getMessage(), ex.getLocalizedMessage());
         return buildResponseEntity(apiError);
     }
 

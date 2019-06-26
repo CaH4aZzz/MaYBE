@@ -7,11 +7,15 @@ import com.maybe.maybe.entity.enums.converter.MeasureConverter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "component")
-public class Component extends AbstractNameEntity {
+public class Component extends AbstractEntity {
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @NotNull
     @Convert(converter = MeasureConverter.class)
     @Column(name = "measure_id", nullable = false)
@@ -19,28 +23,34 @@ public class Component extends AbstractNameEntity {
 
     @NotNull
     @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
-    private Double quantity;
+    private BigDecimal quantity;
 
     @NotNull
     @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
 
-    @NotNull
     @OneToMany(mappedBy = "component")
     @JsonBackReference
-    private List<ComponentProduct> componentProduct;
+    private Set<ComponentProduct> componentProduct;
 
-    @NotNull
     @OneToMany(mappedBy = "component")
     @JsonBackReference
-    private List<InvoiceItem> invoiceItems;
+    private Set<InvoiceItem> invoiceItems;
 
-    public List<ComponentProduct> getComponentProduct() {
+    public Set<ComponentProduct> getComponentProduct() {
         return componentProduct;
     }
 
-    public void setComponentProduct(List<ComponentProduct> componentProduct) {
+    public void setComponentProduct(Set<ComponentProduct> componentProduct) {
         this.componentProduct = componentProduct;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Measure getMeasure() {
@@ -51,11 +61,11 @@ public class Component extends AbstractNameEntity {
         this.measure = measure;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
@@ -67,11 +77,11 @@ public class Component extends AbstractNameEntity {
         this.price = price;
     }
 
-    public List<InvoiceItem> getInvoiceItems() {
+    public Set<InvoiceItem> getInvoiceItems() {
         return invoiceItems;
     }
 
-    public void setInvoiceItems(List<InvoiceItem> invoiceItems) {
+    public void setInvoiceItems(Set<InvoiceItem> invoiceItems) {
         this.invoiceItems = invoiceItems;
     }
 }
