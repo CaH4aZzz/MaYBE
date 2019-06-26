@@ -8,10 +8,16 @@ import com.maybe.maybe.entity.enums.converter.InvoiceTypeConverter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "invoice")
-public class Invoice extends AbstractNameEntity {
+public class Invoice extends AbstractEntity {
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
     @NotNull
     @Convert(converter = InvoiceTypeConverter.class)
     @Column(name = "invoice_type_id", nullable = false)
@@ -26,6 +32,23 @@ public class Invoice extends AbstractNameEntity {
     @JoinColumn(name = "employee_id", nullable = false)
     @JsonManagedReference
     private Employee employee;
+
+    @NotNull
+    @OneToMany(mappedBy = "invoice")
+    @JsonBackReference
+    private Set<InvoiceItem> invoiceItems;
+
+    public Invoice() {
+        this.setInvoiceItems(new HashSet<>());
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public InvoiceType getInvoiceType() {
         return invoiceType;
@@ -49,5 +72,13 @@ public class Invoice extends AbstractNameEntity {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Set<InvoiceItem> getInvoiceItems() {
+        return invoiceItems;
+    }
+
+    public void setInvoiceItems(Set<InvoiceItem> invoiceItems) {
+        this.invoiceItems = invoiceItems;
     }
 }

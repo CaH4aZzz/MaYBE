@@ -1,10 +1,12 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -23,7 +25,6 @@ public class Order extends AbstractEntity {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @NotNull
     @Column(name = "date_closed", nullable = false)
     private LocalDateTime dateClosed;
 
@@ -38,7 +39,10 @@ public class Order extends AbstractEntity {
 
     @NotNull
     @OneToMany(mappedBy = "order")
-    private List<OrderItem> orderItems;
+    @JsonBackReference
+    private Set<OrderItem> orderItems;
+
+
     public LocalDateTime getDateCreated() {
         return dateCreated;
     }
@@ -87,11 +91,11 @@ public class Order extends AbstractEntity {
         this.invoice = invoice;
     }
 
-    public List<OrderItem> getOrderItems() {
+    public Set<OrderItem> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(List<OrderItem> orderItems) {
+    public void setOrderItems(Set<OrderItem> orderItems) {
         this.orderItems = orderItems;
     }
 }

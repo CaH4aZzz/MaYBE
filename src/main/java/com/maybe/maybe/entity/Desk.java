@@ -7,6 +7,17 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name = "customer")
-public class Desk extends AbstractNameEntity {
+@Table(name = "desk")
+public class Desk extends AbstractEntity {
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

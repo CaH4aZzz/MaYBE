@@ -52,7 +52,7 @@
         <loadUpdateData tableName="orders" primaryKey="id" file="db/data/order.csv" separator=";">
             <column name="id" type="NUMERIC"/>
             <column name="date_created" type="TIMESTAMP"/>
-            <column name="customer_id" type="NUMERIC"/>
+            <column name="desk_id" type="NUMERIC"/>
             <column name="employee_id" type="NUMERIC"/>
             <column name="date_closed" type="TIMESTAMP"/>
             <column name="total" type="NUMERIC"/>
