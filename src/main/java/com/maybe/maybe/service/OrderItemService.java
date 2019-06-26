@@ -62,7 +62,7 @@ public class OrderItemService {
 
     private OrderItem getOrderItemAndUpdateOrderTotal(OrderItem orderItem, OrderItemDTO orderItemDTO) {
 
-        Product product = productService.getProductById(orderItemDTO.getProductId());
+        Product product = productService.findById(orderItemDTO.getProductId());
 
         orderItem.setProduct(product);
 
