@@ -309,4 +309,9 @@
         <createSequence sequenceName="hibernate_sequence" startValue="10000" incrementBy="1"/>
     </changeSet>
 
+    <changeSet id="MAYBE-12_set_columns_not_nullable_in_component_table" author="Artem Kostenko">
+        <dropNotNullConstraint tableName="component" columnName="quantity"/>
+        <dropNotNullConstraint tableName="component" columnName="price"/>
+    </changeSet>
+
 </databaseChangeLog>
