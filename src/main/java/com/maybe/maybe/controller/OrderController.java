@@ -1,7 +1,6 @@
 package com.maybe.maybe.controller;
 
 import com.maybe.maybe.dto.OrderDTO;
-import com.maybe.maybe.dto.OrderItemDTO;
 import com.maybe.maybe.entity.Order;
 import com.maybe.maybe.service.OrderItemService;
 import com.maybe.maybe.service.OrderService;
@@ -18,7 +17,6 @@ import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 @RestController
@@ -94,14 +92,6 @@ public class OrderController {
 
         return new ResponseEntity<>(orderDTOPage, HttpStatus.OK);
     }
-
-    // because The dependencies of some of the beans in the application context form a cycle: orderItemService!!!
-//    private Set<OrderItemDTO> getOrderItemDTOSet(Order order) {
-//        Set<OrderItemDTO> orderItemDTOSet = new HashSet<>();
-//        order.getOrderItems()
-//                .forEach(orderItem -> orderItemDTOSet.add(orderItemService.getOrderItemDTOResp(orderItem)));
-//        return orderItemDTOSet;
-//    }
 
     private Page<OrderDTO> getOrderDTOPage(Page<Order> orderPage) {
 
