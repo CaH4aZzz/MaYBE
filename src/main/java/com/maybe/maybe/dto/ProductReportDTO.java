@@ -17,20 +17,14 @@ public class ProductReportDTO {
     @Digits(integer = 12, fraction = 2)
     private BigDecimal incomeTotal;
 
-//    @NotNull
-//    @Digits(integer = 12, fraction = 2)
-//    private BigDecimal outcomeTotal;
-
     public ProductReportDTO() {
     }
 
     public ProductReportDTO(@NotNull String productName, @NotNull @Digits(integer = 15, fraction = 3) BigDecimal quantity,
-                            @NotNull @Digits(integer = 12, fraction = 2) BigDecimal incomeTotal/*,
-                            @NotNull @Digits(integer = 12, fraction = 2) BigDecimal outcomeTotal*/) {
+                            @NotNull @Digits(integer = 12, fraction = 2) BigDecimal incomeTotal) {
         this.productName = productName;
         this.quantity = quantity;
         this.incomeTotal = incomeTotal;
-//        this.outcomeTotal = outcomeTotal;
     }
 
     public String getProductName() {
@@ -44,10 +38,4 @@ public class ProductReportDTO {
     public BigDecimal getIncomeTotal() {
         return incomeTotal;
     }
-
-//    public BigDecimal getOutcomeTotal() {
-//        return outcomeTotal;
-//    }
-
-
 }
