@@ -25,7 +25,6 @@ public class Order extends AbstractEntity {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @NotNull
     @Column(name = "date_closed", nullable = false)
     private LocalDateTime dateClosed;
 
