@@ -2,11 +2,12 @@ package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.DeskRequest;
 import com.maybe.maybe.entity.Desk;
+import com.maybe.maybe.entity.enums.DeskState;
 import com.maybe.maybe.repository.DeskRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -52,6 +53,15 @@ public class DeskService {
             return deskRepository.save(desk);
         }else {
             throw new EntityNotFoundException("Can not update desk by id = " + id);
+        }
+    }
+
+    public List<Desk> getDesksByState(DeskState state){
+        List<Desk> desks = deskRepository.findAllByDeskState(state);
+        if(!desks.isEmpty()) {
+            return desks;
+        } else {
+            throw new EntityNotFoundException("No desks found for this state");
         }
     }
 }

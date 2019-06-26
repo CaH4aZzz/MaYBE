@@ -1,2 +1,2 @@
-id;name
-1;customer1
+id;name;desk_state_id
+1;customer1;1

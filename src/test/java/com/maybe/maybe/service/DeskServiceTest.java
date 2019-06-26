@@ -2,6 +2,7 @@ package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.DeskRequest;
 import com.maybe.maybe.entity.Desk;
+import com.maybe.maybe.entity.enums.DeskState;
 import com.maybe.maybe.repository.DeskRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,5 +78,26 @@ public class DeskServiceTest {
         Desk actualDesk = deskService.updateDeskById(id, deskRequest);
 
         assertEquals(expectedDesk.getName(), actualDesk.getName());
+    }
+
+    @Test
+    public void getDesksByStateTest() {
+        List<Desk> expectedDesks = new ArrayList<>();
+        for(DeskState state : DeskState.values()) {
+            expectedDesk.setDeskState(state);
+            expectedDesks.add(expectedDesk);
+            when(deskRepository.findAllByDeskState(state)).thenReturn(expectedDesks);
+
+            List<Desk> actualDesks = deskService.getDesksByState(state);
+
+            assertEquals(expectedDesks.get(0), actualDesks.get(0));
+        }
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void getDesksByStateTest_NoDesksReserved() throws EntityNotFoundException {
+        DeskState state = DeskState.RESERVED;
+        expectedDesk.setDeskState(DeskState.AVAILABLE);
+        deskService.getDesksByState(state);
     }
 }

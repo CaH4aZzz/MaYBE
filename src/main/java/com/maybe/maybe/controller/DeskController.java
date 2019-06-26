@@ -2,6 +2,7 @@ package com.maybe.maybe.controller;
 
 import com.maybe.maybe.dto.DeskRequest;
 import com.maybe.maybe.entity.Desk;
+import com.maybe.maybe.entity.enums.DeskState;
 import com.maybe.maybe.service.DeskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,27 +23,33 @@ public class DeskController {
     }
 
     @GetMapping("/desks/{id}")
-    public ResponseEntity<Desk> getDeskById(@PathVariable Long id){
+    public ResponseEntity<Desk> getDeskById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(deskService.getDeskById(id));
     }
 
     @GetMapping("/desks")
-    public ResponseEntity<List<Desk>> getDeskList() {
-        return  ResponseEntity.status(HttpStatus.OK)
-                .body(deskService.getDeskList());
+    public ResponseEntity<List<Desk>> getDeskList(@RequestParam(required = false) DeskState state) {
+        if (state == null) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(deskService.getDeskList());
+        } else {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(deskService.getDesksByState(state));
+        }
+
     }
 
     @PostMapping("/desks")
-    public ResponseEntity<Desk> createDesk(@Valid @RequestBody DeskRequest deskRequest){
-         return ResponseEntity.status(HttpStatus.OK)
-                 .body(deskService.createDesk(deskRequest));
+    public ResponseEntity<Desk> createDesk(@Valid @RequestBody DeskRequest deskRequest) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(deskService.createDesk(deskRequest));
     }
 
     @PutMapping("/desks/{id}")
     public ResponseEntity<Desk> updateDeskById(@PathVariable Long id,
-                                                   @Valid @RequestBody DeskRequest deskRequest){
+                                               @Valid @RequestBody DeskRequest deskRequest) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(deskService.updateDeskById(id, deskRequest));
     }
