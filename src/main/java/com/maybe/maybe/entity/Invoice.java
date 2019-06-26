@@ -8,6 +8,7 @@ import com.maybe.maybe.entity.enums.converter.InvoiceTypeConverter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -36,6 +37,10 @@ public class Invoice extends AbstractEntity {
     @OneToMany(mappedBy = "invoice")
     @JsonBackReference
     private Set<InvoiceItem> invoiceItems;
+
+    public Invoice() {
+        this.setInvoiceItems(new HashSet<>());
+    }
 
     public String getName() {
         return name;
@@ -67,5 +72,13 @@ public class Invoice extends AbstractEntity {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Set<InvoiceItem> getInvoiceItems() {
+        return invoiceItems;
+    }
+
+    public void setInvoiceItems(Set<InvoiceItem> invoiceItems) {
+        this.invoiceItems = invoiceItems;
     }
 }
