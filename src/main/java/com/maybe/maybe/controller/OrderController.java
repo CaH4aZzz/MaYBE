@@ -78,7 +78,7 @@ public class OrderController {
 
         OrderDTO orderDTO = orderService.getOrderDTOResp(order);
 
-        orderDTO.setOrderItemDTOS(getOrderItemDTOSet(order));
+        orderDTO.setOrderItemDTOS(orderItemService.getOrderItemDTOSet(order));
 
         return new ResponseEntity<>(orderDTO, HttpStatus.OK);
     }
@@ -96,12 +96,12 @@ public class OrderController {
     }
 
     // because The dependencies of some of the beans in the application context form a cycle: orderItemService!!!
-    private Set<OrderItemDTO> getOrderItemDTOSet(Order order) {
-        Set<OrderItemDTO> orderItemDTOSet = new HashSet<>();
-        order.getOrderItems()
-                .forEach(orderItem -> orderItemDTOSet.add(orderItemService.getOrderItemDTOResp(orderItem)));
-        return orderItemDTOSet;
-    }
+//    private Set<OrderItemDTO> getOrderItemDTOSet(Order order) {
+//        Set<OrderItemDTO> orderItemDTOSet = new HashSet<>();
+//        order.getOrderItems()
+//                .forEach(orderItem -> orderItemDTOSet.add(orderItemService.getOrderItemDTOResp(orderItem)));
+//        return orderItemDTOSet;
+//    }
 
     private Page<OrderDTO> getOrderDTOPage(Page<Order> orderPage) {
 
@@ -112,7 +112,7 @@ public class OrderController {
         IntStream.range(0, orderList.size()).forEach(i -> {
             Order order = orderList.get(i);
             orderDTOList.add(orderService.getOrderDTOResp(order));
-            orderDTOList.get(i).setOrderItemDTOS(getOrderItemDTOSet(order));
+            orderDTOList.get(i).setOrderItemDTOS(orderItemService.getOrderItemDTOSet(order));
         });
         return new PageImpl<>(orderDTOList);
     }

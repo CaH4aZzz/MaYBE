@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 @Service
@@ -37,11 +39,11 @@ public class OrderItemService {
     }
 
     public OrderItem getOrderItemById(Long id) {
-        OrderItem order = orderItemRepository.getOrderItemById(id);
-        if (order == null) {
+        OrderItem orderItem = orderItemRepository.getOrderItemById(id);
+        if (orderItem == null) {
             throw new EntityNotFoundException("Order item with id: " + id + " not found");
         } else {
-            return order;
+            return orderItem;
         }
     }
 
@@ -110,6 +112,13 @@ public class OrderItemService {
 
     public void deleteItemOrderById(Long id) {
         orderItemRepository.deleteById(id);
+    }
+
+    public Set<OrderItemDTO> getOrderItemDTOSet(Order order) {
+        Set<OrderItemDTO> orderItemDTOSet = new HashSet<>();
+        order.getOrderItems()
+                .forEach(orderItem -> orderItemDTOSet.add(getOrderItemDTOResp(orderItem)));
+        return orderItemDTOSet;
     }
 
 }
