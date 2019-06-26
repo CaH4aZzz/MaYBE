@@ -63,11 +63,11 @@
             <artifactId>hibernate-core</artifactId>
             <version>5.4.3.Final</version>
         </dependency>
-		<dependency>
-			<groupId>org.modelmapper</groupId>
-			<artifactId>modelmapper</artifactId>
-			<version>2.3.4</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.modelmapper</groupId>-->
+<!--			<artifactId>modelmapper</artifactId>-->
+<!--			<version>2.3.4</version>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>

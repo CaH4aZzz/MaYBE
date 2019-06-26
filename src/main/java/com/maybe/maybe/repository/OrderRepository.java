@@ -13,10 +13,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query(value =
             "SELECT new com.maybe.maybe.dto.SummaryDTO(i.dateCreated, SUM(o.total), SUM(it.price * it.quantity))\n" +
-            "FROM Order o, Invoice i, InvoiceItem it\n" +
-            "WHERE o.invoice = i\n" +
-                "AND it.invoice = i\n" +
-                "AND o.dateCreated BETWEEN :dateFrom AND :dateTo\n" +
-            "GROUP BY(i.dateCreated)")
+                    "FROM Order o, Invoice i, InvoiceItem it\n" +
+                    "WHERE o.invoice = i\n" +
+                    "AND it.invoice = i\n" +
+                    "AND o.dateCreated BETWEEN :dateFrom AND :dateTo\n" +
+                    "GROUP BY(i.dateCreated)")
     List<SummaryDTO> getSummaryReport(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 }

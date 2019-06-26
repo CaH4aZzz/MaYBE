@@ -28,10 +28,10 @@ public class InvoiceController {
     @GetMapping("/invoices")
     public ResponseEntity<Page<Invoice>> getInvoices(
             @RequestParam(name = "dateFrom", required = false)
-                @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime dateFrom,
+            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime dateFrom,
             @RequestParam(name = "dateTo", required = false)
-                @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime dateTo,
-            @PageableDefault(size=Integer.MAX_VALUE) Pageable pageable) {
+            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime dateTo,
+            @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
         Page<Invoice> invoices = invoiceService.findAllByPeriod(dateFrom, dateTo, pageable);
         return new ResponseEntity<>(invoices, HttpStatus.OK);
     }
