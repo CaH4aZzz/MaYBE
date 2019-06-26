@@ -17,14 +17,15 @@ public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Long> 
 
     @Query(value =
             "SELECT new com.maybe.maybe.dto.ComponentReportDTO(c.name, c.measure," +
-                    "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.INCOME THEN ii.quantity ELSE 0 END),\n" +
-                    "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.INCOME THEN (ii.price * ii.quantity) ELSE 0 END),\n" +
-                    "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.ORDER THEN ii.quantity ELSE 0 END),\n" +
-                    "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.ORDER THEN (ii.price * ii.quantity) ELSE 0 END))\n" +
-                    "from InvoiceItem ii\n" +
-                    "JOIN ii.invoice i\n" +
-                    "JOIN ii.component c\n" +
-                    "WHERE i.dateCreated BETWEEN :dateFrom AND :dateTo\n" +
+                    "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.INCOME THEN ii.quantity ELSE 0 END)," +
+                    "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.INCOME THEN (ii.price * ii.quantity) ELSE 0 END)," +
+                    "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.ORDER THEN ii.quantity ELSE 0 END)," +
+                    "SUM(CASE WHEN i.invoiceType = com.maybe.maybe.entity.enums.InvoiceType.ORDER THEN (ii.price * ii.quantity) ELSE 0 END))" +
+                    "FROM InvoiceItem ii " +
+                    "JOIN ii.invoice i " +
+                    "JOIN ii.component c " +
+                    "WHERE i.dateCreated BETWEEN :dateFrom AND :dateTo " +
                     "GROUP BY c.id, c.measure ORDER BY c.name")
     List<ComponentReportDTO> getComponentReport(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
+
 }

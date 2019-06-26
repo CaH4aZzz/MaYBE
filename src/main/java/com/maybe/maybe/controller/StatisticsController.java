@@ -1,6 +1,7 @@
 package com.maybe.maybe.controller;
 
 import com.maybe.maybe.dto.ComponentReportDTO;
+import com.maybe.maybe.dto.ProductReportDTO;
 import com.maybe.maybe.dto.SummaryDTO;
 import com.maybe.maybe.service.StatisticsService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,10 +27,10 @@ public class StatisticsController {
 
     @GetMapping("/summary")
     public List<SummaryDTO> getSummaryReport(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateAt,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo
     ) {
-        return statisticsService.getSummaryReport(dateAt, dateTo);
+        return statisticsService.getSummaryReport(dateFrom, dateTo);
     }
 
     @GetMapping("/component-report")
@@ -37,7 +38,14 @@ public class StatisticsController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo
     ) {
-
         return statisticsService.getComponentReport(dateFrom, dateTo);
+    }
+
+    @GetMapping("/product-report")
+    public List<ProductReportDTO> getProductReportDTO(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo
+    ) {
+        return statisticsService.getProductReport(dateFrom, dateTo);
     }
 }

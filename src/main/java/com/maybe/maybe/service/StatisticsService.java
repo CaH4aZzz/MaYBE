@@ -1,8 +1,10 @@
 package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.ComponentReportDTO;
+import com.maybe.maybe.dto.ProductReportDTO;
 import com.maybe.maybe.dto.SummaryDTO;
 import com.maybe.maybe.repository.InvoiceItemRepository;
+import com.maybe.maybe.repository.OrderItemRepository;
 import com.maybe.maybe.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +21,14 @@ public class StatisticsService {
 
     private OrderRepository orderRepository;
     private InvoiceItemRepository invoiceItemRepository;
+    private OrderItemRepository orderItemRepository;
 
 
-    public StatisticsService(OrderRepository orderRepository, InvoiceItemRepository invoiceItemRepository) {
+    public StatisticsService(OrderRepository orderRepository, InvoiceItemRepository invoiceItemRepository,
+                             OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
         this.invoiceItemRepository = invoiceItemRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     public List<SummaryDTO> getSummaryReport(LocalDate dateFrom, LocalDate dateTo) {
@@ -31,8 +36,12 @@ public class StatisticsService {
     }
 
     public List<ComponentReportDTO> getComponentReport(LocalDate dateFrom, LocalDate dateTo) {
-        System.out.println(getDateFrom(dateFrom) + " " + getDateTo(dateTo));
         return invoiceItemRepository.getComponentReport(getDateFrom(dateFrom), getDateTo(dateTo));
+    }
+
+    public List<ProductReportDTO> getProductReport(LocalDate dateFrom, LocalDate dateTo) {
+
+        return orderItemRepository.getProductReport(getDateFrom(dateFrom), getDateTo(dateTo));
     }
 
     private LocalDateTime getDateFrom(LocalDate date) {
@@ -43,8 +52,8 @@ public class StatisticsService {
 
     private LocalDateTime getDateTo(LocalDate date) {
         if (Objects.isNull(date)) {
-            return LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+            System.out.println(LocalDate.now());
+            return LocalDateTime.now();
         } else return LocalDateTime.of(date, LocalTime.MAX);
     }
-
 }

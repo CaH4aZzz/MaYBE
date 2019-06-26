@@ -33,8 +33,11 @@ public class ComponentReportDTO {
     public ComponentReportDTO() {
     }
 
-    public ComponentReportDTO(@NotNull String componentName, @NotNull Measure measure, @NotNull BigDecimal income,
-                              @NotNull BigDecimal incomeTotal, @NotNull BigDecimal outcome, @NotNull BigDecimal outcomeTotal) {
+    public ComponentReportDTO(@NotNull String componentName, @NotNull Measure measure,
+                              @NotNull @Digits(integer = 15, fraction = 3) BigDecimal income,
+                              @NotNull @Digits(integer = 12, fraction = 2) BigDecimal incomeTotal,
+                              @NotNull @Digits(integer = 15, fraction = 3) BigDecimal outcome,
+                              @NotNull @Digits(integer = 12, fraction = 2) BigDecimal outcomeTotal) {
         this.componentName = componentName;
         this.measure = measure;
         this.income = income;
