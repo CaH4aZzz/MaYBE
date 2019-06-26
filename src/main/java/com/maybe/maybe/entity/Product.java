@@ -1,5 +1,6 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ public class Product extends AbstractEntity {
 
     @NotNull
     @OneToMany(mappedBy = "product")
-    @JsonBackReference
+    @JsonManagedReference
     private Set<ComponentProduct> componentProducts;
 
     public String getName() {
