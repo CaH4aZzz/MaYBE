@@ -45,7 +45,7 @@ public class OrderService {
 
         Order order = new Order();
 
-        order.setDesk(deskService.getDesk(orderDTO.getDeskId()));
+        order.setDesk(deskService.findById(orderDTO.getDeskId()));
         order.setEmployee(employeeService.findById(orderDTO.getEmployeeId()));
         order.setInvoice(invoiceService.findById(orderDTO.getInvoiceId()));
 
@@ -59,7 +59,7 @@ public class OrderService {
 
     public Order updateFromDTO(OrderDTO orderDTO, Long id){
         Order order = new Order();
-        order.setDesk(deskService.getDesk(orderDTO.getDeskId()));
+        order.setDesk(deskService.findById(orderDTO.getDeskId()));
         order.setEmployee(employeeService.findById(orderDTO.getEmployeeId()));
         order.setInvoice(invoiceService.findById(orderDTO.getInvoiceId()));
 

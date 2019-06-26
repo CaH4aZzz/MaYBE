@@ -48,7 +48,7 @@ public class EmployeeControllerTest {
         employee.setPassword("password");
         employee.setInvoiceList(null);
         employee.setUserRole(UserRole.USER);
-       EmployeeDTO employeeDTO = new EmployeeDTO("name", "login", "password", 2);
+        employeeDTO = new EmployeeDTO("name", "login", "password", 2);
     }
 
     @Test
