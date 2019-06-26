@@ -1,5 +1,6 @@
 package com.maybe.maybe.service;
 
+
 import com.maybe.maybe.dto.DeskRequest;
 import com.maybe.maybe.entity.Desk;
 import com.maybe.maybe.entity.enums.DeskState;
@@ -9,6 +10,10 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;
+
+import com.maybe.maybe.entity.Desk;
+import com.maybe.maybe.repository.DeskRepository;
+import org.springframework.stereotype.Service;
 
 @Service
 public class DeskService {
@@ -63,5 +68,6 @@ public class DeskService {
         } else {
             throw new EntityNotFoundException("No desks found for this state");
         }
+
     }
 }
