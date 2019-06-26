@@ -7,6 +7,7 @@ import com.maybe.maybe.entity.enums.InvoiceType;
 import com.maybe.maybe.entity.enums.UserRole;
 import com.maybe.maybe.repository.InvoiceRepository;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
