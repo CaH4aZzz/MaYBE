@@ -61,10 +61,13 @@ public class OrderItemService {
     }
 
     private OrderItem getOrderItemAndUpdateOrderTotal(OrderItem orderItem, OrderItemDTO orderItemDTO) {
-        orderItem.setProduct(productService.getProductById(orderItemDTO.getProductId()));
-        orderItem.setQuantity(orderItemDTO.getQuantity());
 
         Product product = productService.getProductById(orderItemDTO.getProductId());
+
+        orderItem.setProduct(product);
+
+        orderItem.setQuantity(orderItemDTO.getQuantity());
+
         BigDecimal price = product.getPrice().multiply(orderItemDTO.getQuantity());
 
         orderItem.setPrice(price);
