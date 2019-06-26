@@ -5,6 +5,8 @@ public enum Measure implements EnumDB {
     LITER(2),
     BOTTLE(3),
     EACH(4);
+    PIESES(5)
+    ;
 
     private Integer id;
 

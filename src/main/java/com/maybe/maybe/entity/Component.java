@@ -23,18 +23,16 @@ public class Component extends AbstractEntity {
 
     @NotNull
     @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
-    private Double quantity;
+    private BigDecimal quantity;
 
     @NotNull
     @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
 
-    @NotNull
     @OneToMany(mappedBy = "component")
     @JsonBackReference
     private Set<ComponentProduct> componentProduct;
 
-    @NotNull
     @OneToMany(mappedBy = "component")
     @JsonBackReference
     private Set<InvoiceItem> invoiceItems;
@@ -63,11 +61,11 @@ public class Component extends AbstractEntity {
         this.measure = measure;
     }
 
-    public Double getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Double quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 

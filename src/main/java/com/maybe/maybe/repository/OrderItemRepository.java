@@ -2,6 +2,8 @@ package com.maybe.maybe.repository;
 
 import com.maybe.maybe.dto.ProductReportDTO;
 import com.maybe.maybe.entity.OrderItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +24,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
                     "GROUP BY p.id, oi.quantity " +
                     "ORDER BY p.name")
     List<ProductReportDTO> getProductReport(@Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
+    Page<OrderItem> findAllByOrderId(Long orderId, Pageable pageable);
+
+    OrderItem getOrderItemById(Long id);
 }
