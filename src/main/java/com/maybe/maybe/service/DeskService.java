@@ -7,7 +7,6 @@ import com.maybe.maybe.repository.DeskRepository;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.stereotype.Service;
 
-<<<<<<<<< Temporary merge branch 1
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
@@ -22,7 +21,21 @@ public class DeskService {
 
 
     public Desk findById(Long id) {
+        if (deskRepository.findDeskById(id) != null) {
+            return deskRepository.findDeskById(id);
+
+        } else {
+            throw new EntityNotFoundException("Can not find desk by id = " + id);
+        }
+    }
+
     public List<Desk> findAll() {
+        if (!deskRepository.findAll().isEmpty()) {
+            return deskRepository.findAll();
+        } else {
+            throw new EntityNotFoundException("Can not find any desk");
+        }
+    }
 
     public Desk createFromDTO(DeskDTO deskDTO) {
         if (deskRepository.findDeskByName(deskDTO.getName()) == null) {
@@ -52,7 +65,6 @@ public class DeskService {
         } else {
             throw new EntityNotFoundException("No desks found for this state");
         }
-    }
     }
 
     public Desk deleteById(Long id){
