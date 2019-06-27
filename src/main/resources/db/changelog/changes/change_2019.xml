@@ -317,4 +317,11 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="MAYBE-12_set_columns_not_nullable_in_component_table" author="Artem Kostenko">
+        <dropNotNullConstraint tableName="component" columnName="quantity"
+                               columnDataType="decimal(15,3)"/>
+        <dropNotNullConstraint tableName="component" columnName="price"
+                               columnDataType="decimal(12,2)"/>
+    </changeSet>
+
 </databaseChangeLog>
