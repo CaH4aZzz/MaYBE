@@ -7,6 +7,7 @@ import com.maybe.maybe.entity.enums.converter.UserRoleConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -32,7 +33,7 @@ public class Employee extends AbstractEntity {
 
     @OneToMany(mappedBy = "employee")
     @JsonBackReference
-    private Set<Invoice> invoiceList;
+    private Set<Invoice> invoiceList = new HashSet<>();
 
     public String getName() {
         return name;

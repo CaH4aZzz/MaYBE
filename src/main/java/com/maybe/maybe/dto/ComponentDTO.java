@@ -3,13 +3,14 @@ package com.maybe.maybe.dto;
 import com.maybe.maybe.entity.enums.Measure;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class ComponentDTO implements Serializable, Cloneable {
+public class ComponentDTO implements Serializable {
 
     @NotEmpty
     private String name;
-    @NotEmpty
+    @NotNull
     private Measure measure;
 
     public String getName() {

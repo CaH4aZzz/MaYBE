@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +24,7 @@ public class Product extends AbstractEntity {
     @NotNull
     @OneToMany(mappedBy = "product")
     @JsonManagedReference
-    private Set<ComponentProduct> componentProducts;
+    private Set<ComponentProduct> componentProducts = new HashSet<>();
 
     public String getName() {
         return name;

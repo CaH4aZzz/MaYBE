@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -40,7 +41,7 @@ public class Order extends AbstractEntity {
     @NotNull
     @OneToMany(mappedBy = "order")
     @JsonBackReference
-    private Set<OrderItem> orderItems;
+    private Set<OrderItem> orderItems = new HashSet<>();
 
 
     public LocalDateTime getDateCreated() {
