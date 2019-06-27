@@ -1,5 +1,6 @@
 package com.maybe.maybe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -12,7 +13,7 @@ public class InvoiceItem extends AbstractEntity {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "invoice_id", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Invoice invoice;
 
     @NotNull
