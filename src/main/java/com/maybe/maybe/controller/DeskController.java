@@ -2,6 +2,7 @@ package com.maybe.maybe.controller;
 
 import com.maybe.maybe.dto.DeskDTO;
 import com.maybe.maybe.entity.Desk;
+import com.maybe.maybe.entity.enums.DeskState;
 import com.maybe.maybe.service.DeskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,15 @@ public class DeskController {
     public ResponseEntity<Desk> createDesk(@PathVariable @Size(min = 4,max = 50) String name){
          return ResponseEntity.status(HttpStatus.CREATED)
                  .body(deskService.createFromDTO(new DeskDTO(name)));
+    public ResponseEntity<List<Desk>> getDeskList(@RequestParam(required = false) DeskState state) {
+        if (state == null) {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(deskService.getDeskList());
+        } else {
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(deskService.getDesksByState(state));
+        }
+
     }
 
     @PutMapping("/desks/{id}/{name}")

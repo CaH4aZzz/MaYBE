@@ -35,12 +35,8 @@ public class Invoice extends AbstractEntity {
 
     @NotNull
     @OneToMany(mappedBy = "invoice")
-    @JsonBackReference
-    private Set<InvoiceItem> invoiceItems;
-
-    public Invoice() {
-        this.setInvoiceItems(new HashSet<>());
-    }
+    @JsonManagedReference
+    private Set<InvoiceItem> invoiceItems = new HashSet<>();
 
     public String getName() {
         return name;

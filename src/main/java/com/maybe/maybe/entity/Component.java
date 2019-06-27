@@ -7,6 +7,7 @@ import com.maybe.maybe.entity.enums.converter.MeasureConverter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -21,21 +22,19 @@ public class Component extends AbstractEntity {
     @Column(name = "measure_id", nullable = false)
     private Measure measure;
 
-    @NotNull
     @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
     private BigDecimal quantity;
 
-    @NotNull
     @Column(name = "price", nullable = false, scale = 12, precision = 2)
     private BigDecimal price;
 
     @OneToMany(mappedBy = "component")
     @JsonBackReference
-    private Set<ComponentProduct> componentProduct;
+    private Set<ComponentProduct> componentProduct = new HashSet<>();
 
     @OneToMany(mappedBy = "component")
     @JsonBackReference
-    private Set<InvoiceItem> invoiceItems;
+    private Set<InvoiceItem> invoiceItems = new HashSet<>();
 
     public Set<ComponentProduct> getComponentProduct() {
         return componentProduct;
