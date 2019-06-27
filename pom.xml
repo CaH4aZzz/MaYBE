@@ -70,7 +70,6 @@
             <artifactId>spring-security-core</artifactId>
             <version>5.1.5.RELEASE</version>
         </dependency>
-    </dependencies>
 <!--		<dependency>-->
 <!--			<groupId>org.modelmapper</groupId>-->
 <!--			<artifactId>modelmapper</artifactId>-->
