@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -29,20 +28,17 @@ public class DeskController {
                 .body(deskService.findById(id));
     }
 
-    @GetMapping("/desks")
-    public ResponseEntity<List<Desk>> getDeskList() {
-        return  ResponseEntity.status(HttpStatus.OK)
-                .body(deskService.findAll());
+    @PostMapping("/desks/{name}")
+    public ResponseEntity<Desk> createDesk(@PathVariable @Size(min = 4,max = 50) String name) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(deskService.createFromDTO(new DeskDTO(name)));
     }
 
-    @PostMapping("/desks/{name}")
-    public ResponseEntity<Desk> createDesk(@PathVariable @Size(min = 4,max = 50) String name){
-         return ResponseEntity.status(HttpStatus.CREATED)
-                 .body(deskService.createFromDTO(new DeskDTO(name)));
+    @GetMapping("/desks")
     public ResponseEntity<List<Desk>> getDeskList(@RequestParam(required = false) DeskState state) {
         if (state == null) {
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(deskService.getDeskList());
+                    .body(deskService.findAll());
         } else {
             return ResponseEntity.status(HttpStatus.OK)
                     .body(deskService.getDesksByState(state));
