@@ -46,7 +46,7 @@ public class DeskService {
 
     public Desk updateById(Long id, DeskDTO deskDTO){
         if(deskRepository.findDeskById(id) != null){
-            Desk desk = new Desk();
+            Desk desk = deskRepository.findDeskById(id);
             desk.setName(deskDTO.getName());
             desk.setId(id);
             return deskRepository.save(desk);
