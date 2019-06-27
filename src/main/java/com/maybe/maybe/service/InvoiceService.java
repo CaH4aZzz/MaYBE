@@ -52,7 +52,7 @@ public class InvoiceService {
 
     public Invoice updateFromDTO(Invoice invoice, InvoiceDTO invoiceDTO) {
         invoice.setName(invoiceDTO.getName());
-        invoice.setEmployee(employeeService.getEmployeeById(invoiceDTO.getEmployeeId()));
+        invoice.setEmployee(employeeService.findById(invoiceDTO.getEmployeeId()));
         invoice.setInvoiceType(InvoiceTypeConverter.getById(invoiceDTO.getInvoiceTypeId()));
         validateUnmodifiedInvoice(invoice);
         return invoiceRepository.save(invoice);

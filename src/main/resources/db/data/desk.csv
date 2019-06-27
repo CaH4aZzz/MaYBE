@@ -1,2 +1,2 @@
-id;name
-1;desk1
+id;name;desk_state_id
+1;desk1;1
