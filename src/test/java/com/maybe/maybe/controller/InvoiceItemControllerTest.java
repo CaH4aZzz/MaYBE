@@ -59,14 +59,14 @@ public class InvoiceItemControllerTest {
         Component component1 = new Component();
         component1.setId(1L);
         component1.setName("Component1");
-        component1.setPrice(BigDecimal.valueOf(3));
+        component1.setTotal(BigDecimal.valueOf(3));
         component1.setQuantity(BigDecimal.valueOf(15));
         component1.setMeasure(Measure.PIESES);
 
         Component component2 = new Component();
         component2.setId(2L);
         component2.setName("Component1");
-        component2.setPrice(BigDecimal.valueOf(3));
+        component2.setTotal(BigDecimal.valueOf(3));
         component2.setQuantity(BigDecimal.valueOf(15));
         component2.setMeasure(Measure.PIESES);
 

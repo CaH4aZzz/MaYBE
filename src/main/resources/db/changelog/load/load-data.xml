@@ -13,20 +13,20 @@
             <column name="name" type="STRING"/>
             <column name="measure_id" type="NUMERIC"/>
             <column name="quantity" type="NUMERIC"/>
-            <column name="price" type="NUMERIC"/>
+            <column name="total" type="NUMERIC"/>
         </loadUpdateData>
 
         <loadUpdateData tableName="product" primaryKey="id" file="db/data/product.csv" separator=";">
             <column name="id" type="NUMERIC"/>
             <column name="name" type="STRING"/>
-            <column name="price" type="NUMERIC"/>
+            <column name="total" type="NUMERIC"/>
         </loadUpdateData>
 
         <loadUpdateData tableName="component_product" primaryKey="id" file="db/data/component_product.csv"
                         separator=";">
             <column name="id" type="NUMERIC"/>
             <column name="name" type="STRING"/>
-            <column name="price" type="NUMERIC"/>
+            <column name="total" type="NUMERIC"/>
         </loadUpdateData>
 
         <loadUpdateData tableName="desk" primaryKey="id" file="db/data/desk.csv" separator=";">
@@ -65,7 +65,7 @@
             <column name="invoice_id" type="NUMERIC"/>
             <column name="component_id" type="NUMERIC"/>
             <column name="quantity" type="NUMERIC"/>
-            <column name="price" type="NUMERIC"/>
+            <column name="total" type="NUMERIC"/>
         </loadUpdateData>
 
     </changeSet>
