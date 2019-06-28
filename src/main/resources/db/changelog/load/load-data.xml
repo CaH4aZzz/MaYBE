@@ -13,7 +13,7 @@
             <column name="name" type="STRING"/>
             <column name="measure_id" type="NUMERIC"/>
             <column name="quantity" type="NUMERIC"/>
-            <column name="total" type="NUMERIC"/>
+            <column name="price" type="NUMERIC"/>
         </loadUpdateData>
 
         <loadUpdateData tableName="product" primaryKey="id" file="db/data/product.csv" separator=";">
