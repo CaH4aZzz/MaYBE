@@ -1,9 +1,10 @@
 package com.maybe.maybe.service;
 
-import com.maybe.maybe.dto.EmployeeRequest;
+import com.maybe.maybe.dto.EmployeeDTO;
 import com.maybe.maybe.entity.Employee;
 import com.maybe.maybe.entity.enums.converter.UserRoleConverter;
 import com.maybe.maybe.repository.EmployeeRepository;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Employee getEmployeeById(Long id) {
+    public Employee findById(Long id) {
         if (employeeRepository.findEmployeeById(id) != null) {
             return employeeRepository.findEmployeeById(id);
         } else {
@@ -26,7 +27,7 @@ public class EmployeeService {
         }
     }
 
-    public List<Employee> getEmployeeList() {
+    public List<Employee> findAll() {
         if (!employeeRepository.findAll().isEmpty()) {
             return employeeRepository.findAll();
         } else {
@@ -34,20 +35,21 @@ public class EmployeeService {
         }
     }
 
-    public Employee createEmployee(EmployeeRequest employeeRequest) {
-        if (employeeRepository.findEmployeeByLogin(employeeRequest.getLogin()) == null) {
+    public Employee createFromDTO(EmployeeDTO employeeDTO) {
+        if (employeeRepository.findEmployeeByLogin(employeeDTO.getLogin()) == null) {
             Employee employee = new Employee();
-            employee.setName(employeeRequest.getName());
-            employee.setLogin(employeeRequest.getLogin());
-            employee.setPassword(new BCryptPasswordEncoder().encode(employeeRequest.getPassword()));
-            employee.setUserRole(new UserRoleConverter().convertToEntityAttribute(employeeRequest.getRoleId()));
+            employee.setName(employeeDTO.getName());
+            employee.setLogin(employeeDTO.getLogin());
+            employee.setPassword(new BCryptPasswordEncoder().encode(employeeDTO.getPassword()));
+            employee.setUserRole(new UserRoleConverter().convertToEntityAttribute(employeeDTO.getRoleId()));
             employee.setInvoiceList(null);
             return employeeRepository.save(employee);
+        } else {
+            throw new BeanCreationException("Can not create entity by dto " + employeeDTO.toString());
         }
-        return null;
     }
 
-    public Employee updateEmployeeById(Long id, EmployeeRequest employeeRequest) {
+    public Employee updateById(Long id, EmployeeDTO employeeRequest) {
         if (employeeRepository.findEmployeeById(id) != null) {
             Employee employee = employeeRepository.findEmployeeById(id);
             employee.setName(employeeRequest.getName());
@@ -61,8 +63,14 @@ public class EmployeeService {
             throw new EntityNotFoundException("Can not update employee by id = " + id);
         }
     }
-    public Employee findById(Long id) {
-        return employeeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Could not find employee id=" + id));
+
+    public Employee deleteById(Long id){
+        if(employeeRepository.findEmployeeById(id) != null){
+            Employee employee = employeeRepository.findEmployeeById(id);
+            employeeRepository.deleteById(id);
+            return employee;
+        } else {
+            throw new EntityNotFoundException("Can not delete employee by id = " + id);
+        }
     }
 }

@@ -32,6 +32,7 @@
         <loadUpdateData tableName="desk" primaryKey="id" file="db/data/desk.csv" separator=";">
             <column name="id" type="NUMERIC"/>
             <column name="name" type="STRING"/>
+            <column name="desk_state_id" type="NUMERIC"/>
         </loadUpdateData>
 
         <loadUpdateData tableName="employee" primaryKey="id" file="db/data/employee.csv" separator=";">

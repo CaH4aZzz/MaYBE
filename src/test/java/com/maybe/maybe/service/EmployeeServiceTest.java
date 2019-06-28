@@ -1,6 +1,6 @@
 package com.maybe.maybe.service;
 
-import com.maybe.maybe.dto.EmployeeRequest;
+import com.maybe.maybe.dto.EmployeeDTO;
 import com.maybe.maybe.entity.Employee;
 import com.maybe.maybe.entity.enums.UserRole;
 import com.maybe.maybe.repository.EmployeeRepository;
@@ -39,48 +39,49 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployeeByIdTest() {
+    public void findByIdTest() {
         Long id = 1L;
         when(employeeRepository.findEmployeeById(id)).thenReturn(expectedEmployee);
 
-        Employee actualEmployee = employeeService.getEmployeeById(id);
+        Employee actualEmployee = employeeService.findById(id);
 
         assertEquals(expectedEmployee.getLogin(),actualEmployee.getLogin());
     }
 
     @Test
-    public void getEmployeeListTest() {
+    public void findAllTest() {
         List<Employee> expectedEmployeeList = new ArrayList<>();
         expectedEmployeeList.add(expectedEmployee);
         when(employeeRepository.findAll()).thenReturn(expectedEmployeeList);
 
-        List<Employee> actualEmployeeList = employeeService.getEmployeeList();
+        List<Employee> actualEmployeeList = employeeService.findAll();
 
         assertEquals(expectedEmployeeList.get(0).getLogin(),actualEmployeeList.get(0).getLogin());
     }
 
     @Test
-    public void createEmployeeTest() {
-        EmployeeRequest employeeRequest = new EmployeeRequest("name1","login1",
+    public void createFromDTOTest() {
+        EmployeeDTO employeeDTO = new EmployeeDTO("name1","login1",
                 "password",2);
         when(employeeRepository.save(expectedEmployee)).thenReturn(expectedEmployee);
 
-        Employee actualEmployee = employeeService.createEmployee(employeeRequest);
+        Employee actualEmployee = employeeService.createFromDTO(employeeDTO);
 
         assertEquals(expectedEmployee.getLogin(),actualEmployee.getLogin());
     }
 
     @Test
-    public void updateEmployeeByIdTest() {
+    public void updateByIdTest() {
         Long id = 1L;
-        EmployeeRequest employeeRequest = new EmployeeRequest(
+        EmployeeDTO employeeDTO = new EmployeeDTO(
                 "name1","login1", "password1",1
         );
         when(employeeRepository.findEmployeeById(id)).thenReturn(expectedEmployee);
         when(employeeRepository.save(expectedEmployee)).thenReturn(expectedEmployee);
 
-        Employee actualEmployee = employeeService.updateEmployeeById(id,employeeRequest);
+        Employee actualEmployee = employeeService.updateById(id,employeeDTO);
 
         assertEquals(expectedEmployee.getLogin(),actualEmployee.getLogin());
     }
+
 }
