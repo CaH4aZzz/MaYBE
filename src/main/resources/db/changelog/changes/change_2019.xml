@@ -64,7 +64,7 @@
             <column name="quantity" type="decimal(15,3)">
                 <constraints nullable="false"/>
             </column>
-            <column name="price" type="decimal(12,2)">
+            <column name="total" type="decimal(12,2)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -320,7 +320,7 @@
     <changeSet id="MAYBE-12_set_columns_not_nullable_in_component_table" author="Artem Kostenko">
         <dropNotNullConstraint tableName="component" columnName="quantity"
                                columnDataType="decimal(15,3)"/>
-        <dropNotNullConstraint tableName="component" columnName="price"
+        <dropNotNullConstraint tableName="component" columnName="total"
                                columnDataType="decimal(12,2)"/>
     </changeSet>
 

@@ -17,7 +17,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
@@ -54,7 +53,7 @@ public class InvoiceItemRepositoryTest {
         component.setComponentProduct(new HashSet<>());
         component.setMeasure(Measure.PIESES);
         component.setQuantity(BigDecimal.valueOf(1));
-        component.setPrice(BigDecimal.valueOf(1));
+        component.setTotal(BigDecimal.valueOf(1));
         entityManager.persist(component);
 
         invoice = new Invoice();
