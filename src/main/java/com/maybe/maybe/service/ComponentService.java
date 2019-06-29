@@ -38,11 +38,11 @@ public class ComponentService {
         return component;
     }
 
-    public Component saveDTO(ComponentDTO componentDTO) {
+    public Component createFromDTO(ComponentDTO componentDTO) {
         return componentRepository.save(convertDTOtoEntity(componentDTO));
     }
 
-    public Component saveDTO(Long componentId, ComponentDTO componentDTO) {
+    public Component updateFromDTO(Long componentId, ComponentDTO componentDTO) {
         return componentRepository.save(convertDTOtoEntity(componentId, componentDTO));
     }
 
