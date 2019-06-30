@@ -18,7 +18,6 @@ public class ComponentService {
     public ComponentService(ComponentRepository componentRepository) {
         this.componentRepository = componentRepository;
     }
-
     public Page<Component> findAll(Pageable pageable) {
         return componentRepository.findAll(pageable);
     }

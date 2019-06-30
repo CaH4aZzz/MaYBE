@@ -65,7 +65,7 @@ public class OrderItemController {
             @PathVariable("orderItemId") @Min(1) Long orderItemId) {
         OrderItem orderItem = orderItemService.getOrderItemById(orderItemId);
         OrderItemDTO orderItemDTOResp = orderItemService.getOrderItemDTOResp(orderItem);
-        orderItemService.deleteItemOrderById(orderItemId);
+        orderItemService.deleteOrderItemById(orderItemId);
         return new ResponseEntity<>(orderItemDTOResp, HttpStatus.OK);
     }
 

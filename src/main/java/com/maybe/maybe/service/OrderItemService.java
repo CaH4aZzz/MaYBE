@@ -1,5 +1,6 @@
 package com.maybe.maybe.service;
 
+import com.maybe.maybe.dto.OrderDTO;
 import com.maybe.maybe.dto.OrderItemDTO;
 import com.maybe.maybe.entity.Order;
 import com.maybe.maybe.entity.OrderItem;
@@ -48,8 +49,10 @@ public class OrderItemService {
     }
 
     public OrderItem createFromDTO(OrderItemDTO orderItemDTO, Long orderId) {
+        Order order = orderService.getOrderById(orderId);
+
         OrderItem orderItem = new OrderItem();
-        orderItem.setOrder(orderService.getOrderById(orderId));
+        orderItem.setOrder(order);
 
         return getOrderItemAndUpdateOrderTotal(orderItem, orderItemDTO);
     }
@@ -57,7 +60,28 @@ public class OrderItemService {
     public OrderItem updateFromDTO(OrderItem orderItem, OrderItemDTO orderItemDTO) {
 
         orderItem.setOrder(orderService.getOrderById(orderItemDTO.getOrderId()));
-        return getOrderItemAndUpdateOrderTotal(orderItem, orderItemDTO);
+        return updateOrderItemAndUpdateOrderTotal(orderItem, orderItemDTO);
+    }
+
+    private OrderItem updateOrderItemAndUpdateOrderTotal(OrderItem orderItem, OrderItemDTO orderItemDTO){
+        Order order = orderItem.getOrder();
+
+        Product productFromOrderItemDTO = productService.findById(orderItemDTO.getProductId());
+
+        BigDecimal tempTotal = order.getTotal().subtract(orderItem.getPrice());
+
+        BigDecimal priceFromOrderItemDTO = productFromOrderItemDTO.getPrice().multiply(orderItemDTO.getQuantity());
+
+        order.setTotal(tempTotal.add(priceFromOrderItemDTO));
+
+        orderService.save(order);
+
+        orderItem.setProduct(productFromOrderItemDTO);
+        orderItem.setQuantity(orderItemDTO.getQuantity());
+        orderItem.setPrice(priceFromOrderItemDTO);
+
+        return orderItemRepository.save(orderItem);
+
     }
 
     private OrderItem getOrderItemAndUpdateOrderTotal(OrderItem orderItem, OrderItemDTO orderItemDTO) {
@@ -113,8 +137,19 @@ public class OrderItemService {
         return new PageImpl<>(orderItemDTOSList);
     }
 
-    public void deleteItemOrderById(Long id) {
-        orderItemRepository.deleteById(id);
+    public void deleteOrderItemById(Long id) {
+
+        OrderItem orderItemForDelete = orderItemRepository.getOrderItemById(id);
+
+        Order order = orderService.getOrderById(orderItemForDelete.getOrder().getId());
+
+        BigDecimal newTotal = order.getTotal().subtract(orderItemForDelete.getPrice());
+
+        order.setTotal(newTotal);
+
+        orderService.save(order);
+
+        orderItemRepository.delete(orderItemForDelete);
     }
 
     public Set<OrderItemDTO> getOrderItemDTOSet(Order order) {
@@ -122,6 +157,20 @@ public class OrderItemService {
         order.getOrderItems()
                 .forEach(orderItem -> orderItemDTOSet.add(getOrderItemDTOResp(orderItem)));
         return orderItemDTOSet;
+    }
+
+    public Page<OrderDTO> getOrderDTOPage(Page<Order> orderPage) {
+
+        List<Order> orderList = orderPage.getContent();
+
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+
+        IntStream.range(0, orderList.size()).forEach(i -> {
+            Order order = orderList.get(i);
+            orderDTOList.add(orderService.getOrderDTOResp(order));
+            orderDTOList.get(i).setOrderItemDTOS(getOrderItemDTOSet(order));
+        });
+        return new PageImpl<>(orderDTOList);
     }
 
 }

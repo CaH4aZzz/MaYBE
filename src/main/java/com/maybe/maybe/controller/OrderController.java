@@ -88,22 +88,8 @@ public class OrderController {
 
         Page<Order> orderPage = orderService.findAll(pageable);
 
-        Page<OrderDTO> orderDTOPage = getOrderDTOPage(orderPage);
+        Page<OrderDTO> orderDTOPage = orderItemService.getOrderDTOPage(orderPage);
 
         return new ResponseEntity<>(orderDTOPage, HttpStatus.OK);
-    }
-
-    private Page<OrderDTO> getOrderDTOPage(Page<Order> orderPage) {
-
-        List<Order> orderList = orderPage.getContent();
-
-        List<OrderDTO> orderDTOList = new ArrayList<>();
-
-        IntStream.range(0, orderList.size()).forEach(i -> {
-            Order order = orderList.get(i);
-            orderDTOList.add(orderService.getOrderDTOResp(order));
-            orderDTOList.get(i).setOrderItemDTOS(orderItemService.getOrderItemDTOSet(order));
-        });
-        return new PageImpl<>(orderDTOList);
     }
 }
