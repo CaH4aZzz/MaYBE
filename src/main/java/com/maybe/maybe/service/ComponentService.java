@@ -59,8 +59,9 @@ public class ComponentService {
         BigDecimal componentQuantity = component.getQuantity();
         BigDecimal componentTotal = component.getTotal();
         BigDecimal newQuantity = componentQuantity.add(quantity);
-        BigDecimal newTotal = ((componentQuantity.multiply(componentTotal))
-                .add(quantity.multiply(total))).divide(newQuantity, 2, RoundingMode.FLOOR);
+        BigDecimal newTotal = (componentQuantity.multiply(componentTotal)
+                .add(quantity.multiply(total)))
+                .divide(newQuantity, 2, RoundingMode.FLOOR);
         component.setQuantity(newQuantity);
         component.setTotal(newTotal);
         return componentRepository.save(component);
