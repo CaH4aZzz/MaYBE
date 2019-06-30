@@ -2,9 +2,9 @@ package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.OrderDTO;
 import com.maybe.maybe.dto.OrderItemDTO;
-import com.maybe.maybe.entity.Order;
-import com.maybe.maybe.entity.OrderItem;
-import com.maybe.maybe.entity.Product;
+import com.maybe.maybe.entity.*;
+import com.maybe.maybe.repository.InvoiceItemRepository;
+import com.maybe.maybe.repository.InvoiceRepository;
 import com.maybe.maybe.repository.OrderItemRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,15 +24,19 @@ public class OrderItemService {
     private OrderItemRepository orderItemRepository;
     private OrderService orderService;
     private ProductService productService;
+    private InvoiceItemRepository invoiceItemRepository;
 
     public OrderItemService(
             OrderItemRepository orderItemRepository,
             OrderService orderService,
-            ProductService productService
+            ProductService productService,
+            InvoiceItemRepository invoiceItemRepository
+
     ) {
         this.orderItemRepository = orderItemRepository;
         this.orderService = orderService;
         this.productService = productService;
+        this.invoiceItemRepository = invoiceItemRepository;
     }
 
     public Page<OrderItem> findAllByOrderId(Long orderId, Pageable pageable) {
@@ -101,9 +105,23 @@ public class OrderItemService {
         BigDecimal total = order.getTotal().add(price);
         order.setTotal(total);
 
+        setComponentProductsIntoInvoiceItem(product.getComponentProducts(), order);
+
         orderService.save(order);
 
         return orderItemRepository.save(orderItem);
+    }
+
+    private void setComponentProductsIntoInvoiceItem(Set<ComponentProduct> componentProducts, Order order){
+        componentProducts.forEach(componentProduct -> {
+            InvoiceItem invoiceItem = new InvoiceItem();
+            invoiceItem.setInvoice(order.getInvoice());
+            invoiceItem.setComponent(componentProduct.getComponent());
+            invoiceItem.setQuantity(componentProduct.getQuantity());
+            //I think the price calculate incorrect. Can you explain me, how I should do this?
+            invoiceItem.setPrice(componentProduct.getProduct().getPrice().multiply(componentProduct.getQuantity()));
+            invoiceItemRepository.save(invoiceItem);
+        });
     }
 
     public OrderItemDTO getOrderItemDTOResp(OrderItem orderItem) {
