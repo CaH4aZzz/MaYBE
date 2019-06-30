@@ -17,8 +17,7 @@ public class EmployeeReportDTO {
         if (Objects.isNull(orderCount) || orderCount == 0L) {
             averageBill = new BigDecimal(0);
         } else {
-            int roundingMode = 2;
-            averageBill = total.divide(new BigDecimal(orderCount), roundingMode);
+            averageBill = total.divide(new BigDecimal(orderCount));
         }
     }
 
