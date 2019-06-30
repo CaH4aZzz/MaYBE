@@ -29,7 +29,7 @@ public class ComponentController {
 
     @PostMapping
     public ResponseEntity<Component> addComponent(@Valid @RequestBody ComponentDTO componentDTO) {
-        return new ResponseEntity<>(componentService.saveDTO(componentDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(componentService.createFromDTO(componentDTO), HttpStatus.CREATED);
     }
 
     @GetMapping("/{componentId}")
@@ -39,6 +39,6 @@ public class ComponentController {
 
     @PutMapping("/{componentId}")
     public Component saveComponent(@PathVariable Long componentId, @Valid @RequestBody ComponentDTO componentDTO) {
-        return componentService.saveDTO(componentId, componentDTO);
+        return componentService.updateFromDTO(componentId, componentDTO);
     }
 }
