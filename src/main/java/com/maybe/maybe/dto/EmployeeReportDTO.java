@@ -14,7 +14,7 @@ public class EmployeeReportDTO {
         this.employeeName = employeeName;
         this.orderCount = orderCount;
         this.total = total;
-        if (Objects.isNull(orderCount) || orderCount == 0) {
+        if (Objects.isNull(orderCount) || orderCount == 0L) {
             averageBill = new BigDecimal(0);
         } else {
             int roundingMode = 2;
