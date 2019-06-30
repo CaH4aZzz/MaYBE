@@ -30,7 +30,7 @@ public class DeskService {
     }
 
     public List<Desk> findAll() {
-        if (deskRepository.findDeskById(1L) != null) {
+        if (!deskRepository.findAll().isEmpty()) {
             return deskRepository.findAll();
         } else {
             throw new EntityNotFoundException("Can not find any desk");

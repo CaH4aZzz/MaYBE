@@ -7,6 +7,7 @@ import com.maybe.maybe.entity.enums.converter.MeasureConverter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,8 +26,8 @@ public class Component extends AbstractEntity {
     @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
     private BigDecimal quantity;
 
-    @Column(name = "price", nullable = false, scale = 12, precision = 2)
-    private BigDecimal price;
+    @Column(name = "total", nullable = false, scale = 12, precision = 2)
+    private BigDecimal total;
 
     @OneToMany(mappedBy = "component")
     @JsonBackReference
@@ -68,12 +69,12 @@ public class Component extends AbstractEntity {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     public Set<InvoiceItem> getInvoiceItems() {
@@ -82,5 +83,9 @@ public class Component extends AbstractEntity {
 
     public void setInvoiceItems(Set<InvoiceItem> invoiceItems) {
         this.invoiceItems = invoiceItems;
+    }
+
+    public BigDecimal getAveragePrice() {
+        return this.total.divide(quantity, 2, RoundingMode.FLOOR);
     }
 }

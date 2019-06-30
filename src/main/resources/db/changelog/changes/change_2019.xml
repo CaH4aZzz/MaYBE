@@ -324,4 +324,29 @@
                                columnDataType="decimal(12,2)"/>
     </changeSet>
 
+    <changeSet id="MAYBE-48_rename_column_price_to_total" author="Mykyta Amelin">
+        <renameColumn tableName="component" oldColumnName="price" newColumnName="total"/>
+    </changeSet>
+
+    <changeSet id="maybe_31_add_default_value_of_column_version_for_each_table" author="Yurii Vislobodskyi">
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="employee"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="desk"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="product"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="component"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="component_product"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="invoice"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="orders"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="invoice_item"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="order_item"/>
+    </changeSet>
+
 </databaseChangeLog>

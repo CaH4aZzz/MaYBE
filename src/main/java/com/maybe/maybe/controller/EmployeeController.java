@@ -1,14 +1,14 @@
 package com.maybe.maybe.controller;
 
-import com.maybe.maybe.dto.EmployeeRequest;
+import com.maybe.maybe.dto.EmployeeDTO;
 import com.maybe.maybe.entity.Employee;
 import com.maybe.maybe.service.EmployeeService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -24,26 +24,32 @@ public class EmployeeController {
     @GetMapping("/employees/{id}")
     public ResponseEntity<Employee> getEmployById(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(employeeService.getEmployeeById(id));
+                .body(employeeService.findById(id));
     }
 
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getEmployeeList(){
+    public ResponseEntity<List<Employee>> getEmployeeList() {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(employeeService.getEmployeeList());
+                .body(employeeService.findAll());
     }
 
-    @PostMapping("/employee")
-    private ResponseEntity<Employee> createEmployee(@Valid @RequestBody EmployeeRequest employeeRequest){
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(employeeService.createEmployee(employeeRequest));
+    @PostMapping("/employees")
+    private ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(employeeService.createFromDTO(employeeDTO));
     }
 
     @PutMapping("/employees/{id}")
-    public ResponseEntity<Employee> updateEmployeeById(@PathVariable Long id,
-                                                   @RequestBody EmployeeRequest employeeRequest){
+    public ResponseEntity<Employee> updateEmployeeById(@PathVariable("id") Long id,
+                                                       @RequestBody EmployeeDTO employeeDTO) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(employeeService.updateEmployeeById(id,employeeRequest));
+                .body(employeeService.updateById(id, employeeDTO));
+    }
+
+    @DeleteMapping("/employees/{id}")
+    public ResponseEntity<Employee> deleteEmployeeById(@PathVariable @Min(1) Long id) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(employeeService.deleteById(id));
     }
 
 }
