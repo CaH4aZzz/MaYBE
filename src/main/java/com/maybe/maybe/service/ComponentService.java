@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class ComponentService {
@@ -49,5 +51,18 @@ public class ComponentService {
     public Component findById(Long id) {
         return componentRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Could not find component id=" + id));
+    }
+
+    public Component increaseComponentBalance(Long componentId, BigDecimal quantity,
+                                              BigDecimal total) {
+        Component component = findById(componentId);
+        BigDecimal componentQuantity = component.getQuantity();
+        BigDecimal componentTotal = component.getTotal();
+        BigDecimal newQuantity = componentQuantity.add(quantity);
+        BigDecimal newTotal = ((componentQuantity.multiply(componentTotal))
+                .add(quantity.multiply(total))).divide(newQuantity, 2, RoundingMode.FLOOR);
+        component.setQuantity(newQuantity);
+        component.setTotal(newTotal);
+        return componentRepository.save(component);
     }
 }
