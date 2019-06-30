@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,18 +17,20 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ComponentServiceTest {
 
     @InjectMocks
+    @Spy
     private ComponentService componentService;
     @Mock
     private ComponentRepository componentRepository;
@@ -124,5 +128,31 @@ public class ComponentServiceTest {
 
         //WHEN
         componentService.findById(componentId);
+    }
+
+    @Test
+    public void increaseComponentBalanceTest() {
+        // given
+        Component component = new Component();
+        component.setId(1L);
+        component.setQuantity(BigDecimal.valueOf(10));
+        component.setTotal(BigDecimal.valueOf(30));
+
+        Long componentId = component.getId();
+        BigDecimal quantity = BigDecimal.valueOf(5);
+        BigDecimal total = BigDecimal.valueOf(40);
+
+        Mockito.doReturn(component).when(componentService).findById(componentId);
+        when(componentRepository.save(component))
+                .thenReturn(component);
+
+        // when
+        Component actualComponent =  componentService.increaseComponentBalance(componentId,
+                quantity, total);
+
+        // then
+        assertEquals(BigDecimal.valueOf(15), actualComponent.getQuantity());
+        assertEquals(BigDecimal.valueOf(33.33), actualComponent.getTotal());
+        verify(componentRepository, times(1)).save(actualComponent);
     }
 }
