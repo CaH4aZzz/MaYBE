@@ -1,6 +1,7 @@
 package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.OrderDTO;
+import com.maybe.maybe.entity.Invoice;
 import com.maybe.maybe.entity.Order;
 import com.maybe.maybe.repository.OrderRepository;
 import org.springframework.data.domain.Page;
@@ -9,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.HashSet;
 
 @Service
 public class OrderService {
@@ -45,20 +44,21 @@ public class OrderService {
 
         Order order = new Order();
 
+        Invoice orderInvoice = invoiceService.createInvoiceForOrder(orderDTO);
+
         order.setDesk(deskService.findById(orderDTO.getDeskId()));
         order.setEmployee(employeeService.findById(orderDTO.getEmployeeId()));
-        order.setInvoice(invoiceService.findById(orderDTO.getInvoiceId()));
 
-        order.setDateCreated(LocalDateTime.now());
+        order.setInvoice(orderInvoice);
+        order.setDateCreated(orderInvoice.getDateCreated());
 
         order.setTotal(new BigDecimal(0));
-        order.setOrderItems(new HashSet<>());
 
         return orderRepository.save(order);
     }
 
     public Order updateFromDTO(OrderDTO orderDTO, Long id){
-        Order order = new Order();
+        Order order = orderRepository.getOne(id);
         order.setDesk(deskService.findById(orderDTO.getDeskId()));
         order.setEmployee(employeeService.findById(orderDTO.getEmployeeId()));
         order.setInvoice(invoiceService.findById(orderDTO.getInvoiceId()));
@@ -82,6 +82,8 @@ public class OrderService {
 
         orderDTO.setTotal(order.getTotal());
 
+        orderDTO.setId(order.getId());
+
         return orderDTO;
     }
 
@@ -92,4 +94,5 @@ public class OrderService {
     public void deleteOrderById(Long orderId) {
         orderRepository.deleteById(orderId);
     }
+
 }

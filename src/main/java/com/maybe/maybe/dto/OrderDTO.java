@@ -10,6 +10,8 @@ import java.util.Set;
 
 public class OrderDTO {
 
+    private Long id;
+
     private LocalDateTime dateCreated;
 
     @NotNull
@@ -26,8 +28,6 @@ public class OrderDTO {
     @Digits(integer = 12, fraction = 2)
     private BigDecimal total;
 
-    @NotNull
-    @Min(1)
     private Long invoiceId;
 
     private Set<OrderItemDTO> orderItemDTOS;
@@ -86,5 +86,13 @@ public class OrderDTO {
 
     public void setOrderItemDTOS(Set<OrderItemDTO> orderItemDTOS) {
         this.orderItemDTOS = orderItemDTOS;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

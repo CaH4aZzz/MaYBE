@@ -1,9 +1,9 @@
 package com.maybe.maybe.service;
 
+import com.maybe.maybe.dto.OrderDTO;
 import com.maybe.maybe.dto.OrderItemDTO;
-import com.maybe.maybe.entity.Order;
-import com.maybe.maybe.entity.OrderItem;
-import com.maybe.maybe.entity.Product;
+import com.maybe.maybe.entity.*;
+import com.maybe.maybe.repository.InvoiceItemRepository;
 import com.maybe.maybe.repository.OrderItemRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,15 +23,19 @@ public class OrderItemService {
     private OrderItemRepository orderItemRepository;
     private OrderService orderService;
     private ProductService productService;
+    private InvoiceItemRepository invoiceItemRepository;
 
     public OrderItemService(
             OrderItemRepository orderItemRepository,
             OrderService orderService,
-            ProductService productService
+            ProductService productService,
+            InvoiceItemRepository invoiceItemRepository
+
     ) {
         this.orderItemRepository = orderItemRepository;
         this.orderService = orderService;
         this.productService = productService;
+        this.invoiceItemRepository = invoiceItemRepository;
     }
 
     public Page<OrderItem> findAllByOrderId(Long orderId, Pageable pageable) {
@@ -48,8 +52,10 @@ public class OrderItemService {
     }
 
     public OrderItem createFromDTO(OrderItemDTO orderItemDTO, Long orderId) {
+        Order order = orderService.getOrderById(orderId);
+
         OrderItem orderItem = new OrderItem();
-        orderItem.setOrder(orderService.getOrderById(orderId));
+        orderItem.setOrder(order);
 
         return getOrderItemAndUpdateOrderTotal(orderItem, orderItemDTO);
     }
@@ -57,7 +63,28 @@ public class OrderItemService {
     public OrderItem updateFromDTO(OrderItem orderItem, OrderItemDTO orderItemDTO) {
 
         orderItem.setOrder(orderService.getOrderById(orderItemDTO.getOrderId()));
-        return getOrderItemAndUpdateOrderTotal(orderItem, orderItemDTO);
+        return updateOrderItemAndUpdateOrderTotal(orderItem, orderItemDTO);
+    }
+
+    private OrderItem updateOrderItemAndUpdateOrderTotal(OrderItem orderItem, OrderItemDTO orderItemDTO){
+        Order order = orderItem.getOrder();
+
+        Product productFromOrderItemDTO = productService.findById(orderItemDTO.getProductId());
+
+        BigDecimal tempTotal = order.getTotal().subtract(orderItem.getPrice());
+
+        BigDecimal priceFromOrderItemDTO = productFromOrderItemDTO.getPrice().multiply(orderItemDTO.getQuantity());
+
+        order.setTotal(tempTotal.add(priceFromOrderItemDTO));
+
+        orderService.save(order);
+
+        orderItem.setProduct(productFromOrderItemDTO);
+        orderItem.setQuantity(orderItemDTO.getQuantity());
+        orderItem.setPrice(priceFromOrderItemDTO);
+
+        return orderItemRepository.save(orderItem);
+
     }
 
     private OrderItem getOrderItemAndUpdateOrderTotal(OrderItem orderItem, OrderItemDTO orderItemDTO) {
@@ -77,9 +104,23 @@ public class OrderItemService {
         BigDecimal total = order.getTotal().add(price);
         order.setTotal(total);
 
+        setComponentProductsIntoInvoiceItem(product.getComponentProducts(), order);
+
         orderService.save(order);
 
         return orderItemRepository.save(orderItem);
+    }
+
+    private void setComponentProductsIntoInvoiceItem(Set<ComponentProduct> componentProducts, Order order){
+        componentProducts.forEach(componentProduct -> {
+            InvoiceItem invoiceItem = new InvoiceItem();
+            invoiceItem.setInvoice(order.getInvoice());
+            invoiceItem.setComponent(componentProduct.getComponent());
+            invoiceItem.setQuantity(componentProduct.getQuantity());
+            //I think the price calculate incorrect. Can you explain me, how I should do this?
+            invoiceItem.setPrice(componentProduct.getComponent().getAveragePrice());
+            invoiceItemRepository.save(invoiceItem);
+        });
     }
 
     public OrderItemDTO getOrderItemDTOResp(OrderItem orderItem) {
@@ -113,8 +154,19 @@ public class OrderItemService {
         return new PageImpl<>(orderItemDTOSList);
     }
 
-    public void deleteItemOrderById(Long id) {
-        orderItemRepository.deleteById(id);
+    public void deleteOrderItemById(Long id) {
+
+        OrderItem orderItemForDelete = orderItemRepository.getOrderItemById(id);
+
+        Order order = orderService.getOrderById(orderItemForDelete.getOrder().getId());
+
+        BigDecimal newTotal = order.getTotal().subtract(orderItemForDelete.getPrice());
+
+        order.setTotal(newTotal);
+
+        orderService.save(order);
+
+        orderItemRepository.delete(orderItemForDelete);
     }
 
     public Set<OrderItemDTO> getOrderItemDTOSet(Order order) {
@@ -124,4 +176,17 @@ public class OrderItemService {
         return orderItemDTOSet;
     }
 
+    public Page<OrderDTO> getOrderDTOPage(Page<Order> orderPage) {
+
+        List<Order> orderList = orderPage.getContent();
+
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+
+        IntStream.range(0, orderList.size()).forEach(i -> {
+            Order order = orderList.get(i);
+            orderDTOList.add(orderService.getOrderDTOResp(order));
+            orderDTOList.get(i).setOrderItemDTOS(getOrderItemDTOSet(order));
+        });
+        return new PageImpl<>(orderDTOList);
+    }
 }
