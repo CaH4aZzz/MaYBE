@@ -6,7 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-public class ComponentDTO implements Serializable{
+public class ComponentDTO implements Serializable {
 
     @NotEmpty
     private String name;
