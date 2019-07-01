@@ -5,7 +5,6 @@ import com.maybe.maybe.entity.Order;
 import com.maybe.maybe.service.OrderItemService;
 import com.maybe.maybe.service.OrderService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -14,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/api")

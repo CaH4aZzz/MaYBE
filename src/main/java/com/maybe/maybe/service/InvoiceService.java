@@ -72,7 +72,7 @@ public class InvoiceService {
         invoice.setDateCreated(LocalDateTime.now());
         invoice.setEmployee(employeeService.findById(orderDTO.getEmployeeId()));
         invoice.setInvoiceType(InvoiceType.ORDER);
-        invoice.setName("New_order_invoice_" + orderDTO.getEmployeeId());
+        invoice.setName("order_invoice_" + orderDTO.getEmployeeId());
         return invoiceRepository.save(invoice);
     }
 }

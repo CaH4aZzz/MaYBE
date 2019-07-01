@@ -4,7 +4,6 @@ import com.maybe.maybe.dto.OrderDTO;
 import com.maybe.maybe.dto.OrderItemDTO;
 import com.maybe.maybe.entity.*;
 import com.maybe.maybe.repository.InvoiceItemRepository;
-import com.maybe.maybe.repository.InvoiceRepository;
 import com.maybe.maybe.repository.OrderItemRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -119,7 +118,7 @@ public class OrderItemService {
             invoiceItem.setComponent(componentProduct.getComponent());
             invoiceItem.setQuantity(componentProduct.getQuantity());
             //I think the price calculate incorrect. Can you explain me, how I should do this?
-            invoiceItem.setPrice(componentProduct.getProduct().getPrice().multiply(componentProduct.getQuantity()));
+            invoiceItem.setPrice(componentProduct.getComponent().getAveragePrice());
             invoiceItemRepository.save(invoiceItem);
         });
     }
@@ -190,5 +189,4 @@ public class OrderItemService {
         });
         return new PageImpl<>(orderDTOList);
     }
-
 }
