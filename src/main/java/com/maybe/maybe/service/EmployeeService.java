@@ -28,7 +28,7 @@ public class EmployeeService {
     }
 
     public List<Employee> findAll() {
-        if (!employeeRepository.findAll().isEmpty()) {
+        if (employeeRepository.findEmployeeById(1L) != null) {
             return employeeRepository.findAll();
         } else {
             throw new EntityNotFoundException("Can not find any employee");

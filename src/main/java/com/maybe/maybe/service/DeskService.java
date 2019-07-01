@@ -23,14 +23,13 @@ public class DeskService {
     public Desk findById(Long id) {
         if (deskRepository.findDeskById(id) != null) {
             return deskRepository.findDeskById(id);
-
         } else {
             throw new EntityNotFoundException("Can not find desk by id = " + id);
         }
     }
 
     public List<Desk> findAll() {
-        if (!deskRepository.findAll().isEmpty()) {
+        if (deskRepository.findDeskById(1L) != null) {
             return deskRepository.findAll();
         } else {
             throw new EntityNotFoundException("Can not find any desk");
@@ -58,7 +57,7 @@ public class DeskService {
         }
     }
 
-    public List<Desk> getDesksByState(DeskState state){
+    public List<Desk> findAllByState(DeskState state){
         List<Desk> desks = deskRepository.findAllByDeskState(state);
         if(!desks.isEmpty()) {
             return desks;
