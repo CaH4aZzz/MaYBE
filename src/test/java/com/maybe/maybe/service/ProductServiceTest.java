@@ -81,8 +81,6 @@ public class ProductServiceTest {
         when(productRepository.findById(id)).thenReturn(Optional.of(expected));
         Product actual = productService.findById(id);
 
-        System.out.println(expected.toString() + "\n" + actual.toString());
-
         assertEquals(expected, actual);
     }
 
