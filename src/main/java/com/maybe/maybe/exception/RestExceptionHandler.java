@@ -54,6 +54,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    @ExceptionHandler(NotEnoughComponentException.class)
+    protected ResponseEntity<Object> handleNotEnoughComponentException(
+            NotEnoughComponentException ex) {
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT, ex.getMessage(),ex.getLocalizedMessage());
+        return buildResponseEntity(apiError);
+    }
+
+
     private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
         return new ResponseEntity<>(apiError, apiError.getStatus());
     }

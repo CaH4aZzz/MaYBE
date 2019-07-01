@@ -3,6 +3,7 @@ package com.maybe.maybe.service;
 import com.maybe.maybe.dto.ComponentDTO;
 import com.maybe.maybe.entity.Component;
 import com.maybe.maybe.entity.enums.Measure;
+import com.maybe.maybe.exception.NotEnoughComponentException;
 import com.maybe.maybe.exception.UnmodifiedEntityException;
 import com.maybe.maybe.repository.ComponentRepository;
 import org.junit.Test;
@@ -179,7 +180,7 @@ public class ComponentServiceTest {
         componentService.decreaseComponentBalance(1L, BigDecimal.valueOf(5));
     }
 
-    @Test(expected = UnmodifiedEntityException.class)
+    @Test(expected = NotEnoughComponentException.class)
     public void whenComponentQuantityLessThenSubtrahendQuantity_thenThrownException() {
         Component component = new Component();
         component.setQuantity(BigDecimal.valueOf(5));

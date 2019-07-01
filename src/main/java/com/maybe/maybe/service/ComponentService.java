@@ -2,7 +2,7 @@ package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.ComponentDTO;
 import com.maybe.maybe.entity.Component;
-import com.maybe.maybe.exception.UnmodifiedEntityException;
+import com.maybe.maybe.exception.NotEnoughComponentException;
 import com.maybe.maybe.repository.ComponentRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -78,7 +78,7 @@ public class ComponentService {
 
         Component component = componentFromDb.get();
         if (component.getQuantity().compareTo(quantity) < 0) {
-            throw new UnmodifiedEntityException("Not enough components");
+            throw new NotEnoughComponentException("Not enough components with name " + component.getName());
         }
 
         component.setQuantity(component.getQuantity().subtract(quantity));
