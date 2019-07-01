@@ -48,4 +48,11 @@ public class StatisticsController {
     ) {
         return statisticsService.getProductReport(dateFrom, dateTo);
     }
+
+    @GetMapping("/employee-report")
+    public List getEmployeeReportDTO(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo) {
+        return statisticsService.getEmployeeReport(dateFrom, dateTo);
+    }
 }

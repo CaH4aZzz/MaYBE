@@ -1,6 +1,7 @@
 package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.ComponentReportDTO;
+import com.maybe.maybe.dto.EmployeeReportDTO;
 import com.maybe.maybe.dto.ProductReportDTO;
 import com.maybe.maybe.dto.SummaryDTO;
 import com.maybe.maybe.repository.InvoiceItemRepository;
@@ -44,6 +45,10 @@ public class StatisticsService {
         return orderItemRepository.getProductReport(getDateFrom(dateFrom), getDateTo(dateTo));
     }
 
+    public List<EmployeeReportDTO> getEmployeeReport(LocalDate dateFrom, LocalDate dateTo) {
+        return orderRepository.getEmployeeReport(getDateFrom(dateFrom), getDateTo(dateTo));
+    }
+
     private LocalDateTime getDateFrom(LocalDate date) {
         if (Objects.isNull(date)) {
             return LocalDateTime.of(LocalDate.now().withDayOfMonth(FIRST_DAY), LocalTime.MIN);
@@ -52,7 +57,6 @@ public class StatisticsService {
 
     private LocalDateTime getDateTo(LocalDate date) {
         if (Objects.isNull(date)) {
-            System.out.println(LocalDate.now());
             return LocalDateTime.now();
         } else return LocalDateTime.of(date, LocalTime.MAX);
     }
