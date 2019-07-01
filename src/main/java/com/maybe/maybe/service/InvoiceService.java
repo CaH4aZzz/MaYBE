@@ -1,6 +1,7 @@
 package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.InvoiceDTO;
+import com.maybe.maybe.dto.OrderDTO;
 import com.maybe.maybe.entity.Invoice;
 import com.maybe.maybe.entity.enums.InvoiceType;
 import com.maybe.maybe.entity.enums.converter.InvoiceTypeConverter;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 
 @Service
 public class InvoiceService {
@@ -63,5 +65,14 @@ public class InvoiceService {
             throw new UnmodifiedEntityException("Could not modified ordered invoice id=" +
                     invoice.getId());
         }
+    }
+
+    public Invoice createInvoiceForOrder(OrderDTO orderDTO){
+        Invoice invoice = new Invoice();
+        invoice.setDateCreated(LocalDateTime.now());
+        invoice.setEmployee(employeeService.findById(orderDTO.getEmployeeId()));
+        invoice.setInvoiceType(InvoiceType.ORDER);
+        invoice.setName("order_invoice_" + orderDTO.getEmployeeId());
+        return invoiceRepository.save(invoice);
     }
 }

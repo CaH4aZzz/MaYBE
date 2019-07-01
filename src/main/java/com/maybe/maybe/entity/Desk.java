@@ -15,8 +15,6 @@ public class Desk extends AbstractEntity {
     @Column(name = "name", nullable = false)
     private String name;
 
-
-
     @NotNull
     @Convert(converter = DeskStateConverter.class)
     @Column(name = "desk_state_id", nullable = false)
