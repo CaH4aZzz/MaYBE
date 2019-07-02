@@ -89,15 +89,12 @@ public class InvoiceItemServiceTest {
     }
 
     @Test
-    public void deleteById() {
-        // given
-        Long id = invoiceItem1.getId();
-
+    public void delete() {
         // when
-        manager.deleteById(id);
+        manager.delete(invoiceItem1);
 
         // then
-        verify(invoiceItemRepository, times(1)).deleteById(id);
+        verify(invoiceItemRepository, times(1)).delete(invoiceItem1);
     }
 
     @Test

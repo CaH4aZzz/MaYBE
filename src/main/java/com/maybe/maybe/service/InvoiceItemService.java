@@ -28,8 +28,9 @@ public class InvoiceItemService {
                 .orElseThrow(() -> new EntityNotFoundException("Could not find invoice item id=" + id));
     }
 
-    public void deleteById(Long id) {
-        invoiceItemRepository.deleteById(id);
+    public void delete(InvoiceItem invoiceItem) {
+        invoiceService.validateUnmodifiedInvoice(invoiceItem.getInvoice());
+        invoiceItemRepository.delete(invoiceItem);
     }
 
     public Page<InvoiceItem> findAllByInvoice_Id(Long invoiceId, Pageable pageable) {
@@ -43,10 +44,10 @@ public class InvoiceItemService {
     }
 
     public InvoiceItem updateFromDTO(InvoiceItem invoiceItem, InvoiceItemDTO invoiceItemDTO) {
+        invoiceService.validateUnmodifiedInvoice(invoiceItem.getInvoice());
         invoiceItem.setPrice(invoiceItemDTO.getPrice());
         invoiceItem.setQuantity(invoiceItemDTO.getQuantity());
         invoiceItem.setComponent(componentService.findById(invoiceItemDTO.getComponentId()));
-        invoiceService.validateUnmodifiedInvoice(invoiceItem.getInvoice());
         return invoiceItemRepository.save(invoiceItem);
     }
 }

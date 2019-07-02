@@ -43,7 +43,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UnmodifiedEntityException.class)
     protected ResponseEntity<Object> handleUnmodifiedEntity(
             UnmodifiedEntityException ex) {
-        ApiError apiError = new ApiError(HttpStatus.NOT_MODIFIED, ex.getMessage(), ex.getLocalizedMessage());
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT, ex.getMessage(), ex.getLocalizedMessage());
         return buildResponseEntity(apiError);
     }
 
