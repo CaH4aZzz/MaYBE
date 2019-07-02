@@ -63,7 +63,7 @@ public class InvoiceController {
     public ResponseEntity<Invoice> deleteInvoice(
             @PathVariable("invoiceId") @Min(1) Long invoiceId) {
         Invoice invoice = invoiceService.findById(invoiceId);
-        invoiceService.deleteById(invoiceId);
+        invoiceService.delete(invoice);
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
 }

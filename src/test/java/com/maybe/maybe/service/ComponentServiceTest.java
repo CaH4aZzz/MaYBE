@@ -4,7 +4,6 @@ import com.maybe.maybe.dto.ComponentDTO;
 import com.maybe.maybe.entity.Component;
 import com.maybe.maybe.entity.enums.Measure;
 import com.maybe.maybe.exception.NotEnoughComponentException;
-import com.maybe.maybe.exception.UnmodifiedEntityException;
 import com.maybe.maybe.repository.ComponentRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -156,6 +155,25 @@ public class ComponentServiceTest {
         assertEquals(BigDecimal.valueOf(15), actualComponent.getQuantity());
         assertEquals(BigDecimal.valueOf(33.33), actualComponent.getTotal());
         verify(componentRepository, times(1)).save(actualComponent);
+    }
+
+    @Test(expected = NotEnoughComponentException.class)
+    public void increaseComponentBalanceWhenNegativeQuantityTest() {
+        // given
+        Component component = new Component();
+        component.setId(1L);
+        component.setQuantity(BigDecimal.valueOf(10));
+        component.setTotal(BigDecimal.valueOf(30));
+
+        Long componentId = component.getId();
+        BigDecimal quantity = BigDecimal.valueOf(-11);
+        BigDecimal total = BigDecimal.valueOf(-40);
+
+        Mockito.doReturn(component).when(componentService).findById(componentId);
+
+        // when
+        componentService.increaseComponentBalance(componentId,
+                quantity, total);
     }
 
     @Test

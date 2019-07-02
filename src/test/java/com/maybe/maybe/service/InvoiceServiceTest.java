@@ -94,15 +94,12 @@ public class InvoiceServiceTest {
     }
 
     @Test
-    public void deleteById() {
-        // given
-        Long id = invoice1.getId();
-
+    public void delete() {
         // when
-        manager.deleteById(id);
+        manager.delete(invoice1);
 
         // then
-        verify(invoiceRepository, times(1)).deleteById(id);
+        verify(invoiceRepository, times(1)).delete(invoice1);
     }
 
     @Test
