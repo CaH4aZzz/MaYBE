@@ -3,6 +3,8 @@ package com.maybe.maybe.service;
 import com.maybe.maybe.dto.ComponentDTO;
 import com.maybe.maybe.entity.Component;
 import com.maybe.maybe.entity.enums.Measure;
+import com.maybe.maybe.exception.NotEnoughComponentException;
+import com.maybe.maybe.exception.UnmodifiedEntityException;
 import com.maybe.maybe.repository.ComponentRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -147,12 +149,43 @@ public class ComponentServiceTest {
                 .thenReturn(component);
 
         // when
-        Component actualComponent =  componentService.increaseComponentBalance(componentId,
+        Component actualComponent = componentService.increaseComponentBalance(componentId,
                 quantity, total);
 
         // then
         assertEquals(BigDecimal.valueOf(15), actualComponent.getQuantity());
         assertEquals(BigDecimal.valueOf(33.33), actualComponent.getTotal());
         verify(componentRepository, times(1)).save(actualComponent);
+    }
+
+    @Test
+    public void decreaseComponentBalance() {
+        Component component = new Component();
+        component.setQuantity(BigDecimal.valueOf(15));
+        component.setId(1L);
+        BigDecimal subtrahendQuantity = BigDecimal.valueOf(5);
+        BigDecimal expectedQuantity = component.getQuantity().subtract(subtrahendQuantity);
+        when(componentRepository.findById(1L)).thenReturn(Optional.of(component));
+        when(componentRepository.save(component)).thenReturn(component);
+
+        component.setQuantity(componentService.decreaseComponentBalance(1L, subtrahendQuantity).getQuantity());
+
+        assertEquals(expectedQuantity, component.getQuantity());
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void whenComponentDoesNotExist_thenThrownException() {
+        when(componentRepository.findById(1L)).thenReturn(Optional.empty());
+
+        componentService.decreaseComponentBalance(1L, BigDecimal.valueOf(5));
+    }
+
+    @Test(expected = NotEnoughComponentException.class)
+    public void whenComponentQuantityLessThenSubtrahendQuantity_thenThrownException() {
+        Component component = new Component();
+        component.setQuantity(BigDecimal.valueOf(5));
+        when(componentRepository.findById(1L)).thenReturn(Optional.of(component));
+
+        componentService.decreaseComponentBalance(1L, BigDecimal.valueOf(6));
     }
 }

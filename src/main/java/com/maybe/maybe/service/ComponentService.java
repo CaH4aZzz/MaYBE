@@ -2,6 +2,7 @@ package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.ComponentDTO;
 import com.maybe.maybe.entity.Component;
+import com.maybe.maybe.exception.NotEnoughComponentException;
 import com.maybe.maybe.repository.ComponentRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Optional;
 
 @Service
 public class ComponentService {
@@ -63,6 +65,22 @@ public class ComponentService {
                 .divide(newQuantity, 2, RoundingMode.FLOOR);
         component.setQuantity(newQuantity);
         component.setTotal(newTotal);
+        return componentRepository.save(component);
+    }
+
+    public Component decreaseComponentBalance(Long componentId, BigDecimal quantity) {
+        Optional<Component> componentFromDb = componentRepository.findById(componentId);
+
+        if (!componentFromDb.isPresent()) {
+            throw new EntityNotFoundException("Can not found component with id: " + componentId);
+        }
+
+        Component component = componentFromDb.get();
+        if (component.getQuantity().compareTo(quantity) < 0) {
+            throw new NotEnoughComponentException("Not enough components with name " + component.getName());
+        }
+
+        component.setQuantity(component.getQuantity().subtract(quantity));
         return componentRepository.save(component);
     }
 }

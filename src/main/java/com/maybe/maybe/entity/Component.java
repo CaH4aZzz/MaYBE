@@ -1,6 +1,7 @@
 package com.maybe.maybe.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.maybe.maybe.entity.enums.Measure;
 import com.maybe.maybe.entity.enums.converter.MeasureConverter;
 
@@ -85,6 +86,7 @@ public class Component extends AbstractEntity {
         this.invoiceItems = invoiceItems;
     }
 
+    @JsonIgnore
     public BigDecimal getAveragePrice() {
         return this.total.divide(quantity, 2, RoundingMode.FLOOR);
     }
