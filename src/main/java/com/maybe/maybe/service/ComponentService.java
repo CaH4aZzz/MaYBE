@@ -60,6 +60,9 @@ public class ComponentService {
         BigDecimal componentQuantity = component.getQuantity();
         BigDecimal componentTotal = component.getTotal();
         BigDecimal newQuantity = componentQuantity.add(quantity);
+        if (newQuantity.compareTo(BigDecimal.ZERO) < 0) {
+            throw new NotEnoughComponentException("Not enough component " + component.getName());
+        }
         BigDecimal newTotal = (componentQuantity.multiply(componentTotal)
                 .add(quantity.multiply(total)))
                 .divide(newQuantity, 2, RoundingMode.FLOOR);
