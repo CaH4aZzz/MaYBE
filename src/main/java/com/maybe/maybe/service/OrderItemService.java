@@ -24,18 +24,21 @@ public class OrderItemService {
     private OrderService orderService;
     private ProductService productService;
     private InvoiceItemRepository invoiceItemRepository;
+    private ComponentService componentService;
 
     public OrderItemService(
             OrderItemRepository orderItemRepository,
             OrderService orderService,
             ProductService productService,
-            InvoiceItemRepository invoiceItemRepository
+            InvoiceItemRepository invoiceItemRepository,
+            ComponentService componentService
 
     ) {
         this.orderItemRepository = orderItemRepository;
         this.orderService = orderService;
         this.productService = productService;
         this.invoiceItemRepository = invoiceItemRepository;
+        this.componentService = componentService;
     }
 
     public Page<OrderItem> findAllByOrderId(Long orderId, Pageable pageable) {
@@ -66,7 +69,7 @@ public class OrderItemService {
         return updateOrderItemAndUpdateOrderTotal(orderItem, orderItemDTO);
     }
 
-    private OrderItem updateOrderItemAndUpdateOrderTotal(OrderItem orderItem, OrderItemDTO orderItemDTO){
+    private OrderItem updateOrderItemAndUpdateOrderTotal(OrderItem orderItem, OrderItemDTO orderItemDTO) {
         Order order = orderItem.getOrder();
 
         Product productFromOrderItemDTO = productService.findById(orderItemDTO.getProductId());
@@ -104,19 +107,20 @@ public class OrderItemService {
         BigDecimal total = order.getTotal().add(price);
         order.setTotal(total);
 
-        setComponentProductsIntoInvoiceItem(product.getComponentProducts(), order);
+        setComponentProductsIntoInvoiceItem(product.getComponentProducts(), order, orderItem);
 
         orderService.save(order);
 
         return orderItemRepository.save(orderItem);
     }
 
-    private void setComponentProductsIntoInvoiceItem(Set<ComponentProduct> componentProducts, Order order){
+    private void setComponentProductsIntoInvoiceItem(Set<ComponentProduct> componentProducts, Order order, OrderItem orderItem) {
         componentProducts.forEach(componentProduct -> {
             InvoiceItem invoiceItem = new InvoiceItem();
             invoiceItem.setInvoice(order.getInvoice());
             invoiceItem.setComponent(componentProduct.getComponent());
-            invoiceItem.setQuantity(componentProduct.getQuantity());
+            componentService.decreaseComponentBalance(componentProduct.getComponent().getId(), componentProduct.getQuantity().multiply(orderItem.getQuantity()));
+            invoiceItem.setQuantity(componentProduct.getQuantity().multiply(orderItem.getQuantity()));
             //I think the price calculate incorrect. Can you explain me, how I should do this?
             invoiceItem.setPrice(componentProduct.getComponent().getAveragePrice());
             invoiceItemRepository.save(invoiceItem);
@@ -163,6 +167,13 @@ public class OrderItemService {
         BigDecimal newTotal = order.getTotal().subtract(orderItemForDelete.getPrice());
 
         order.setTotal(newTotal);
+
+        orderItemForDelete.getProduct().getComponentProducts().stream().
+                forEach(componentProduct ->
+                        componentService.increaseComponentBalance(componentProduct.getComponent().getId(),
+                                orderItemForDelete.getQuantity().multiply(componentProduct.getQuantity()),
+                                componentProduct.getComponent().getTotal()
+                                ));
 
         orderService.save(order);
 
