@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
@@ -28,9 +29,13 @@ public class OrderItemServiceTest {
     @Mock
     private OrderItemRepository orderItemRepository;
 
+    @Mock
+    private OrderService orderService;
+
     private Product product;
     private Order order;
     private OrderItem orderItem;
+    private OrderItemDTO orderItemDTO;
 
     @Before
     public void setUp() {
@@ -41,6 +46,8 @@ public class OrderItemServiceTest {
 
         order = mock(Order.class);
         when(order.getId()).thenReturn(1L);
+
+        orderItemDTO = mock(OrderItemDTO.class);
 
         orderItem = new OrderItem();
         orderItem.setId(1L);
@@ -61,4 +68,31 @@ public class OrderItemServiceTest {
         assertEquals(orderItem.getQuantity(), orderItemDTO.getQuantity());
         assertEquals(orderItem.getPrice(), orderItemDTO.getPrice());
     }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void getOrderItemByIdTest_when_entity_not_exist_then_EntityNotFountException() {
+        // given
+        long orderItemId = 1L;
+
+        // when
+        when(orderItemRepository.getOrderItemById(orderItemId)).thenReturn(null);
+
+        // then
+        orderItemService.getOrderItemById(orderItemId);
+    }
+
+    @Test
+    public void getOrderItemByIdTest_when_entity_exist_then_return_it() {
+        // given
+        long orderItemId = 1L;
+
+        // when
+        when(orderItemRepository.getOrderItemById(orderItemId)).thenReturn(orderItem);
+        OrderItem actual = orderItemService.getOrderItemById(orderItemId);
+
+        // then
+        assertEquals(orderItem, actual);
+    }
+
+
 }
