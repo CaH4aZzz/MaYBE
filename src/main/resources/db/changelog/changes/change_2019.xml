@@ -348,5 +348,32 @@
         <addDefaultValue columnDataType="bigint" columnName="version"
                          defaultValueNumeric="0" tableName="order_item"/>
     </changeSet>
+    
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_component" author="Ivan Denysenko">
+        <modifyDataType tableName="component" columnName="quantity" newDataType="decimal(15,5)"/>
+        <modifyDataType tableName="component" columnName="total" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_product" author="Ivan Denysenko">
+        <modifyDataType tableName="product" columnName="price" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_component_product" author="Ivan Denysenko">
+        <modifyDataType tableName="component_product" columnName="quantity" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_orders" author="Ivan Denysenko">
+        <modifyDataType tableName="orders" columnName="total" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_invoice_item" author="Ivan Denysenko">
+        <modifyDataType tableName="invoice_item" columnName="quantity" newDataType="decimal(15,5)"/>
+        <modifyDataType tableName="invoice_item" columnName="price" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_order_item" author="Ivan Denysenko">
+        <modifyDataType tableName="order_item" columnName="quantity" newDataType="decimal(15,5)"/>
+        <modifyDataType tableName="order_item" columnName="price" newDataType="decimal(15,5)"/>
+    </changeSet>
 
 </databaseChangeLog>

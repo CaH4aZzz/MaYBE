@@ -23,7 +23,7 @@ public class ComponentProduct extends AbstractEntity {
     private Component component;
 
     @NotNull
-    @Column(name = "quantity", nullable = false, scale = 12, precision = 2)
+    @Column(name = "quantity", nullable = false, scale = 12, precision = 5)
     private BigDecimal quantity;
 
     public Product getProduct() {

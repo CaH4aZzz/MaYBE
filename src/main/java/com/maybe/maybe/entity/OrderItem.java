@@ -22,11 +22,11 @@ public class OrderItem extends AbstractEntity {
     private Product product;
 
     @NotNull
-    @Column(name = "price", nullable = false, scale = 12, precision = 2)
+    @Column(name = "price", nullable = false, scale = 12, precision = 5)
     private BigDecimal price;
 
     @NotNull
-    @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
+    @Column(name = "quantity", nullable = false, scale = 15, precision = 5)
     private BigDecimal quantity;
 
 

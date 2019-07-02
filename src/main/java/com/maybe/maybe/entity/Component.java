@@ -24,10 +24,10 @@ public class Component extends AbstractEntity {
     @Column(name = "measure_id", nullable = false)
     private Measure measure;
 
-    @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
+    @Column(name = "quantity", nullable = false, scale = 15, precision = 5)
     private BigDecimal quantity;
 
-    @Column(name = "total", nullable = false, scale = 12, precision = 2)
+    @Column(name = "total", nullable = false, scale = 12, precision = 5)
     private BigDecimal total;
 
     @OneToMany(mappedBy = "component")
@@ -88,6 +88,6 @@ public class Component extends AbstractEntity {
 
     @JsonIgnore
     public BigDecimal getAveragePrice() {
-        return this.total.divide(quantity, 2, RoundingMode.FLOOR);
+        return this.total.divide(quantity, 5, RoundingMode.FLOOR);
     }
 }
