@@ -99,7 +99,6 @@ public class OrderItemServiceTest {
         long orderItemId = 1L;
         OrderItem orderItem = mock(OrderItem.class);
         Order order = mock(Order.class);
-        Order orderSpy = spy(order);
 
         // when
         when(orderItemRepository.getOrderItemById(orderItemId)).thenReturn(orderItem);
