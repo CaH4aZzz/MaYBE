@@ -17,8 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.StrictStubs.class)
 public class OrderItemServiceTest {
@@ -32,34 +31,26 @@ public class OrderItemServiceTest {
     @Mock
     private OrderService orderService;
 
-    private Product product;
-    private Order order;
-    private OrderItem orderItem;
-    private OrderItemDTO orderItemDTO;
-
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+    }
 
-        product = mock(Product.class);
-        when(product.getId()).thenReturn(1L);
-
-        order = mock(Order.class);
-        when(order.getId()).thenReturn(1L);
-
-        orderItemDTO = mock(OrderItemDTO.class);
-
-        orderItem = new OrderItem();
+    @Test
+    public void getOrderItemDTORespTest() {
+        // given
+        Product product = mock(Product.class);
+        Order order = mock(Order.class);
+        OrderItem orderItem = new OrderItem();
         orderItem.setId(1L);
         orderItem.setOrder(order);
         orderItem.setPrice(new BigDecimal(200));
         orderItem.setProduct(product);
         orderItem.setQuantity(new BigDecimal(2));
-    }
 
-    @Test
-    public void getOrderItemDTORespTest() {
         // when
+        when(product.getId()).thenReturn(1L);
+        when(order.getId()).thenReturn(1L);
         OrderItemDTO orderItemDTO = orderItemService.getOrderItemDTOResp(orderItem);
 
         // then
@@ -85,6 +76,14 @@ public class OrderItemServiceTest {
     public void getOrderItemByIdTest_when_entity_exist_then_return_it() {
         // given
         long orderItemId = 1L;
+        Product product = mock(Product.class);
+        Order order = mock(Order.class);
+        OrderItem orderItem = new OrderItem();
+        orderItem.setId(orderItemId);
+        orderItem.setOrder(order);
+        orderItem.setPrice(new BigDecimal(200));
+        orderItem.setProduct(product);
+        orderItem.setQuantity(new BigDecimal(2));
 
         // when
         when(orderItemRepository.getOrderItemById(orderItemId)).thenReturn(orderItem);
@@ -95,4 +94,29 @@ public class OrderItemServiceTest {
     }
 
 
+    @Test
+    public void deleteOrderItemByIdTest() {
+        long orderItemId = 1L;
+        OrderItem orderItem = mock(OrderItem.class);
+        Order order = mock(Order.class);
+        Order orderSpy = spy(order);
+
+        // when
+        when(orderItemRepository.getOrderItemById(orderItemId)).thenReturn(orderItem);
+        when(orderItem.getOrder()).thenReturn(order);
+        when(order.getId()).thenReturn(1L);
+        when(orderService.getOrderById(1L)).thenReturn(order);
+        when(order.getTotal()).thenReturn(new BigDecimal(100));
+        doCallRealMethod().when(order).setTotal(any());
+        when(orderItem.getPrice()).thenReturn(new BigDecimal(20));
+        doNothing().when(orderService).save(order);
+        doNothing().when(orderItemRepository).delete(orderItem);
+        orderItemService.deleteOrderItemById(orderItemId);
+        when(order.getTotal()).thenCallRealMethod();
+
+        // then
+        BigDecimal expected = new BigDecimal(80);
+        BigDecimal actual = order.getTotal();
+        assertEquals(expected, actual);
+    }
 }
