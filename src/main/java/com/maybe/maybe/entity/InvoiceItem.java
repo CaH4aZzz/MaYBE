@@ -23,11 +23,11 @@ public class InvoiceItem extends AbstractEntity {
     private Component component;
 
     @NotNull
-    @Column(name = "quantity", nullable = false, scale = 15, precision = 3)
+    @Column(name = "quantity", nullable = false, scale = 15, precision = 5)
     private BigDecimal quantity;
 
     @NotNull
-    @Column(name = "price", nullable = false, scale = 12, precision = 2)
+    @Column(name = "price", nullable = false, scale = 12, precision = 5)
     private BigDecimal price;
 
     public Invoice getInvoice() {

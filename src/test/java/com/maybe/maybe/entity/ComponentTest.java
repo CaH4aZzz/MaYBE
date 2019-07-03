@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ComponentTest {
     private Component component1;
@@ -27,8 +27,8 @@ public class ComponentTest {
         BigDecimal actual1 = component1.getAveragePrice();
         BigDecimal actual2 = component2.getAveragePrice();
 
-        assertEquals(BigDecimal.valueOf(9.99d), actual1);
-        assertEquals(BigDecimal.valueOf(333.33d), actual2);
+        assertEquals(BigDecimal.valueOf(9.99000d).setScale(5), actual1);
+        assertEquals(BigDecimal.valueOf(333.33333d).setScale(5), actual2);
 
     }
 }

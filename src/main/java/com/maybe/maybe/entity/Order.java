@@ -30,7 +30,7 @@ public class Order extends AbstractEntity {
     private LocalDateTime dateClosed;
 
     @NotNull
-    @Column(name = "total", nullable = false, scale = 12, precision = 2)
+    @Column(name = "total", nullable = false, scale = 12, precision = 5)
     private BigDecimal total;
 
     @NotNull
