@@ -54,7 +54,7 @@ public class OrderService {
 
         order.setTotal(new BigDecimal(0));
 
-        return orderRepository.save(order);
+        return save(order);
     }
 
     public Order updateFromDTO(OrderDTO orderDTO, Long id){
@@ -66,7 +66,7 @@ public class OrderService {
         if (orderDTO.getDateClosed() != null){
             order.setDateClosed(orderDTO.getDateClosed());
         }
-        return orderRepository.save(order);
+        return save(order);
     }
 
     public OrderDTO getOrderDTOResp(Order order) {
@@ -87,8 +87,8 @@ public class OrderService {
         return orderDTO;
     }
 
-    public void save(Order order) {
-        orderRepository.save(order);
+    public Order save(Order order) {
+       return orderRepository.save(order);
     }
 
     public void deleteOrderById(Long orderId) {
