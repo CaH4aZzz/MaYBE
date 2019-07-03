@@ -175,6 +175,8 @@ public class OrderItemService {
                                 componentProduct.getComponent().getTotal()
                                 ));
 
+        //todo delete invoiceItem need here
+
         orderService.save(order);
 
         orderItemRepository.delete(orderItemForDelete);
