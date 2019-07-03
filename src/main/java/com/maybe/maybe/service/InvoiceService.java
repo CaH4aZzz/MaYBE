@@ -30,8 +30,9 @@ public class InvoiceService {
                 .orElseThrow(() -> new EntityNotFoundException("Could not find invoice id=" + id));
     }
 
-    public void deleteById(Long id) {
-        invoiceRepository.deleteById(id);
+    public void delete(Invoice invoice) {
+        validateUnmodifiedInvoice(invoice);
+        invoiceRepository.delete(invoice);
     }
 
     public Page<Invoice> findAllByPeriod(LocalDateTime dateFrom, LocalDateTime dateTo, Pageable pageable) {
@@ -53,15 +54,15 @@ public class InvoiceService {
     }
 
     public Invoice updateFromDTO(Invoice invoice, InvoiceDTO invoiceDTO) {
+        validateUnmodifiedInvoice(invoice);
         invoice.setName(invoiceDTO.getName());
         invoice.setEmployee(employeeService.findById(invoiceDTO.getEmployeeId()));
         invoice.setInvoiceType(InvoiceTypeConverter.getById(invoiceDTO.getInvoiceTypeId()));
-        validateUnmodifiedInvoice(invoice);
         return invoiceRepository.save(invoice);
     }
 
     void validateUnmodifiedInvoice(Invoice invoice) {
-        if (invoice.getInvoiceType().equals(InvoiceType.ORDER)) {
+        if (InvoiceType.ORDER.equals(invoice.getInvoiceType())) {
             throw new UnmodifiedEntityException("Could not modified ordered invoice id=" +
                     invoice.getId());
         }
