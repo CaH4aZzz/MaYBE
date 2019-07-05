@@ -141,31 +141,4 @@ public class OrderItemServiceTest {
 
         verify(orderItemRepository,times(1)).delete(orderItem);
     }
-
-
-  /*  @Test
-    public void deleteOrderItemByIdTest() {
-        long orderItemId = 1L;
-        OrderItem orderItem = mock(OrderItem.class);
-        Order order = mock(Order.class);
-
-        // when
-        when(orderItemRepository.getOrderItemById(orderItemId)).thenReturn(orderItem);
-        when(orderItem.getOrder()).thenReturn(order);
-        when(order.getId()).thenReturn(1L);
-        when(orderService.getOrderById(1L)).thenReturn(order);
-        when(order.getTotal()).thenReturn(new BigDecimal(100));
-        doCallRealMethod().when(order).setTotal(any());
-        when(orderItem.getPrice()).thenReturn(new BigDecimal(20));
-        doNothing().when(orderService).save(order);
-        doNothing().when(orderItemRepository).delete(orderItem);
-        orderItemService.deleteOrderItemById(orderItemId);
-        when(order.getTotal()).thenCallRealMethod();
-
-        // then
-        BigDecimal expected = new BigDecimal(80);
-        BigDecimal actual = order.getTotal();
-        assertEquals(expected, actual);
-    }*/
-
 }
