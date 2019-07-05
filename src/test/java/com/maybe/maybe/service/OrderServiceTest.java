@@ -8,6 +8,7 @@ import com.maybe.maybe.entity.Order;
 import com.maybe.maybe.repository.OrderRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -110,23 +111,24 @@ public class OrderServiceTest {
 
         Order expectedOrder = new Order();
         expectedOrder.setId(orderDTO.getId());
-        expectedOrder.setDesk(desk);
-        expectedOrder.setInvoice(invoice);
-        expectedOrder.setEmployee(employee);
-        expectedOrder.setDateCreated(orderDTO.getDateCreated());
-        expectedOrder.setDateClosed(orderDTO.getDateCreated());
-        expectedOrder.setTotal(orderDTO.getTotal());
 
         when(deskService.findById(deskId)).thenReturn(desk);
         when(employeeService.findById(employeeId)).thenReturn(employee);
         when(invoiceService.createInvoiceForOrder(orderDTO)).thenReturn(invoice);
         when(orderRepository.save(any(Order.class))).thenReturn(expectedOrder);
 
+        ArgumentCaptor<Order> argumentCaptor = ArgumentCaptor.forClass(Order.class);
+
         //WHEN
         Order order = orderService.createFromDTO(orderDTO);
+        verify(orderRepository).save(argumentCaptor.capture());
+        Order captorValue = argumentCaptor.getValue();
 
         //THEN
         assertEquals(expectedOrder, order);
+        assertEquals(orderDTO.getDeskId(), captorValue.getDesk().getId());
+        assertEquals(orderDTO.getInvoiceId(), captorValue.getInvoice().getId());
+        assertEquals(orderDTO.getEmployeeId(), captorValue.getEmployee().getId());
     }
 
     @Test
@@ -156,12 +158,6 @@ public class OrderServiceTest {
 
         Order expectedOrder = new Order();
         expectedOrder.setId(orderDTO.getId());
-        expectedOrder.setDesk(desk);
-        expectedOrder.setInvoice(invoice);
-        expectedOrder.setEmployee(employee);
-        expectedOrder.setDateCreated(orderDTO.getDateCreated());
-        expectedOrder.setDateClosed(orderDTO.getDateCreated());
-        expectedOrder.setTotal(orderDTO.getTotal());
 
         when(orderRepository.getOne(orderId)).thenReturn(expectedOrder);
         when(deskService.findById(deskId)).thenReturn(desk);
@@ -169,11 +165,19 @@ public class OrderServiceTest {
         when(invoiceService.findById(invoiceId)).thenReturn(invoice);
         when(orderRepository.save(any(Order.class))).thenReturn(expectedOrder);
 
+        ArgumentCaptor<Order> argumentCaptor = ArgumentCaptor.forClass(Order.class);
+
         //WHEN
         Order order = orderService.updateFromDTO(orderDTO, orderId);
+        verify(orderRepository).save(argumentCaptor.capture());
+        Order captorValue = argumentCaptor.getValue();
 
         //THEN
         assertEquals(expectedOrder, order);
+        assertEquals(orderDTO.getDeskId(), captorValue.getDesk().getId());
+        assertEquals(orderDTO.getInvoiceId(), captorValue.getInvoice().getId());
+        assertEquals(orderDTO.getEmployeeId(), captorValue.getEmployee().getId());
+        assertEquals(orderDTO.getDateClosed(), captorValue.getDateClosed());
     }
 
     @Test

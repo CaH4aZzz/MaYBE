@@ -7,10 +7,7 @@ import com.maybe.maybe.exception.NotEnoughComponentException;
 import com.maybe.maybe.repository.ComponentRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -64,12 +61,16 @@ public class ComponentServiceTest {
         expectedComponent.setName(componentDTO.getName());
         expectedComponent.setMeasure(componentDTO.getMeasure());
         when(componentRepository.save(any(Component.class))).thenReturn(expectedComponent);
+        ArgumentCaptor<Component> argumentCaptor = ArgumentCaptor.forClass(Component.class);
 
         //WHEN
         Component component = componentService.createFromDTO(componentDTO);
+        verify(componentRepository).save(argumentCaptor.capture());
 
         //THEN
         assertEquals(expectedComponent, component);
+        assertEquals(componentDTO.getName(), argumentCaptor.getValue().getName());
+        assertEquals(componentDTO.getMeasure(), argumentCaptor.getValue().getMeasure());
     }
 
     @Test
@@ -81,16 +82,19 @@ public class ComponentServiceTest {
         Long componentId = 1L;
         Component expectedComponent = new Component();
         expectedComponent.setId(componentId);
-        expectedComponent.setName(componentDTO.getName());
-        expectedComponent.setMeasure(componentDTO.getMeasure());
         when(componentRepository.findById(componentId)).thenReturn(Optional.of(expectedComponent));
-        when(componentRepository.save(any(Component.class))).thenReturn(expectedComponent);
+        when(componentRepository.save(expectedComponent)).thenReturn(expectedComponent);
+
+        ArgumentCaptor<Component> argumentCaptor = ArgumentCaptor.forClass(Component.class);
 
         //WHEN
         Component component = componentService.updateFromDTO(componentId, componentDTO);
+        verify(componentRepository).save(argumentCaptor.capture());
 
         //THEN
         assertEquals(expectedComponent, component);
+        assertEquals(componentDTO.getName(), argumentCaptor.getValue().getName());
+        assertEquals(componentDTO.getMeasure(), argumentCaptor.getValue().getMeasure());
     }
 
     @Test(expected = EntityNotFoundException.class)
