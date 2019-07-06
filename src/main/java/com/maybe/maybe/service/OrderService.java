@@ -1,8 +1,10 @@
 package com.maybe.maybe.service;
 
 import com.maybe.maybe.dto.OrderDTO;
+import com.maybe.maybe.entity.Desk;
 import com.maybe.maybe.entity.Invoice;
 import com.maybe.maybe.entity.Order;
+import com.maybe.maybe.entity.enums.DeskState;
 import com.maybe.maybe.repository.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 public class OrderService {
@@ -46,12 +49,13 @@ public class OrderService {
 
         Invoice orderInvoice = invoiceService.createInvoiceForOrder(orderDTO);
 
-        order.setDesk(deskService.findById(orderDTO.getDeskId()));
+        Desk desk = deskService.findById(orderDTO.getDeskId());
+
+        order.setDesk(deskService.updateDeskStateToNotAvailable(desk));
         order.setEmployee(employeeService.findById(orderDTO.getEmployeeId()));
 
         order.setInvoice(orderInvoice);
         order.setDateCreated(orderInvoice.getDateCreated());
-
         order.setTotal(new BigDecimal(0));
 
         return save(order);
@@ -61,11 +65,13 @@ public class OrderService {
         Order order = orderRepository.getOne(id);
         order.setDesk(deskService.findById(orderDTO.getDeskId()));
         order.setEmployee(employeeService.findById(orderDTO.getEmployeeId()));
-        order.setInvoice(invoiceService.findById(orderDTO.getInvoiceId()));
+     //   order.setInvoice(invoiceService.findById(orderDTO.getInvoiceId()));
 
-        if (orderDTO.getDateClosed() != null){
-            order.setDateClosed(orderDTO.getDateClosed());
+        if (orderDTO.isClosed()) {
+            order.setDateClosed(LocalDateTime.now());
+            deskService.updateDeskStateToAvailable(order.getDesk());
         }
+
         return save(order);
     }
 
