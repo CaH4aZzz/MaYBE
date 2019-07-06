@@ -1,9 +1,8 @@
 package com.maybe.maybe.service;
 
+import com.maybe.maybe.dto.OrderDTO;
 import com.maybe.maybe.dto.OrderItemDTO;
-import com.maybe.maybe.entity.Order;
-import com.maybe.maybe.entity.OrderItem;
-import com.maybe.maybe.entity.Product;
+import com.maybe.maybe.entity.*;
 import com.maybe.maybe.repository.OrderItemRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +14,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -93,29 +93,52 @@ public class OrderItemServiceTest {
         assertEquals(orderItem, actual);
     }
 
-
     @Test
-    public void deleteOrderItemByIdTest() {
-        long orderItemId = 1L;
-        OrderItem orderItem = mock(OrderItem.class);
-        Order order = mock(Order.class);
+    public void deleteOrderItemById() {
+        long deskId = 1L;
+        Desk desk = new Desk();
+        desk.setId(deskId);
 
-        // when
-        when(orderItemRepository.getOrderItemById(orderItemId)).thenReturn(orderItem);
-        when(orderItem.getOrder()).thenReturn(order);
-        when(order.getId()).thenReturn(1L);
-        when(orderService.getOrderById(1L)).thenReturn(order);
-        when(order.getTotal()).thenReturn(new BigDecimal(100));
-        doCallRealMethod().when(order).setTotal(any());
-        when(orderItem.getPrice()).thenReturn(new BigDecimal(20));
-        doNothing().when(orderService).save(order);
-        doNothing().when(orderItemRepository).delete(orderItem);
-        orderItemService.deleteOrderItemById(orderItemId);
-        when(order.getTotal()).thenCallRealMethod();
+        long invoiceId = 1L;
+        Invoice invoice = new Invoice();
+        invoice.setId(invoiceId);
 
-        // then
-        BigDecimal expected = new BigDecimal(80);
-        BigDecimal actual = order.getTotal();
-        assertEquals(expected, actual);
+        long employeeId = 1L;
+        Employee employee = new Employee();
+        employee.setId(employeeId);
+
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setId(1L);
+        orderDTO.setDeskId(deskId);
+        orderDTO.setInvoiceId(invoiceId);
+        orderDTO.setEmployeeId(employeeId);
+        orderDTO.setDateCreated(LocalDateTime.now());
+        orderDTO.setDateClosed(LocalDateTime.now());
+        orderDTO.setTotal(new BigDecimal(100));
+
+        Order expectedOrder = new Order();
+        expectedOrder.setId(orderDTO.getId());
+        expectedOrder.setDesk(desk);
+        expectedOrder.setInvoice(invoice);
+        expectedOrder.setEmployee(employee);
+        expectedOrder.setDateCreated(orderDTO.getDateCreated());
+        expectedOrder.setDateClosed(orderDTO.getDateCreated());
+        expectedOrder.setTotal(orderDTO.getTotal());
+
+        Product product = new Product();
+        product.setName("Name");
+        product.setPrice(new BigDecimal(100));
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOrder(expectedOrder);
+        orderItem.setProduct(product);
+        orderItem.setQuantity(new BigDecimal(100));
+        orderItem.setPrice(new BigDecimal(100));
+        when(orderItemRepository.getOrderItemById(1L)).thenReturn(orderItem);
+        when(orderService.getOrderById(1L)).thenReturn(expectedOrder);
+
+        orderItemService.deleteOrderItemById(1L);
+
+        verify(orderItemRepository,times(1)).delete(orderItem);
     }
 }
