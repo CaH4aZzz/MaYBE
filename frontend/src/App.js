@@ -3,14 +3,8 @@ import './App.css';
 import MaybeLeft from './component/MaybeLeft';
 import MaybeRight from "./component/MaybeRight";
 import {BrowserRouter} from "react-router-dom";
-import { Nav, Navbar, NavItem ,NavDropdown, Form, FormControl, Button} from 'react-bootstrap';
 
 class App extends Component {
-
-
-    updateLeft = () => {
-        console.log()
-    }
 
     render() {
         return (

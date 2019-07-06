@@ -14,9 +14,9 @@ class MaybeLeft extends Component {
     }
 
     logOrder = (order) => {
-        console.log('porder fron inside', order, order.deskId)
+        console.log('order from inside', order, order.deskId);
         this.setState({orderId: order.id})
-    }
+    };
 
     render() {
         return (
