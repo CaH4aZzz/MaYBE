@@ -1,5 +1,6 @@
 package com.maybe.maybe.controller;
 
+import com.maybe.maybe.annotation.Statistic;
 import com.maybe.maybe.dto.OrderDTO;
 import com.maybe.maybe.entity.Order;
 import com.maybe.maybe.service.OrderItemService;
@@ -30,6 +31,7 @@ public class OrderController {
         this.orderItemService = orderItemService;
     }
 
+    @Statistic
     @PostMapping("/orders")
     public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody OrderDTO orderDTO) {
 
@@ -42,6 +44,7 @@ public class OrderController {
         return new ResponseEntity<>(orderDTOResp, HttpStatus.CREATED);
     }
 
+    @Statistic
     @DeleteMapping("/orders/{orderId}")
     public ResponseEntity<OrderDTO> deleteOrder(
             @PathVariable("orderId") @Min(1) Long orderId) {
@@ -50,7 +53,7 @@ public class OrderController {
         orderService.deleteOrderById(orderId);
         return new ResponseEntity<>(orderDTOResp, HttpStatus.OK);
     }
-
+    @Statistic
     @PutMapping("/orders/{orderId}")
     public ResponseEntity<OrderDTO> updateOrder(
             @PathVariable("orderId") @Min(1) Long orderId,
@@ -63,6 +66,7 @@ public class OrderController {
         return new ResponseEntity<>(orderDTOResp, HttpStatus.OK);
     }
 
+    @Statistic
     @GetMapping("/orders/{orderId}")
     public ResponseEntity<OrderDTO> getOrderById(
             @PathVariable("orderId") Long orderId
@@ -77,6 +81,7 @@ public class OrderController {
         return new ResponseEntity<>(orderDTO, HttpStatus.OK);
     }
 
+    @Statistic
     @GetMapping("/orders")
     public ResponseEntity<Page<OrderDTO>> getAllOrders(
             @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable
