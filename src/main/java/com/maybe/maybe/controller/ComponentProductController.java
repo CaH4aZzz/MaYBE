@@ -1,5 +1,6 @@
 package com.maybe.maybe.controller;
 
+import com.maybe.maybe.annotation.Statistic;
 import com.maybe.maybe.dto.ComponentProductDTO;
 import com.maybe.maybe.entity.ComponentProduct;
 import com.maybe.maybe.service.ComponentProductService;
@@ -20,11 +21,13 @@ public class ComponentProductController {
         this.componentProductService = componentProductService;
     }
 
+    @Statistic
     @GetMapping("/{productId}/components")
     public List<ComponentProduct> getAllComponentProducts(@PathVariable Long productId) {
         return componentProductService.findAllByProductId(productId);
     }
 
+    @Statistic
     @PostMapping("/{productId}/components")
     public ResponseEntity<ComponentProduct> addComponentProduct(@PathVariable Long productId,
                                                                 @Valid @RequestBody ComponentProductDTO componentProductDTO) {
@@ -32,11 +35,13 @@ public class ComponentProductController {
                 HttpStatus.CREATED);
     }
 
+    @Statistic
     @GetMapping("/components/{componentProductId}")
     public ComponentProduct getComponentProduct(@PathVariable Long componentProductId) {
         return componentProductService.findById(componentProductId);
     }
 
+    @Statistic
     @PutMapping("/components/{componentProductId}")
     public ComponentProduct saveComponentProduct(@PathVariable Long componentProductId,
                                                  @Valid @RequestBody ComponentProductDTO componentProductDTO) {
