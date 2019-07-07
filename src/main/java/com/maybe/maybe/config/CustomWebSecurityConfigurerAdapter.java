@@ -16,11 +16,11 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-    private final MaybeBasicAuthenticationEntryPoint authenticationEntryPoint;
-
-    public CustomWebSecurityConfigurerAdapter(MaybeBasicAuthenticationEntryPoint authenticationEntryPoint) {
-        this.authenticationEntryPoint = authenticationEntryPoint;
-    }
+//    private final MaybeBasicAuthenticationEntryPoint authenticationEntryPoint;
+//
+//    public CustomWebSecurityConfigurerAdapter(MaybeBasicAuthenticationEntryPoint authenticationEntryPoint) {
+//        this.authenticationEntryPoint = authenticationEntryPoint;
+//    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,8 +35,8 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
                 .antMatchers().permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic()
-                .authenticationEntryPoint(authenticationEntryPoint);
+                .httpBasic();
+//                .authenticationEntryPoint(authenticationEntryPoint);
 
 //        http.addFilterAfter(new CustomFilter(),
 //                BasicAuthenticationFilter.class);
