@@ -75,8 +75,6 @@ class ComponentList extends Component {
             </div>
         )
     }
-
-
 }
 
 export default ComponentList
