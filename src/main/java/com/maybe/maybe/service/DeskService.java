@@ -46,33 +46,49 @@ public class DeskService {
         }
     }
 
-    public Desk updateById(Long id, DeskDTO deskDTO){
-        if(deskRepository.findDeskById(id) != null){
+    public Desk updateById(Long id, DeskDTO deskDTO) {
+        if (deskRepository.findDeskById(id) != null) {
             Desk desk = deskRepository.findDeskById(id);
             desk.setName(deskDTO.getName());
             desk.setId(id);
             return deskRepository.save(desk);
-        }else {
+        } else {
             throw new EntityNotFoundException("Can not update desk by id = " + id);
         }
     }
 
-    public List<Desk> findAllByState(DeskState state){
+    public List<Desk> findAllByState(DeskState state) {
         List<Desk> desks = deskRepository.findAllByDeskState(state);
-        if(!desks.isEmpty()) {
+        if (!desks.isEmpty()) {
             return desks;
         } else {
             throw new EntityNotFoundException("No desks found for this state");
         }
     }
 
-    public Desk deleteById(Long id){
-        if(deskRepository.findDeskById(id) != null){
+    public Desk deleteById(Long id) {
+        if (deskRepository.findDeskById(id) != null) {
             Desk desk = deskRepository.findDeskById(id);
             deskRepository.deleteById(id);
             return desk;
         } else {
             throw new EntityNotFoundException("Can not delete desk by id = " + id);
         }
+    }
+
+    public Desk updateDeskStateToNotAvailable(Desk desk) {
+
+        Desk deskNotAvailableState = deskRepository.findDeskById(desk.getId());
+        deskNotAvailableState.setDeskState(DeskState.NOT_AVAILABLE);
+        desk = deskNotAvailableState;
+        return deskRepository.save(desk);
+    }
+
+    public Desk updateDeskStateToAvailable(Desk desk) {
+
+        Desk deskNotAvailableState = deskRepository.findDeskById(desk.getId());
+        deskNotAvailableState.setDeskState(DeskState.AVAILABLE);
+
+        return deskRepository.save(desk);
     }
 }

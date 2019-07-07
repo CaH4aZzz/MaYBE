@@ -32,6 +32,8 @@ public class OrderDTO {
 
     private Set<OrderItemDTO> orderItemDTOS;
 
+    private boolean closed;
+
     public LocalDateTime getDateCreated() {
         return dateCreated;
     }
@@ -94,5 +96,13 @@ public class OrderDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 }

@@ -13,5 +13,6 @@ public interface DeskRepository extends JpaRepository<Desk, Long> {
     Desk findDeskByName(String name);
 
     List<Desk> findAllByDeskState(DeskState state);
+
 }
 
