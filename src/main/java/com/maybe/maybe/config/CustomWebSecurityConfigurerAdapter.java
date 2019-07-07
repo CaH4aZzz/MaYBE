@@ -1,6 +1,5 @@
 package com.maybe.maybe.config;
 
-import com.maybe.maybe.entity.enums.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,12 +9,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private DataSource dataSource;
     private final MaybeBasicAuthenticationEntryPoint authenticationEntryPoint;
 
     public CustomWebSecurityConfigurerAdapter(MaybeBasicAuthenticationEntryPoint authenticationEntryPoint) {
@@ -24,9 +26,10 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("admin"))
-                .authorities(UserRole.USER.name());
+        auth.jdbcAuthentication().dataSource(dataSource)
+                .passwordEncoder(passwordEncoder())
+                .usersByUsernameQuery("select login, password, true as enabled from employee where login=?")
+                .authoritiesByUsernameQuery("select login, role_id from employee where login=?");
     }
 
     @Override
@@ -36,7 +39,11 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
-                .authenticationEntryPoint(authenticationEntryPoint);
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .and()
+                .formLogin().permitAll()
+                .and()
+                .logout();
 
 //        http.addFilterAfter(new CustomFilter(),
 //                BasicAuthenticationFilter.class);
