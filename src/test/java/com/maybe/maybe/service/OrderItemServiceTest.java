@@ -31,6 +31,9 @@ public class OrderItemServiceTest {
     @Mock
     private OrderService orderService;
 
+    @Mock
+    private SynchronizeInvoiceOrderService synchronizeInvoiceOrderService;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);

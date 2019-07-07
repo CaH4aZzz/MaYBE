@@ -8,9 +8,7 @@ import com.maybe.maybe.entity.Order;
 import com.maybe.maybe.repository.OrderRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -32,6 +30,7 @@ import static org.mockito.Mockito.*;
 public class OrderServiceTest {
 
     @InjectMocks
+    @Spy
     private OrderService orderService;
     @Mock
     private OrderRepository orderRepository;
@@ -41,6 +40,8 @@ public class OrderServiceTest {
     private EmployeeService employeeService;
     @Mock
     private InvoiceService invoiceService;
+    @Mock
+    private SynchronizeInvoiceOrderService synchronizeInvoiceOrderService;
 
     @Test
     public void findAllTest() {
@@ -233,7 +234,10 @@ public class OrderServiceTest {
     @Test
     public void deleteOrderById() {
         //GIVEN
-        Long orderId = 1L;
+        Order order = new Order();
+        order.setId(1L);
+        Long orderId = order.getId();
+        Mockito.doReturn(order).when(orderService).getOrderById(orderId);
 
         //WHEN
         orderService.deleteOrderById(orderId);

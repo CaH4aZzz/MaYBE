@@ -63,9 +63,8 @@ public class ComponentService {
         if (newQuantity.compareTo(BigDecimal.ZERO) < 0) {
             throw new NotEnoughComponentException("Not enough component " + component.getName());
         }
-        BigDecimal newTotal = (componentQuantity.multiply(componentTotal)
-                .add(quantity.multiply(total)))
-                .divide(newQuantity, 2, RoundingMode.FLOOR);
+        BigDecimal newTotal = componentTotal.add(total);
+        
         component.setQuantity(newQuantity);
         component.setTotal(newTotal);
         return componentRepository.save(component);
@@ -81,9 +80,15 @@ public class ComponentService {
         Component component = componentFromDb.get();
         if (component.getQuantity().compareTo(quantity) < 0) {
             throw new NotEnoughComponentException("Not enough components with name " + component.getName());
+        } else if (component.getQuantity().compareTo(quantity) == 0) {
+            component.setQuantity(BigDecimal.ZERO);
+            component.setTotal(BigDecimal.ZERO);
+        } else {
+            BigDecimal price = component.getTotal().divide(component.getQuantity(),2, RoundingMode.FLOOR);
+            component.setQuantity(component.getQuantity().subtract(quantity));
+            component.setTotal(price.multiply(component.getQuantity()));
         }
 
-        component.setQuantity(component.getQuantity().subtract(quantity));
         return componentRepository.save(component);
     }
 }
