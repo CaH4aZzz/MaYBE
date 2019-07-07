@@ -1,5 +1,6 @@
 package com.maybe.maybe.controller;
 
+import com.maybe.maybe.annotation.Statistic;
 import com.maybe.maybe.dto.InvoiceItemDTO;
 import com.maybe.maybe.entity.InvoiceItem;
 import com.maybe.maybe.service.InvoiceItemService;
@@ -23,6 +24,7 @@ public class InvoiceItemController {
         this.invoiceItemService = invoiceItemService;
     }
 
+    @Statistic
     @GetMapping("/invoices/{invoiceId}/invoiceItems")
     public ResponseEntity<Page<InvoiceItem>> getInvoiceItems(
             @PathVariable("invoiceId") @Min(1) Long invoiceId,
@@ -31,6 +33,7 @@ public class InvoiceItemController {
         return new ResponseEntity<>(invoiceItems, HttpStatus.OK);
     }
 
+    @Statistic
     @GetMapping("/invoiceItems/{invoiceItemId}")
     public ResponseEntity<InvoiceItem> getInvoiceItem(
             @PathVariable("invoiceItemId") @Min(1) Long invoiceItemId) {
@@ -38,6 +41,7 @@ public class InvoiceItemController {
         return new ResponseEntity<>(invoiceItem, HttpStatus.OK);
     }
 
+    @Statistic
     @PostMapping("invoices/{invoiceId}/invoiceItems")
     public ResponseEntity<InvoiceItem> createInvoiceItem(
             @PathVariable("invoiceId") @Min(1) Long invoiceId,
@@ -46,6 +50,7 @@ public class InvoiceItemController {
         return new ResponseEntity<>(invoiceItem, HttpStatus.CREATED);
     }
 
+    @Statistic
     @PutMapping("/invoiceItems/{invoiceItemId}")
     public ResponseEntity<InvoiceItem> updateInvoiceItem(
             @PathVariable("invoiceItemId") @Min(1) Long invoiceItemId,
@@ -55,6 +60,7 @@ public class InvoiceItemController {
         return new ResponseEntity<>(invoiceItem, HttpStatus.OK);
     }
 
+    @Statistic
     @DeleteMapping("/invoiceItems/{invoiceItemId}")
     public ResponseEntity<InvoiceItem> deleteInvoiceItem(
             @PathVariable("invoiceItemId") @Min(1) Long invoiceItemId) {
