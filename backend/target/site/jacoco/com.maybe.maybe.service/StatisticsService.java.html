@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatisticsService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maybe</a> &gt; <a href="index.source.html" class="el_package">com.maybe.maybe.service</a> &gt; <span class="el_source">StatisticsService.java</span></div><h1>StatisticsService.java</h1><pre class="source lang-java linenums">package com.maybe.maybe.service;
+
+import com.maybe.maybe.dto.*;
+import com.maybe.maybe.repository.InvoiceItemRepository;
+import com.maybe.maybe.repository.OrderItemRepository;
+import com.maybe.maybe.repository.OrderRepository;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Objects;
+
+@Service
+public class StatisticsService {
+
+    private final static int FIRST_DAY = 1;
+
+    private OrderRepository orderRepository;
+    private InvoiceItemRepository invoiceItemRepository;
+    private OrderItemRepository orderItemRepository;
+
+
+    public StatisticsService(OrderRepository orderRepository, InvoiceItemRepository invoiceItemRepository,
+<span class="fc" id="L26">                             OrderItemRepository orderItemRepository) {</span>
+<span class="fc" id="L27">        this.orderRepository = orderRepository;</span>
+<span class="fc" id="L28">        this.invoiceItemRepository = invoiceItemRepository;</span>
+<span class="fc" id="L29">        this.orderItemRepository = orderItemRepository;</span>
+<span class="fc" id="L30">    }</span>
+
+    public List&lt;SummaryDTO&gt; getSummaryReport(LocalDate dateFrom, LocalDate dateTo) {
+<span class="fc" id="L33">        return orderRepository.getSummaryReport(getDateFrom(dateFrom), getDateTo(dateTo));</span>
+    }
+
+    public List&lt;ComponentReportDTO&gt; getComponentReport(LocalDate dateFrom, LocalDate dateTo) {
+<span class="fc" id="L37">        return invoiceItemRepository.getComponentReport(getDateFrom(dateFrom), getDateTo(dateTo));</span>
+    }
+
+    public List&lt;ProductReportDTO&gt; getProductReport(LocalDate dateFrom, LocalDate dateTo) {
+
+<span class="fc" id="L42">        return orderItemRepository.getProductReport(getDateFrom(dateFrom), getDateTo(dateTo));</span>
+    }
+
+    public List&lt;EmployeeReportDTO&gt; getEmployeeReport(LocalDate dateFrom, LocalDate dateTo) {
+<span class="fc" id="L46">        return orderRepository.getEmployeeReport(getDateFrom(dateFrom), getDateTo(dateTo));</span>
+    }
+
+    public List&lt;DeskReportDTO&gt; getDeskReport(LocalDate dateFrom, LocalDate dateTo) {
+<span class="fc" id="L50">        return orderRepository.getDeskReport(getDateFrom(dateFrom), getDateTo(dateTo));</span>
+    }
+
+    private LocalDateTime getDateFrom(LocalDate date) {
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (Objects.isNull(date)) {</span>
+<span class="fc" id="L55">            return LocalDateTime.of(LocalDate.now().withDayOfMonth(FIRST_DAY), LocalTime.MIN);</span>
+<span class="fc" id="L56">        } else return LocalDateTime.of(date, LocalTime.MIN);</span>
+    }
+
+    private LocalDateTime getDateTo(LocalDate date) {
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        if (Objects.isNull(date)) {</span>
+<span class="fc" id="L61">            return LocalDateTime.now();</span>
+<span class="fc" id="L62">        } else return LocalDateTime.of(date, LocalTime.MAX);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="maybe_6_create_table_employee" author="Artem Kostenko">
+        <createTable tableName="employee">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="login" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="tinyint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_desk" author="Artem Kostenko">
+        <createTable tableName="desk">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_product" author="Artem Kostenko">
+        <createTable tableName="product">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_component" author="Dima Klitsenko">
+        <createTable tableName="component">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="measure_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="decimal(15,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_component_product" author="Dima Klitsenko">
+        <createTable tableName="component_product">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="component_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_component_product_add_component_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="component_id"
+                                 baseTableName="component_product"
+                                 constraintName="fr_component_product_component"
+                                 referencedColumnNames="id"
+                                 referencedTableName="component"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_component_product_add_product_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="component_product"
+                                 constraintName="fk_component_product_product"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_invoice" author="Dima Klitsenko">
+        <createTable tableName="invoice">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="invoice_type_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_created" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employee_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_invoice_add_employee_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="invoice"
+                                 constraintName="fk_invoice_employee"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_order" author="Artem Kostenko">
+        <createTable tableName="orders">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="date_created" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="desk_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employee_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_closed" type="datetime"/>
+            <column name="total" type="decimal(12,2)"/>
+            <column name="invoice_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_order_add_invoice_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="invoice_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_order_invoice"
+                                 referencedColumnNames="id"
+                                 referencedTableName="invoice"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_order_add_employee_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_order_employee"
+                                 referencedColumnNames="id"
+                                 referencedTableName="employee"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_order_add_desk_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="desk_id"
+                                 baseTableName="orders"
+                                 constraintName="fk_order_desk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="desk"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_invoice_item" author="Dima Klitsenko">
+        <createTable tableName="invoice_item">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="invoice_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="component_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="decimal(15,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_invoice_item_add_invoice_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="invoice_id"
+                                 baseTableName="invoice_item"
+                                 constraintName="fk_invoice_item_invoice"
+                                 referencedColumnNames="id"
+                                 referencedTableName="invoice"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_invoice_item_component_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="component_id"
+                                 baseTableName="invoice_item"
+                                 constraintName="fk_invoice_item_component"
+                                 referencedColumnNames="id"
+                                 referencedTableName="component"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_create_table_product_order" author="Artem Kostenko">
+        <createTable tableName="order_item">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="decimal(15,3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal(12,2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="maybe_6_order_item_add_order_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="order_id"
+                                 baseTableName="order_item"
+                                 constraintName="fk_product_order_order"
+                                 referencedColumnNames="id"
+                                 referencedTableName="orders"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_order_item_add_product_fk" author="Ivan Denysenko">
+        <addForeignKeyConstraint baseColumnNames="product_id"
+                                 baseTableName="order_item"
+                                 constraintName="fk_product_order_product"
+                                 referencedColumnNames="id"
+                                 referencedTableName="product"/>
+    </changeSet>
+
+    <changeSet id="maybe_6_add_column_version" author="Yurii Vislobodskyi">
+        <addColumn tableName="employee">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="desk">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="product">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="component">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="component_product">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="invoice">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="orders">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="invoice_item">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+        <addColumn tableName="order_item">
+            <column name="version" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="MAYBE-23_add_hibernate_sequence" author="Ivan Denysenko">
+        <createSequence sequenceName="hibernate_sequence" startValue="10000" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-20_add_column_state_id" author="Mykyta Amelin">
+        <addColumn tableName="desk">
+            <column name="desk_state_id" type="tinyint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="MAYBE-12_set_columns_not_nullable_in_component_table" author="Artem Kostenko">
+        <dropNotNullConstraint tableName="component" columnName="quantity"
+                               columnDataType="decimal(15,3)"/>
+        <dropNotNullConstraint tableName="component" columnName="price"
+                               columnDataType="decimal(12,2)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-48_rename_column_price_to_total" author="Mykyta Amelin">
+        <renameColumn tableName="component" oldColumnName="price" newColumnName="total"/>
+    </changeSet>
+
+    <changeSet id="maybe_31_add_default_value_of_column_version_for_each_table" author="Yurii Vislobodskyi">
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="employee"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="desk"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="product"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="component"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="component_product"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="invoice"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="orders"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="invoice_item"/>
+        <addDefaultValue columnDataType="bigint" columnName="version"
+                         defaultValueNumeric="0" tableName="order_item"/>
+    </changeSet>
+    
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_component" author="Ivan Denysenko">
+        <modifyDataType tableName="component" columnName="quantity" newDataType="decimal(15,5)"/>
+        <modifyDataType tableName="component" columnName="total" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_product" author="Ivan Denysenko">
+        <modifyDataType tableName="product" columnName="price" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_component_product" author="Ivan Denysenko">
+        <modifyDataType tableName="component_product" columnName="quantity" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_orders" author="Ivan Denysenko">
+        <modifyDataType tableName="orders" columnName="total" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_invoice_item" author="Ivan Denysenko">
+        <modifyDataType tableName="invoice_item" columnName="quantity" newDataType="decimal(15,5)"/>
+        <modifyDataType tableName="invoice_item" columnName="price" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+    <changeSet id="MAYBE-47_change_big_decimal_scale_for_order_item" author="Ivan Denysenko">
+        <modifyDataType tableName="order_item" columnName="quantity" newDataType="decimal(15,5)"/>
+        <modifyDataType tableName="order_item" columnName="price" newDataType="decimal(15,5)"/>
+    </changeSet>
+
+</databaseChangeLog>

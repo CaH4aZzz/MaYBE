@@ -15,7 +15,7 @@ class OrderList extends Component {
     }
 
     updatePage = () => {
-    }
+    };
 
     componentDidMount() {
         this.refreshOrders();
@@ -62,9 +62,6 @@ class OrderList extends Component {
                         }
                         </tbody>
                     </Table>
-                    <div className="row-btn-add">
-                        <button className="btn btn-success" onClick={this.addComponentClicked}>New Order</button>
-                    </div>
                 </div>
             </div>
         )

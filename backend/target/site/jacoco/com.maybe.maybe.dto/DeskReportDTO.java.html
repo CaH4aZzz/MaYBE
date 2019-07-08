@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeskReportDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maybe</a> &gt; <a href="index.source.html" class="el_package">com.maybe.maybe.dto</a> &gt; <span class="el_source">DeskReportDTO.java</span></div><h1>DeskReportDTO.java</h1><pre class="source lang-java linenums">package com.maybe.maybe.dto;
+
+import java.math.BigDecimal;
+
+public class DeskReportDTO {
+
+    private String name;
+    private Long ordersNumber;
+    private BigDecimal revenue;
+
+<span class="nc" id="L11">    public DeskReportDTO() {</span>
+<span class="nc" id="L12">    }</span>
+
+<span class="nc" id="L14">    public DeskReportDTO(String name, Long ordersNumber, BigDecimal revenue) {</span>
+<span class="nc" id="L15">        this.name = name;</span>
+<span class="nc" id="L16">        this.ordersNumber = ordersNumber;</span>
+<span class="nc" id="L17">        this.revenue = revenue;</span>
+<span class="nc" id="L18">    }</span>
+
+    public String getName() {
+<span class="nc" id="L21">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L25">        this.name = name;</span>
+<span class="nc" id="L26">    }</span>
+
+    public Long getOrdersNumber() {
+<span class="nc" id="L29">        return ordersNumber;</span>
+    }
+
+    public void setOrdersNumber(Long ordersNumber) {
+<span class="nc" id="L33">        this.ordersNumber = ordersNumber;</span>
+<span class="nc" id="L34">    }</span>
+
+    public BigDecimal getRevenue() {
+<span class="nc" id="L37">        return revenue;</span>
+    }
+
+    public void setRevenue(BigDecimal revenue) {
+<span class="nc" id="L41">        this.revenue = revenue;</span>
+<span class="nc" id="L42">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

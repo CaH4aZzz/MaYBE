@@ -1,10 +1,11 @@
 
-
 .baseComp {
     margin: 5px;
     border-style: solid;
     border-width: 2px;
     display: inline-block;
+    width: 1200px;
+    height: 800px;
 }
 
 .row-btn-add {
@@ -12,7 +13,7 @@
     margin: 5px;
 }
 
-#tableProd{
+#tableProd {
     position: absolute;
     top: 0;
     z-index: 10000;
@@ -20,7 +21,29 @@
 }
 
 .table {
-
-    height:150px;
+    height: 150px;
     overflow-y: scroll;
+}
+
+.mainDiv {
+    display: block;
+    border-style: solid;
+    border-width: 1px;
+}
+
+h1 {
+    display: inline-block;
+}
+
+button {
+    margin: 2px;
+}
+
+.myComp {
+    width: 45%;
+    display: inline-block;
+}
+
+.superComponent {
+    border: black 1px solid;
 }

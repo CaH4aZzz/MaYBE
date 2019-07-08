@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrderDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maybe</a> &gt; <a href="index.source.html" class="el_package">com.maybe.maybe.dto</a> &gt; <span class="el_source">OrderDTO.java</span></div><h1>OrderDTO.java</h1><pre class="source lang-java linenums">package com.maybe.maybe.dto;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Set;
+
+<span class="fc" id="L11">public class OrderDTO {</span>
+
+    private Long id;
+
+    private LocalDateTime dateCreated;
+
+    @NotNull
+    @Min(1)
+    private Long deskId;
+
+    @NotNull
+    @Min(1)
+    private Long employeeId;
+
+    private LocalDateTime dateClosed;
+
+    @DecimalMin(value = &quot;0.0&quot;)
+    @Digits(integer = 12, fraction = 2)
+    private BigDecimal total;
+
+    private Long invoiceId;
+
+    private Set&lt;OrderItemDTO&gt; orderItemDTOS;
+
+    private boolean closed;
+
+    public LocalDateTime getDateCreated() {
+<span class="fc" id="L38">        return dateCreated;</span>
+    }
+
+    public void setDateCreated(LocalDateTime dateCreated) {
+<span class="fc" id="L42">        this.dateCreated = dateCreated;</span>
+<span class="fc" id="L43">    }</span>
+
+    public Long getDeskId() {
+<span class="fc" id="L46">        return deskId;</span>
+    }
+
+    public void setDeskId(Long deskId) {
+<span class="fc" id="L50">        this.deskId = deskId;</span>
+<span class="fc" id="L51">    }</span>
+
+    public Long getEmployeeId() {
+<span class="fc" id="L54">        return employeeId;</span>
+    }
+
+    public void setEmployeeId(Long employeeId) {
+<span class="fc" id="L58">        this.employeeId = employeeId;</span>
+<span class="fc" id="L59">    }</span>
+
+    public LocalDateTime getDateClosed() {
+<span class="fc" id="L62">        return dateClosed;</span>
+    }
+
+    public void setDateClosed(LocalDateTime dateClosed) {
+<span class="fc" id="L66">        this.dateClosed = dateClosed;</span>
+<span class="fc" id="L67">    }</span>
+
+    public BigDecimal getTotal() {
+<span class="fc" id="L70">        return total;</span>
+    }
+
+    public void setTotal(BigDecimal total) {
+<span class="fc" id="L74">        this.total = total;</span>
+<span class="fc" id="L75">    }</span>
+
+    public Long getInvoiceId() {
+<span class="fc" id="L78">        return invoiceId;</span>
+    }
+
+    public void setInvoiceId(Long invoiceId) {
+<span class="fc" id="L82">        this.invoiceId = invoiceId;</span>
+<span class="fc" id="L83">    }</span>
+
+    public Set&lt;OrderItemDTO&gt; getOrderItemDTOS() {
+<span class="nc" id="L86">        return orderItemDTOS;</span>
+    }
+
+    public void setOrderItemDTOS(Set&lt;OrderItemDTO&gt; orderItemDTOS) {
+<span class="nc" id="L90">        this.orderItemDTOS = orderItemDTOS;</span>
+<span class="nc" id="L91">    }</span>
+
+    public Long getId() {
+<span class="fc" id="L94">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L98">        this.id = id;</span>
+<span class="fc" id="L99">    }</span>
+
+    public boolean isClosed() {
+<span class="fc" id="L102">        return closed;</span>
+    }
+
+    public void setClosed(boolean closed) {
+<span class="nc" id="L106">        this.closed = closed;</span>
+<span class="nc" id="L107">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

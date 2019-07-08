@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+
+    <changeSet id="Load data" author="Ivan Denysenko" runOnChange="true">
+
+        <loadUpdateData tableName="component" primaryKey="id" file="db/data/Component.csv" separator=";">
+            <column name="id" type="NUMERIC"/>
+            <column name="name" type="STRING"/>
+            <column name="measure_id" type="NUMERIC"/>
+            <column name="quantity" type="NUMERIC"/>
+            <column name="price" type="NUMERIC"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="product" primaryKey="id" file="db/data/product.csv" separator=";">
+            <column name="id" type="NUMERIC"/>
+            <column name="name" type="STRING"/>
+            <column name="price" type="NUMERIC"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="component_product" primaryKey="id" file="db/data/component_product.csv"
+                        separator=";">
+            <column name="id" type="NUMERIC"/>
+            <column name="name" type="STRING"/>
+            <column name="price" type="NUMERIC"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="desk" primaryKey="id" file="db/data/desk.csv" separator=";">
+            <column name="id" type="NUMERIC"/>
+            <column name="name" type="STRING"/>
+            <column name="desk_state_id" type="NUMERIC"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="employee" primaryKey="id" file="db/data/employee.csv" separator=";">
+            <column name="id" type="NUMERIC"/>
+            <column name="name" type="STRING"/>
+            <column name="login" type="STRING"/>
+            <column name="password" type="STRING"/>
+            <column name="role_id" type="NUMERIC"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="invoice" primaryKey="id" file="db/data/invoice.csv" separator=";">
+            <column name="id" type="NUMERIC"/>
+            <column name="name" type="STRING"/>
+            <column name="invoice_type_id" type="NUMERIC"/>
+            <column name="date_created" type="TIMESTAMP"/>
+            <column name="employee_id" type="NUMERIC"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="orders" primaryKey="id" file="db/data/order.csv" separator=";">
+            <column name="id" type="NUMERIC"/>
+            <column name="date_created" type="TIMESTAMP"/>
+            <column name="desk_id" type="NUMERIC"/>
+            <column name="employee_id" type="NUMERIC"/>
+            <column name="date_closed" type="TIMESTAMP"/>
+            <column name="total" type="NUMERIC"/>
+            <column name="invoice_id" type="NUMERIC"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="invoice_item" primaryKey="id" file="db/data/invoice_item.csv" separator=";">
+            <column name="id" type="NUMERIC"/>
+            <column name="invoice_id" type="NUMERIC"/>
+            <column name="component_id" type="NUMERIC"/>
+            <column name="quantity" type="NUMERIC"/>
+            <column name="price" type="NUMERIC"/>
+        </loadUpdateData>
+
+    </changeSet>
+
+</databaseChangeLog>
