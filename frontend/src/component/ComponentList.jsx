@@ -37,10 +37,10 @@ class ComponentList extends Component {
 
     render() {
         return (
-            <div className="container" >
+            <div className="container">
                 <h3>All Components</h3>
-                <div className="container" >
-                    <table className="table" style={{width:'90%'}}>
+                <div className="container">
+                    <table className="table" style={{width: '90%'}}>
                         <thead>
                         <tr>
                             <th>Name</th>

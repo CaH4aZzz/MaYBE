@@ -4,13 +4,13 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 
 class SingleComponent extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         console.log('single');
-        this.state={
+        this.state = {
             id: this.props.match.params.id,
             name: '',
-            quantity:'',
+            quantity: '',
             measure: '',
             total: ''
         };
@@ -21,8 +21,8 @@ class SingleComponent extends Component {
     componentDidMount() {
         console.log('in singleComp' + this.state.id);
 
-        if(this.state.id == -1){
-            console.log("id - 1?")
+        if (this.state.id == -1) {
+            console.log("id - 1?");
             return
         }
 
@@ -39,18 +39,18 @@ class SingleComponent extends Component {
             )
     }
 
-    onSubmit(values){
+    onSubmit(values) {
         let componentDTO = {
             name: values.name,
             measure: values.measure
         };
         console.log(componentDTO);
 
-        if(this.state.id == -1){
+        if (this.state.id == -1) {
             ComponentsDataService.createComponent(componentDTO)
-                .then(() => this.props.history.push('/components'))
+                .then(() => this.props.history.push('/components'));
             console.log('inside if => POST')
-        }else{
+        } else {
             ComponentsDataService.updateComponent(this.state.id, componentDTO)
                 .then(() => this.props.history.push('/components'));
             console.log('inside else => PUT');
@@ -58,12 +58,12 @@ class SingleComponent extends Component {
 
     }
 
-    validate(values){
+    validate(values) {
         let errors = {};
-        if(!values.name){
+        if (!values.name) {
             errors.name = 'Enter Component name'
         }
-        if (!values.quantity){
+        if (!values.quantity) {
             errors.quantity = 'Enter quantity of Component'
         }
         return errors
@@ -77,38 +77,38 @@ class SingleComponent extends Component {
                 <h3>Component</h3>
                 <div className="container">
                     <Formik
-                        initialValues={{ id, name, quantity, measure, total }}
-                        onSubmit = {this.onSubmit}
-                        validateOnChange = {false}
-                        validateOnBlur = {false}
-                        validate = {this.validate}
+                        initialValues={{id, name, quantity, measure, total}}
+                        onSubmit={this.onSubmit}
+                        validateOnChange={false}
+                        validateOnBlur={false}
+                        validate={this.validate}
                         enableReinitialize={true}>
                         {
                             (props) => (
                                 <Form>
-                                    <ErrorMessage name = "name" component ="div"
-                                    className = "alert alert-warning" />
-                                    <ErrorMessage name = "quantity" component ="div"
-                                                  className = "alert alert-warning" />
+                                    <ErrorMessage name="name" component="div"
+                                                  className="alert alert-warning"/>
+                                    <ErrorMessage name="quantity" component="div"
+                                                  className="alert alert-warning"/>
                                     <fieldset className="form-group">
                                         <label>Id</label>
-                                        <Field className="form-control" type="text" name="id" disabled />
+                                        <Field className="form-control" type="text" name="id" disabled/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Name</label>
-                                        <Field className="form-control" type="text" name="name" />
+                                        <Field className="form-control" type="text" name="name"/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Quantity</label>
-                                        <Field className="form-control" type="text" name="quantity" />
+                                        <Field className="form-control" type="text" name="quantity"/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Measure</label>
-                                        <Field className="form-control" type="text" name="measure" />
+                                        <Field className="form-control" type="text" name="measure"/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Total</label>
-                                        <Field className="form-control" type="text" name="total" />
+                                        <Field className="form-control" type="text" name="total"/>
                                     </fieldset>
                                     <button className="btn btn-success" type="submit">Save</button>
                                 </Form>
@@ -121,4 +121,5 @@ class SingleComponent extends Component {
         )
     }
 }
+
 export default SingleComponent

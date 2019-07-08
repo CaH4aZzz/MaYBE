@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import DeskService from "../service/DeskService";
 import Table from "react-bootstrap/Table";
+import OrderService from "../service/OrderService";
 
 class DeskList extends Component {
 
@@ -19,7 +20,7 @@ class DeskList extends Component {
 
         this.setState({
             desks: response.data
-        })
+        });
 
         console.log(this.state);
     }
@@ -40,7 +41,8 @@ class DeskList extends Component {
                         {
                             this.state.desks.map(
                                 desk =>
-                                    <tr key={desk.id}>
+                                    <tr className="tableRow" key={desk.id}
+                                        onClick={() => this.createOrder(desk.id)}>
                                         <td>{desk.name}</td>
                                         <td>{desk.deskState}</td>
                                     </tr>
@@ -48,12 +50,17 @@ class DeskList extends Component {
                         }
                         </tbody>
                     </Table>
-                    <div className="row">
-                        <button className="btn btn-success" onClick={() => this.props.history.goBack()}>Back</button>
-                    </div>
                 </div>
             </div>
         )
+    }
+
+    async createOrder(deskId) {
+        console.log("in create order deskID = " + deskId);
+        const employeeId = 1;
+        const response = await OrderService.createOrder(deskId, employeeId);
+        const orderId = response.data.id;
+        this.props.history.push('/orders/' + orderId);
     }
 }
 

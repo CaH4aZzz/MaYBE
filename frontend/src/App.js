@@ -1,25 +1,17 @@
 import React, {Component} from 'react';
 import './App.css';
-import MaybeLeft from './component/MaybeLeft';
-import MaybeRight from "./component/MaybeRight";
 import {BrowserRouter} from "react-router-dom";
+import SuperComponent from "./component/SuperComponent";
 
 class App extends Component {
 
     render() {
         return (
             <div className="container" style={{textAlign: 'center'}}>
-
                 <BrowserRouter>
-
-                    <h1>Restaurant Application</h1>
-                    <div className="baseComp" id="leftComp" style={{margin: '5'}}>
-                        <MaybeLeft/>
+                    <div className="superComp" style={{margin: '5'}}>
+                        <SuperComponent/>
                     </div>
-                    <div className="baseComp" id="rightComp" style={{margin: '5'}}>
-                        <MaybeRight/>
-                    </div>
-
                 </BrowserRouter>
             </div>
 
