@@ -24,6 +24,8 @@ public class OrderItemDTO {
     @Digits(integer = 15, fraction = 3)
     private BigDecimal quantity;
 
+    private String productName;
+
     public Long getProductId() {
         return productId;
     }
@@ -54,6 +56,14 @@ public class OrderItemDTO {
 
     public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     @Override

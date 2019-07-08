@@ -37,6 +37,8 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
+
+       // http.csrf().disable();
 //                .authenticationEntryPoint(authenticationEntryPoint);
 
 //        http.addFilterAfter(new CustomFilter(),
