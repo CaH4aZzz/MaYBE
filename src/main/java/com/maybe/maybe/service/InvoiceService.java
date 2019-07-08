@@ -13,16 +13,19 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 
 @Service
 public class InvoiceService {
     private InvoiceRepository invoiceRepository;
     private EmployeeService employeeService;
+    private ComponentService componentService;
 
-    public InvoiceService(InvoiceRepository invoiceRepository, EmployeeService employeeService) {
+    public InvoiceService(InvoiceRepository invoiceRepository,
+                          EmployeeService employeeService,
+                          ComponentService componentService) {
         this.invoiceRepository = invoiceRepository;
         this.employeeService = employeeService;
+        this.componentService = componentService;
     }
 
     public Invoice findById(Long id) {
@@ -32,6 +35,8 @@ public class InvoiceService {
 
     public void delete(Invoice invoice) {
         validateUnmodifiedInvoice(invoice);
+        invoice.getInvoiceItems().forEach(i ->
+                componentService.decreaseComponentBalance(i.getComponent().getId(), i.getQuantity()));
         invoiceRepository.delete(invoice);
     }
 
@@ -68,7 +73,7 @@ public class InvoiceService {
         }
     }
 
-    public Invoice createInvoiceForOrder(OrderDTO orderDTO){
+    public Invoice createInvoiceForOrder(OrderDTO orderDTO) {
         Invoice invoice = new Invoice();
         invoice.setDateCreated(LocalDateTime.now());
         invoice.setEmployee(employeeService.findById(orderDTO.getEmployeeId()));

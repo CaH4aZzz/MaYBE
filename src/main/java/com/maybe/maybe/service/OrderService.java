@@ -4,7 +4,6 @@ import com.maybe.maybe.dto.OrderDTO;
 import com.maybe.maybe.entity.Desk;
 import com.maybe.maybe.entity.Invoice;
 import com.maybe.maybe.entity.Order;
-import com.maybe.maybe.entity.enums.DeskState;
 import com.maybe.maybe.repository.OrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,17 +20,20 @@ public class OrderService {
     private DeskService deskService;
     private EmployeeService employeeService;
     private InvoiceService invoiceService;
+    private SynchronizeInvoiceOrderService synchronizeInvoiceOrderService;
 
     public OrderService(
             OrderRepository orderRepository,
             DeskService deskService,
             EmployeeService employeeService,
-            InvoiceService invoiceService
+            InvoiceService invoiceService,
+            SynchronizeInvoiceOrderService synchronizeInvoiceOrderService
     ) {
         this.orderRepository = orderRepository;
         this.deskService = deskService;
         this.employeeService = employeeService;
         this.invoiceService = invoiceService;
+        this.synchronizeInvoiceOrderService = synchronizeInvoiceOrderService;
     }
 
     public Page<Order> findAll(Pageable pageable) {
@@ -98,6 +100,8 @@ public class OrderService {
     }
 
     public void deleteOrderById(Long orderId) {
+        Order order = getOrderById(orderId);
+        synchronizeInvoiceOrderService.orderDeleted(order);
         orderRepository.deleteById(orderId);
     }
 

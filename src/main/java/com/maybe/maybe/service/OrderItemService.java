@@ -23,22 +23,23 @@ public class OrderItemService {
     private OrderItemRepository orderItemRepository;
     private OrderService orderService;
     private ProductService productService;
-    private InvoiceItemRepository invoiceItemRepository;
     private ComponentService componentService;
+    private SynchronizeInvoiceOrderService synchronizeInvoiceOrderService;
 
     public OrderItemService(
             OrderItemRepository orderItemRepository,
             OrderService orderService,
             ProductService productService,
             InvoiceItemRepository invoiceItemRepository,
-            ComponentService componentService
+            ComponentService componentService,
+            SynchronizeInvoiceOrderService synchronizeInvoiceOrderService
 
     ) {
         this.orderItemRepository = orderItemRepository;
         this.orderService = orderService;
         this.productService = productService;
-        this.invoiceItemRepository = invoiceItemRepository;
         this.componentService = componentService;
+        this.synchronizeInvoiceOrderService = synchronizeInvoiceOrderService;
     }
 
     public Page<OrderItem> findAllByOrderId(Long orderId, Pageable pageable) {
@@ -59,6 +60,7 @@ public class OrderItemService {
 
         OrderItem orderItem = new OrderItem();
         orderItem.setOrder(order);
+        order.getOrderItems().add(orderItem);
 
         return getOrderItemAndUpdateOrderTotal(orderItem, orderItemDTO);
     }
@@ -86,6 +88,7 @@ public class OrderItemService {
         orderItem.setQuantity(orderItemDTO.getQuantity());
         orderItem.setPrice(priceFromOrderItemDTO);
 
+        synchronizeInvoiceOrderService.orderChanged(order);
         return orderItemRepository.save(orderItem);
 
     }
@@ -107,24 +110,12 @@ public class OrderItemService {
         BigDecimal total = order.getTotal().add(price);
         order.setTotal(total);
 
-        setComponentProductsIntoInvoiceItem(product.getComponentProducts(), order, orderItem);
+        //setComponentProductsIntoInvoiceItem(product.getComponentProducts(), order, orderItem);
+        synchronizeInvoiceOrderService.orderChanged(order);
 
         orderService.save(order);
 
         return orderItemRepository.save(orderItem);
-    }
-
-    private void setComponentProductsIntoInvoiceItem(Set<ComponentProduct> componentProducts, Order order, OrderItem orderItem) {
-        componentProducts.forEach(componentProduct -> {
-            InvoiceItem invoiceItem = new InvoiceItem();
-            invoiceItem.setInvoice(order.getInvoice());
-            invoiceItem.setComponent(componentProduct.getComponent());
-            componentService.decreaseComponentBalance(componentProduct.getComponent().getId(), componentProduct.getQuantity().multiply(orderItem.getQuantity()));
-            invoiceItem.setQuantity(componentProduct.getQuantity().multiply(orderItem.getQuantity()));
-            //I think the price calculate incorrect. Can you explain me, how I should do this?
-            invoiceItem.setPrice(componentProduct.getComponent().getAveragePrice());
-            invoiceItemRepository.save(invoiceItem);
-        });
     }
 
     public OrderItemDTO getOrderItemDTOResp(OrderItem orderItem) {
@@ -168,18 +159,20 @@ public class OrderItemService {
 
         order.setTotal(newTotal);
 
-        orderItemForDelete.getProduct().getComponentProducts().stream().
-                forEach(componentProduct ->
-                        componentService.increaseComponentBalance(componentProduct.getComponent().getId(),
-                                orderItemForDelete.getQuantity().multiply(componentProduct.getQuantity()),
-                                componentProduct.getComponent().getTotal()
-                                ));
+//        orderItemForDelete.getProduct().getComponentProducts().stream().
+//                forEach(componentProduct ->
+//                        componentService.increaseComponentBalance(componentProduct.getComponent().getId(),
+//                                orderItemForDelete.getQuantity().multiply(componentProduct.getQuantity()),
+//                                componentProduct.getComponent().getTotal()
+//                                ));
 
         //todo delete invoiceItem need here
 
         orderService.save(order);
 
         orderItemRepository.delete(orderItemForDelete);
+
+        synchronizeInvoiceOrderService.orderChanged(order);
     }
 
     public Set<OrderItemDTO> getOrderItemDTOSet(Order order) {

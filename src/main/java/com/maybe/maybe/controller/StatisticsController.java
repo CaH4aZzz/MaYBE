@@ -60,4 +60,12 @@ public class StatisticsController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo) {
         return statisticsService.getEmployeeReport(dateFrom, dateTo);
     }
+
+    @Statistic
+    @GetMapping("/desk-report")
+    public List getDeskReportDTO(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dateTo) {
+        return statisticsService.getDeskReport(dateFrom, dateTo);
+    }
 }
