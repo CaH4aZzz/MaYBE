@@ -26,8 +26,9 @@ public class OrderItemController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/orders/{orderId}/orderItems")
-    public ResponseEntity<OrderItemDTO> createOrderItemByOrderId(
+    public OrderItemDTO createOrderItemByOrderId(
             @PathVariable("orderId") @Min(1) Long orderId,
             @Valid @RequestBody OrderItemDTO orderItemDTOReq
     ) {
@@ -35,12 +36,12 @@ public class OrderItemController {
 
         OrderItemDTO orderItemDTOResp = orderItemService.getOrderItemDTOResp(orderItem);
 
-        return new ResponseEntity<>(orderItemDTOResp, HttpStatus.CREATED);
+        return orderItemDTOResp;
     }
 
     @Statistic
     @GetMapping("/orders/{orderId}/orderItems")
-    public ResponseEntity<Page<OrderItemDTO>> getOrderItemsByOrderId(
+    public Page<OrderItemDTO> getOrderItemsByOrderId(
             @PathVariable("orderId") @Min(1) Long orderId,
             @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable
     ) {
@@ -49,19 +50,17 @@ public class OrderItemController {
 
         Page<OrderItemDTO> orderItemDTOPage = orderItemService.getOrderItemDTOPage(orderItems);
 
-        return new ResponseEntity<>(orderItemDTOPage, HttpStatus.OK);
+        return orderItemDTOPage;
     }
 
     @Statistic
     @GetMapping("/orderItems/{orderItemId}")
-    public ResponseEntity<OrderItemDTO> getOrderItemById(
+    public OrderItemDTO getOrderItemById(
             @PathVariable("orderItemId") @Min(1) Long orderItemId
     ) {
         OrderItem orderItem = orderItemService.getOrderItemById(orderItemId);
 
-        OrderItemDTO orderItemDTOResp = orderItemService.getOrderItemDTOResp(orderItem);
-
-        return new ResponseEntity<>(orderItemDTOResp, HttpStatus.OK);
+        return orderItemService.getOrderItemDTOResp(orderItem);
     }
 
     @Statistic
@@ -77,12 +76,12 @@ public class OrderItemController {
 
     @Statistic
     @PutMapping("/orderItems/{orderItemId}")
-    public ResponseEntity<OrderItemDTO> updateOrderItem(
+    public OrderItemDTO updateOrderItem(
             @PathVariable("orderItemId") @Min(1) Long orderItemId,
             @Valid @RequestBody OrderItemDTO orderItemDTO) {
         OrderItem orderItem = orderItemService.getOrderItemById(orderItemId);
         OrderItem orderItemUpdated = orderItemService.updateFromDTO(orderItem, orderItemDTO);
         OrderItemDTO orderItemDTOResp = orderItemService.getOrderItemDTOResp(orderItemUpdated);
-        return new ResponseEntity<>(orderItemDTOResp, HttpStatus.OK);
+        return orderItemDTOResp;
     }
 }

@@ -33,8 +33,9 @@ public class OrderController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/orders")
-    public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody OrderDTO orderDTO) {
+    public OrderDTO createOrder(@Valid @RequestBody OrderDTO orderDTO) {
 
         Order order = orderService.createFromDTO(orderDTO);
 
@@ -42,7 +43,7 @@ public class OrderController {
 
         orderDTOResp.setOrderItemDTOS(new HashSet<>());
 
-        return new ResponseEntity<>(orderDTOResp, HttpStatus.CREATED);
+        return orderDTOResp;
     }
 
     @Statistic
@@ -57,7 +58,7 @@ public class OrderController {
     }
     @Statistic
     @PutMapping("/orders/{orderId}")
-    public ResponseEntity<OrderDTO> updateOrder(
+    public OrderDTO updateOrder(
             @PathVariable("orderId") @Min(1) Long orderId,
             @Valid @RequestBody OrderDTO orderDTO
     ){
@@ -65,12 +66,12 @@ public class OrderController {
 
         OrderDTO orderDTOResp = orderService.getOrderDTOResp(order);
 
-        return new ResponseEntity<>(orderDTOResp, HttpStatus.OK);
+        return orderDTOResp;
     }
 
     @Statistic
     @GetMapping("/orders/{orderId}")
-    public ResponseEntity<OrderDTO> getOrderById(
+    public OrderDTO getOrderById(
             @PathVariable("orderId") Long orderId
     ) {
 
@@ -80,19 +81,17 @@ public class OrderController {
 
         orderDTO.setOrderItemDTOS(orderItemService.getOrderItemDTOSet(order));
 
-        return new ResponseEntity<>(orderDTO, HttpStatus.OK);
+        return orderDTO;
     }
 
     @Statistic
     @GetMapping("/orders")
-    public ResponseEntity<Page<OrderDTO>> getAllOrders(
+    public Page<OrderDTO> getAllOrders(
             @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable
     ) {
 
         Page<Order> orderPage = orderService.findAll(pageable);
 
-        Page<OrderDTO> orderDTOPage = orderItemService.getOrderDTOPage(orderPage);
-
-        return new ResponseEntity<>(orderDTOPage, HttpStatus.OK);
+        return orderItemService.getOrderDTOPage(orderPage);
     }
 }

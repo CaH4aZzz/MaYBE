@@ -30,9 +30,10 @@ public class ComponentController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Component> addComponent(@Valid @RequestBody ComponentDTO componentDTO) {
-        return new ResponseEntity<>(componentService.createFromDTO(componentDTO), HttpStatus.CREATED);
+    public Component addComponent(@Valid @RequestBody ComponentDTO componentDTO) {
+        return componentService.createFromDTO(componentDTO);
     }
 
     @Statistic

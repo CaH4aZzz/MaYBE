@@ -28,40 +28,40 @@ public class InvoiceController {
 
     @Statistic
     @GetMapping("/invoices")
-    public ResponseEntity<Page<Invoice>> getInvoices(
+    public Page<Invoice> getInvoices(
             @RequestParam(name = "dateFrom", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime dateFrom,
             @RequestParam(name = "dateTo", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") LocalDateTime dateTo,
             @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
         Page<Invoice> invoices = invoiceService.findAllByPeriod(dateFrom, dateTo, pageable);
-        return new ResponseEntity<>(invoices, HttpStatus.OK);
+        return invoices;
     }
 
     @Statistic
     @GetMapping("/invoices/{invoiceId}")
-    public ResponseEntity<Invoice> getInvoice(
+    public Invoice getInvoice(
             @PathVariable("invoiceId") @Min(1) Long invoiceId) {
         Invoice invoice = invoiceService.findById(invoiceId);
-        return new ResponseEntity<>(invoice, HttpStatus.OK);
+        return invoice;
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/invoices")
-    public ResponseEntity<Invoice> createInvoice(
+    public Invoice createInvoice(
             @Valid @RequestBody InvoiceDTO invoiceDTO) {
-        Invoice invoice = invoiceService.createFromDTO(invoiceDTO);
-        return new ResponseEntity<>(invoice, HttpStatus.CREATED);
+        return invoiceService.createFromDTO(invoiceDTO);
     }
 
     @Statistic
     @PutMapping("/invoices/{invoiceId}")
-    public ResponseEntity<Invoice> updateInvoice(
+    public Invoice updateInvoice(
             @PathVariable("invoiceId") @Min(1) Long invoiceId,
             @Valid @RequestBody InvoiceDTO invoiceDTO) {
         Invoice invoice = invoiceService.findById(invoiceId);
         invoiceService.updateFromDTO(invoice, invoiceDTO);
-        return new ResponseEntity<>(invoice, HttpStatus.OK);
+        return invoice;
     }
 
     @Statistic
