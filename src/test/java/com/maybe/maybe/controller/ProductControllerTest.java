@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ProductController.class)
+@WebMvcTest(value = ProductController.class, secure = false)
 public class ProductControllerTest {
 
     @Autowired

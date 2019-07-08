@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(InvoiceItemController.class)
+@WebMvcTest(value = InvoiceItemController.class, secure = false)
 public class InvoiceItemControllerTest {
 
     @Autowired
