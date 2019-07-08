@@ -38,7 +38,7 @@ public class EmployeeController {
 
     @Statistic
     @PostMapping("/employees")
-    private ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(employeeService.createFromDTO(employeeDTO));
     }
