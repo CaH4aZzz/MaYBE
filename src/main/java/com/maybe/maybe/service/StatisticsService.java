@@ -1,9 +1,6 @@
 package com.maybe.maybe.service;
 
-import com.maybe.maybe.dto.ComponentReportDTO;
-import com.maybe.maybe.dto.EmployeeReportDTO;
-import com.maybe.maybe.dto.ProductReportDTO;
-import com.maybe.maybe.dto.SummaryDTO;
+import com.maybe.maybe.dto.*;
 import com.maybe.maybe.repository.InvoiceItemRepository;
 import com.maybe.maybe.repository.OrderItemRepository;
 import com.maybe.maybe.repository.OrderRepository;
@@ -47,6 +44,10 @@ public class StatisticsService {
 
     public List<EmployeeReportDTO> getEmployeeReport(LocalDate dateFrom, LocalDate dateTo) {
         return orderRepository.getEmployeeReport(getDateFrom(dateFrom), getDateTo(dateTo));
+    }
+
+    public List<DeskReportDTO> getDeskReport(LocalDate dateFrom, LocalDate dateTo) {
+        return orderRepository.getDeskReport(getDateFrom(dateFrom), getDateTo(dateTo));
     }
 
     private LocalDateTime getDateFrom(LocalDate date) {

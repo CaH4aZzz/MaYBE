@@ -66,6 +66,17 @@ public class StatisticsServiceTest {
         verify(orderRepository).getEmployeeReport(ArgumentMatchers.any(LocalDateTime.class), ArgumentMatchers.any(LocalDateTime.class));
     }
 
+    @Test
+    @Parameters(method = "parametersToTest")
+    public void getDeskReport(LocalDate dateFrom, LocalDate dateTo) {
+        MockitoAnnotations.initMocks(this);
+
+        statisticsService.getDeskReport(dateFrom,dateTo);
+
+        verify(orderRepository).getDeskReport(ArgumentMatchers.any(LocalDateTime.class),
+                ArgumentMatchers.any(LocalDateTime.class));
+    }
+
     private Object[] parametersToTest() {
         return new Object[]{
                 new Object[]{LocalDate.of(2010, 12, 31)
