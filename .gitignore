@@ -16,7 +16,7 @@ HELP.md
 *.iws
 *.iml
 *.ip
-application.properties
+#application.properties
 
 ### NetBeans ###
 /nbproject/private/
