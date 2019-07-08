@@ -58,9 +58,9 @@ public class DeskController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/desks/{id}")
-    public ResponseEntity<Desk> deleteDeskById(@PathVariable @Min(1) Long id) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(deskService.deleteById(id));
+    public void deleteDeskById(@PathVariable @Min(1) Long id) {
+        deskService.deleteById(id);
     }
 }

@@ -1,5 +1,5 @@
 HELP.md
-/target/
+backend/target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
@@ -32,15 +32,15 @@ HELP.md
 # FRONT END IGNORE
 
 # dependencies
-/node_modules
-/.pnp
-.pnp.js
+frontend/node_modules
+frontend/.pnp
+frontend/.pnp.js
 
 # testing
-/coverage
+frontend/coverage
 
 # production
-/build
+frontend/build
 
 # misc
 .DS_Store

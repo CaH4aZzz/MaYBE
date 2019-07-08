@@ -133,9 +133,9 @@ public class InvoiceControllerTest {
 
         mvc.perform(delete("/api/invoices/{invoiceId}", invoiceId)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(invoice.getId().intValue())))
-                .andExpect(jsonPath("$.name", is(invoice.getName())))
-                .andExpect(jsonPath("$.employee.name", is(invoice.getEmployee().getName())));
+                .andExpect(status().isNoContent());
+//                .andExpect(jsonPath("$.id", is(invoice.getId().intValue())))
+//                .andExpect(jsonPath("$.name", is(invoice.getName())))
+//                .andExpect(jsonPath("$.employee.name", is(invoice.getEmployee().getName())));
     }
 }

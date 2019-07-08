@@ -65,13 +65,14 @@ public class OrderItemController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/orderItems/{orderItemId}")
-    public ResponseEntity<OrderItemDTO> deleteOrderItem(
+    public void deleteOrderItem(
             @PathVariable("orderItemId") @Min(1) Long orderItemId) {
-        OrderItem orderItem = orderItemService.getOrderItemById(orderItemId);
-        OrderItemDTO orderItemDTOResp = orderItemService.getOrderItemDTOResp(orderItem);
+//        OrderItem orderItem = orderItemService.getOrderItemById(orderItemId);
+//        OrderItemDTO orderItemDTOResp = orderItemService.getOrderItemDTOResp(orderItem);
         orderItemService.deleteOrderItemById(orderItemId);
-        return new ResponseEntity<>(orderItemDTOResp, HttpStatus.OK);
+//        return new ResponseEntity<>(orderItemDTOResp, HttpStatus.OK);
     }
 
     @Statistic
