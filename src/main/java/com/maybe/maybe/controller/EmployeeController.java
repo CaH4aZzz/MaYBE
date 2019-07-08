@@ -6,9 +6,9 @@ import com.maybe.maybe.entity.Employee;
 import com.maybe.maybe.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
@@ -37,6 +37,7 @@ public class EmployeeController {
     }
 
     @Statistic
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/employees")
     private ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -52,6 +53,7 @@ public class EmployeeController {
     }
 
     @Statistic
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/employees/{id}")
     public ResponseEntity<Employee> deleteEmployeeById(@PathVariable @Min(1) Long id) {
         return ResponseEntity.status(HttpStatus.OK)
