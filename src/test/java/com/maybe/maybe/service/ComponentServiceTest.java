@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -157,7 +158,7 @@ public class ComponentServiceTest {
 
         // then
         assertEquals(BigDecimal.valueOf(15), actualComponent.getQuantity());
-        assertEquals(BigDecimal.valueOf(33.33), actualComponent.getTotal());
+        assertEquals(BigDecimal.valueOf(70), actualComponent.getTotal());
         verify(componentRepository, times(1)).save(actualComponent);
     }
 
@@ -184,15 +185,19 @@ public class ComponentServiceTest {
     public void decreaseComponentBalance() {
         Component component = new Component();
         component.setQuantity(BigDecimal.valueOf(15));
+        component.setTotal(BigDecimal.valueOf(300, 2));
         component.setId(1L);
         BigDecimal subtrahendQuantity = BigDecimal.valueOf(5);
+        BigDecimal subtrahendTotal = BigDecimal.valueOf(100, 2);
         BigDecimal expectedQuantity = component.getQuantity().subtract(subtrahendQuantity);
+        BigDecimal expectedTotal = component.getTotal().subtract(subtrahendTotal);
         when(componentRepository.findById(1L)).thenReturn(Optional.of(component));
         when(componentRepository.save(component)).thenReturn(component);
 
         component.setQuantity(componentService.decreaseComponentBalance(1L, subtrahendQuantity).getQuantity());
 
         assertEquals(expectedQuantity, component.getQuantity());
+        assertEquals(expectedTotal, component.getTotal());
     }
 
     @Test(expected = EntityNotFoundException.class)

@@ -7,25 +7,25 @@ import com.maybe.maybe.entity.InvoiceItem;
 import com.maybe.maybe.entity.enums.InvoiceType;
 import com.maybe.maybe.repository.InvoiceItemRepository;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 import org.springframework.data.domain.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
 public class InvoiceItemServiceTest {
 
     @InjectMocks
+    @Spy
     InvoiceItemService manager;
 
     @Mock
@@ -40,6 +40,7 @@ public class InvoiceItemServiceTest {
     private Invoice invoice;
     private InvoiceItem invoiceItem1;
     private InvoiceItem invoiceItem2;
+    private Component component;
 
     @Before
     public void setUp() throws Exception {
@@ -52,13 +53,18 @@ public class InvoiceItemServiceTest {
         invoice.setName("001");
         invoice.setInvoiceType(InvoiceType.INCOME);
 
+        component = new Component();
+        component.setId(1L);
+
         invoiceItem1 = new InvoiceItem();
         invoiceItem1.setId(5L);
         invoiceItem1.setInvoice(invoice);
+        invoiceItem1.setComponent(component);
 
         invoiceItem2 = new InvoiceItem();
         invoiceItem2.setId(7L);
         invoiceItem2.setInvoice(invoice);
+        invoiceItem2.setComponent(component);
     }
 
     @Test
@@ -90,6 +96,10 @@ public class InvoiceItemServiceTest {
 
     @Test
     public void delete() {
+        // given
+        when(componentService.decreaseComponentBalance(anyLong(), any(BigDecimal.class)))
+                .thenReturn(any(Component.class));
+
         // when
         manager.delete(invoiceItem1);
 
@@ -132,42 +142,45 @@ public class InvoiceItemServiceTest {
 
         InvoiceItemDTO invoiceItemDTO = new InvoiceItemDTO();
         invoiceItemDTO.setComponentId(componentId);
+        invoiceItemDTO.setQuantity(BigDecimal.ONE);
+        invoiceItemDTO.setPrice(BigDecimal.ONE);
 
         InvoiceItem invoiceItem = new InvoiceItem();
 
         when(invoiceService.findById(invoiceId))
                 .thenReturn(invoice);
-        when(componentService.findById(componentId))
-                .thenReturn(component);
+        Mockito.doReturn(invoiceItem).when(manager).updateFromDTO(invoiceItem, invoiceItemDTO);
 
         // when
-        manager.createFromDTO(invoiceItemDTO, invoiceId);
+        InvoiceItem actualInvoiceItem = manager.createFromDTO(invoiceItemDTO, invoiceId);
 
         // then
-        verify(invoiceItemRepository, times(1)).save(invoiceItem);
+        assertEquals(invoiceItem, actualInvoiceItem);
     }
 
     @Test
     public void updateFromDTO() {
         // given
-        Long invoiceId = invoice.getId();
-
-        Component component = new Component();
-        component.setId(1L);
         Long componentId = component.getId();
 
         InvoiceItemDTO invoiceItemDTO = new InvoiceItemDTO();
         invoiceItemDTO.setComponentId(componentId);
+        invoiceItemDTO.setQuantity(BigDecimal.ONE);
+        invoiceItemDTO.setPrice(BigDecimal.ONE);
 
-        when(invoiceService.findById(invoiceId))
-                .thenReturn(invoice);
+        when(componentService.decreaseComponentBalance(anyLong(), any(BigDecimal.class)))
+                .thenReturn(component);
         when(componentService.findById(componentId))
                 .thenReturn(component);
+        when(componentService.increaseComponentBalance(anyLong(), any(BigDecimal.class), any(BigDecimal.class)))
+                .thenReturn(component);
+        when(invoiceItemRepository.save(invoiceItem1))
+                .thenReturn(invoiceItem1);
 
         // when
-        manager.updateFromDTO(invoiceItem1, invoiceItemDTO);
+        InvoiceItem actualInvoiceItem = manager.updateFromDTO(invoiceItem1, invoiceItemDTO);
 
         // then
-        verify(invoiceItemRepository, times(1)).save(invoiceItem1);
+        assertEquals(invoiceItem1, actualInvoiceItem);
     }
 }

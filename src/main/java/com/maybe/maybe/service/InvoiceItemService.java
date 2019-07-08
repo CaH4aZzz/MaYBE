@@ -30,6 +30,8 @@ public class InvoiceItemService {
 
     public void delete(InvoiceItem invoiceItem) {
         invoiceService.validateUnmodifiedInvoice(invoiceItem.getInvoice());
+        componentService.decreaseComponentBalance(invoiceItem.getComponent().getId(),
+                invoiceItem.getQuantity());
         invoiceItemRepository.delete(invoiceItem);
     }
 
@@ -45,9 +47,16 @@ public class InvoiceItemService {
 
     public InvoiceItem updateFromDTO(InvoiceItem invoiceItem, InvoiceItemDTO invoiceItemDTO) {
         invoiceService.validateUnmodifiedInvoice(invoiceItem.getInvoice());
+        if (invoiceItem.getId() != null) {
+            componentService.decreaseComponentBalance(invoiceItem.getComponent().getId(),
+                    invoiceItem.getQuantity());
+        }
         invoiceItem.setPrice(invoiceItemDTO.getPrice());
         invoiceItem.setQuantity(invoiceItemDTO.getQuantity());
         invoiceItem.setComponent(componentService.findById(invoiceItemDTO.getComponentId()));
+        componentService.increaseComponentBalance(invoiceItem.getComponent().getId(),
+                invoiceItem.getQuantity(),
+                invoiceItem.getPrice().multiply(invoiceItem.getQuantity()));
         return invoiceItemRepository.save(invoiceItem);
     }
 }
