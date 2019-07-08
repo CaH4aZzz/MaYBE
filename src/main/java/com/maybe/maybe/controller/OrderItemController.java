@@ -1,6 +1,7 @@
 package com.maybe.maybe.controller;
 
 
+import com.maybe.maybe.annotation.Statistic;
 import com.maybe.maybe.dto.OrderItemDTO;
 import com.maybe.maybe.entity.OrderItem;
 import com.maybe.maybe.service.OrderItemService;
@@ -24,6 +25,7 @@ public class OrderItemController {
         this.orderItemService = orderItemService;
     }
 
+    @Statistic
     @PostMapping("/orders/{orderId}/orderItems")
     public ResponseEntity<OrderItemDTO> createOrderItemByOrderId(
             @PathVariable("orderId") @Min(1) Long orderId,
@@ -36,6 +38,7 @@ public class OrderItemController {
         return new ResponseEntity<>(orderItemDTOResp, HttpStatus.CREATED);
     }
 
+    @Statistic
     @GetMapping("/orders/{orderId}/orderItems")
     public ResponseEntity<Page<OrderItemDTO>> getOrderItemsByOrderId(
             @PathVariable("orderId") @Min(1) Long orderId,
@@ -49,6 +52,7 @@ public class OrderItemController {
         return new ResponseEntity<>(orderItemDTOPage, HttpStatus.OK);
     }
 
+    @Statistic
     @GetMapping("/orderItems/{orderItemId}")
     public ResponseEntity<OrderItemDTO> getOrderItemById(
             @PathVariable("orderItemId") @Min(1) Long orderItemId
@@ -60,6 +64,7 @@ public class OrderItemController {
         return new ResponseEntity<>(orderItemDTOResp, HttpStatus.OK);
     }
 
+    @Statistic
     @DeleteMapping("/orderItems/{orderItemId}")
     public ResponseEntity<OrderItemDTO> deleteOrderItem(
             @PathVariable("orderItemId") @Min(1) Long orderItemId) {
@@ -69,6 +74,7 @@ public class OrderItemController {
         return new ResponseEntity<>(orderItemDTOResp, HttpStatus.OK);
     }
 
+    @Statistic
     @PutMapping("/orderItems/{orderItemId}")
     public ResponseEntity<OrderItemDTO> updateOrderItem(
             @PathVariable("orderItemId") @Min(1) Long orderItemId,
