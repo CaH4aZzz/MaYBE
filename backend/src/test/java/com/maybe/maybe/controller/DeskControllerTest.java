@@ -90,6 +90,6 @@ public class DeskControllerTest {
         when(deskService.deleteById(id)).thenReturn(desk);
 
         mockMvc.perform(delete("/api/desks/" + id))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

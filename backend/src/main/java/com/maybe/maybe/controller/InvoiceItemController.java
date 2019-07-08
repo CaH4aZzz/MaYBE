@@ -61,11 +61,12 @@ public class InvoiceItemController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/invoiceItems/{invoiceItemId}")
-    public ResponseEntity<InvoiceItem> deleteInvoiceItem(
+    public void deleteInvoiceItem(
             @PathVariable("invoiceItemId") @Min(1) Long invoiceItemId) {
         InvoiceItem invoiceItem = invoiceItemService.findById(invoiceItemId);
         invoiceItemService.delete(invoiceItem);
-        return new ResponseEntity<>(invoiceItem, HttpStatus.OK);
+//        return new ResponseEntity<>(invoiceItem, HttpStatus.OK);
     }
 }

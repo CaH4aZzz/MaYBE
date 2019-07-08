@@ -46,13 +46,14 @@ public class OrderController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/orders/{orderId}")
-    public ResponseEntity<OrderDTO> deleteOrder(
+    public void deleteOrder(
             @PathVariable("orderId") @Min(1) Long orderId) {
-        Order order = orderService.getOrderById(orderId);
-        OrderDTO orderDTOResp = orderService.getOrderDTOResp(order);
+//        Order order = orderService.getOrderById(orderId);
+//        OrderDTO orderDTOResp = orderService.getOrderDTOResp(order);
         orderService.deleteOrderById(orderId);
-        return new ResponseEntity<>(orderDTOResp, HttpStatus.OK);
+//        return new ResponseEntity<>(orderDTOResp, HttpStatus.OK);
     }
     @Statistic
     @PutMapping("/orders/{orderId}")

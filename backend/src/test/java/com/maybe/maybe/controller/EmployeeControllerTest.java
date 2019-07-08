@@ -100,6 +100,6 @@ public class EmployeeControllerTest {
         when(employeeService.deleteById(id)).thenReturn(employee);
 
         mockMvc.perform(delete("/api/employees/" + id))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 }

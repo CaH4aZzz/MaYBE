@@ -1,9 +1,0 @@
-com/maybe/maybe/service/InvoiceItemServiceTest.class
-com/maybe/maybe/repository/InvoiceItemRepositoryTest.class
-com/maybe/maybe/repository/InvoiceRepositoryTest.class
-com/maybe/maybe/controller/InvoiceControllerTest.class
-com/maybe/maybe/service/OrderServiceTest.class
-com/maybe/maybe/controller/InvoiceItemControllerTest.class
-com/maybe/maybe/service/InvoiceServiceTest.class
-com/maybe/maybe/service/StatisticsServiceTest.class
-com/maybe/maybe/MaybeApplicationTests.class
