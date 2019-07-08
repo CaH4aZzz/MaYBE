@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ComponentService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maybe</a> &gt; <a href="index.source.html" class="el_package">com.maybe.maybe.service</a> &gt; <span class="el_source">ComponentService.java</span></div><h1>ComponentService.java</h1><pre class="source lang-java linenums">package com.maybe.maybe.service;
+
+import com.maybe.maybe.dto.ComponentDTO;
+import com.maybe.maybe.entity.Component;
+import com.maybe.maybe.exception.NotEnoughComponentException;
+import com.maybe.maybe.repository.ComponentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Optional;
+
+@Service
+public class ComponentService {
+    private ComponentRepository componentRepository;
+
+<span class="fc" id="L20">    public ComponentService(ComponentRepository componentRepository) {</span>
+<span class="fc" id="L21">        this.componentRepository = componentRepository;</span>
+<span class="fc" id="L22">    }</span>
+    public Page&lt;Component&gt; findAll(Pageable pageable) {
+<span class="fc" id="L24">        return componentRepository.findAll(pageable);</span>
+    }
+
+    private Component convertDTOtoEntity(ComponentDTO componentDTO) {
+<span class="fc" id="L28">        Long componentId = null;</span>
+<span class="fc" id="L29">        return convertDTOtoEntity(componentId, componentDTO);</span>
+    }
+
+    private Component convertDTOtoEntity(Long componentId, ComponentDTO componentDTO) {
+        Component component;
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (componentId != null) {</span>
+<span class="fc" id="L35">            component = findById(componentId);</span>
+        } else {
+<span class="fc" id="L37">            component = new Component();</span>
+        }
+<span class="fc" id="L39">        component.setName(componentDTO.getName());</span>
+<span class="fc" id="L40">        component.setMeasure(componentDTO.getMeasure());</span>
+<span class="fc" id="L41">        return component;</span>
+    }
+
+    public Component createFromDTO(ComponentDTO componentDTO) {
+<span class="fc" id="L45">        return componentRepository.save(convertDTOtoEntity(componentDTO));</span>
+    }
+
+    public Component updateFromDTO(Long componentId, ComponentDTO componentDTO) {
+<span class="fc" id="L49">        return componentRepository.save(convertDTOtoEntity(componentId, componentDTO));</span>
+    }
+
+    public Component findById(Long id) {
+<span class="fc" id="L53">        return componentRepository.findById(id)</span>
+<span class="fc" id="L54">                .orElseThrow(() -&gt; new EntityNotFoundException(&quot;Could not find component id=&quot; + id));</span>
+    }
+
+    public Component increaseComponentBalance(Long componentId, BigDecimal quantity,
+                                              BigDecimal total) {
+<span class="fc" id="L59">        Component component = findById(componentId);</span>
+<span class="fc" id="L60">        BigDecimal componentQuantity = component.getQuantity();</span>
+<span class="fc" id="L61">        BigDecimal componentTotal = component.getTotal();</span>
+<span class="fc" id="L62">        BigDecimal newQuantity = componentQuantity.add(quantity);</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (newQuantity.compareTo(BigDecimal.ZERO) &lt; 0) {</span>
+<span class="fc" id="L64">            throw new NotEnoughComponentException(&quot;Not enough component &quot; + component.getName());</span>
+        }
+<span class="fc" id="L66">        BigDecimal newTotal = componentTotal.add(total);</span>
+        
+<span class="fc" id="L68">        component.setQuantity(newQuantity);</span>
+<span class="fc" id="L69">        component.setTotal(newTotal);</span>
+<span class="fc" id="L70">        return componentRepository.save(component);</span>
+    }
+
+    public Component decreaseComponentBalance(Long componentId, BigDecimal quantity) {
+<span class="fc" id="L74">        Optional&lt;Component&gt; componentFromDb = componentRepository.findById(componentId);</span>
+
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        if (!componentFromDb.isPresent()) {</span>
+<span class="fc" id="L77">            throw new EntityNotFoundException(&quot;Can not found component with id: &quot; + componentId);</span>
+        }
+
+<span class="fc" id="L80">        Component component = componentFromDb.get();</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">        if (component.getQuantity().compareTo(quantity) &lt; 0) {</span>
+<span class="fc" id="L82">            throw new NotEnoughComponentException(&quot;Not enough components with name &quot; + component.getName());</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        } else if (component.getQuantity().compareTo(quantity) == 0) {</span>
+<span class="nc" id="L84">            component.setQuantity(BigDecimal.ZERO);</span>
+<span class="nc" id="L85">            component.setTotal(BigDecimal.ZERO);</span>
+        } else {
+<span class="fc" id="L87">            BigDecimal price = component.getTotal().divide(component.getQuantity(),2, RoundingMode.FLOOR);</span>
+<span class="fc" id="L88">            component.setQuantity(component.getQuantity().subtract(quantity));</span>
+<span class="fc" id="L89">            component.setTotal(price.multiply(component.getQuantity()));</span>
+        }
+
+<span class="fc" id="L92">        return componentRepository.save(component);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

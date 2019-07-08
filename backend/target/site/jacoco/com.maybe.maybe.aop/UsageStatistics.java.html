@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsageStatistics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maybe</a> &gt; <a href="index.source.html" class="el_package">com.maybe.maybe.aop</a> &gt; <span class="el_source">UsageStatistics.java</span></div><h1>UsageStatistics.java</h1><pre class="source lang-java linenums">package com.maybe.maybe.aop;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Aspect
+@Configuration
+<span class="fc" id="L13">public class UsageStatistics {</span>
+<span class="fc" id="L14">    private static Map&lt;String, Long&gt; methodsStatistics = new HashMap&lt;&gt;();</span>
+
+    public Map&lt;String, Long&gt; getMethodsStatistics() {
+<span class="nc" id="L17">        return methodsStatistics;</span>
+    }
+
+    public void setMethodsStatistics(Map&lt;String, Long&gt; methodsStatistics) {
+<span class="nc" id="L21">        UsageStatistics.methodsStatistics = methodsStatistics;</span>
+<span class="nc" id="L22">    }</span>
+
+    @Before(&quot;@annotation(com.maybe.maybe.annotation.Statistic)&quot;)
+    public void collectUsageStatistics(JoinPoint joinPoint) {
+<span class="nc" id="L26">        Long methodCallsNumber = 1L;</span>
+<span class="nc bnc" id="L27" title="All 2 branches missed.">        if (!methodsStatistics.containsKey(joinPoint.getSignature().getName())) {</span>
+<span class="nc" id="L28">            methodsStatistics.put(joinPoint.getSignature().getName(), methodCallsNumber);</span>
+        } else {
+<span class="nc" id="L30">            methodCallsNumber = methodsStatistics.get(joinPoint.getSignature().getName()) + 1;</span>
+<span class="nc" id="L31">            methodsStatistics.put(joinPoint.getSignature().getName(), methodCallsNumber);</span>
+        }
+<span class="nc" id="L33">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

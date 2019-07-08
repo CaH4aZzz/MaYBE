@@ -1,0 +1,29 @@
+language: java
+
+install:
+  - mvn -N io.takari:maven:wrapper
+  - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+before_script:
+  - echo "Starting build"
+after_script:
+  - echo "Script finished"
+after_success:
+  - echo "Build was successful"
+  - bash <(curl -s https://codecov.io/bash) -c
+after_failure:
+  - echo "Build was failed"
+cache:
+  directories:
+    - $HOME/.m2
+notifications:
+  email:
+    recipients:
+      - CaH4aZzz@gmail.com
+      - kosten27@gmail.com
+      - artem.sobolenko@gmail.com
+      - kjuby009@gmail.com
+      - xvanyax2008@gmail.com
+      - yurasicv@gmail.com
+      - klitsenko.dmitriy@gmail.com
+    on_success: never
+    on_failure: always

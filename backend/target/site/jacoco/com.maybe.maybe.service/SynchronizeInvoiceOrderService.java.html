@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SynchronizeInvoiceOrderService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maybe</a> &gt; <a href="index.source.html" class="el_package">com.maybe.maybe.service</a> &gt; <span class="el_source">SynchronizeInvoiceOrderService.java</span></div><h1>SynchronizeInvoiceOrderService.java</h1><pre class="source lang-java linenums">package com.maybe.maybe.service;
+
+import com.maybe.maybe.entity.*;
+import com.maybe.maybe.repository.InvoiceItemRepository;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.Optional;
+import java.util.Set;
+
+@Service
+public class SynchronizeInvoiceOrderService {
+    private ComponentService componentService;
+    private InvoiceItemRepository invoiceItemRepository;
+
+    public SynchronizeInvoiceOrderService(ComponentService componentService,
+<span class="fc" id="L17">                                          InvoiceItemRepository invoiceItemRepository) {</span>
+<span class="fc" id="L18">        this.componentService = componentService;</span>
+<span class="fc" id="L19">        this.invoiceItemRepository = invoiceItemRepository;</span>
+<span class="fc" id="L20">    }</span>
+
+//    public void orderChanged(Order order) {
+//        Invoice invoice = order.getInvoice();
+//        Set&lt;InvoiceItem&gt; invoiceItems = invoice.getInvoiceItems();
+//        resetInvoiceItems(invoiceItems);
+//        for (OrderItem orderItem : order.getOrderItems()) {
+//            BigDecimal productQuantity = orderItem.getQuantity();
+//            Product product = orderItem.getProduct();
+//            Set&lt;ComponentProduct&gt; componentProducts = product.getComponentProducts();
+//            for (ComponentProduct componentProduct : componentProducts) {
+//                Component component = componentProduct.getComponent();
+//                InvoiceItem invoiceItem;
+//                Optional&lt;InvoiceItem&gt; optionalInvoiceItem = invoiceItems.stream()
+//                        .filter(i -&gt; i.getComponent().equals(component)).findFirst();
+//                if (optionalInvoiceItem.isPresent()) {
+//                    invoiceItem = optionalInvoiceItem.get();
+//                } else {
+//                    invoiceItem = new InvoiceItem();
+//                    invoiceItem.setInvoice(invoice);
+//                    invoiceItem.setComponent(component);
+//                    invoiceItem.setQuantity(BigDecimal.ZERO);
+//                    invoiceItem.setPrice(BigDecimal.ZERO);
+//                    invoiceItemRepository.save(invoiceItem);
+//                    invoiceItems.add(invoiceItem);
+////                    invoice.setInvoiceItems(invoiceItems);
+//                }
+//                invoiceItem.setPrice(component.getAveragePrice());
+//                BigDecimal componentQuantity = productQuantity.multiply(componentProduct.getQuantity());
+//                invoiceItem.setQuantity(invoiceItem.getQuantity().add(componentQuantity));
+//            }
+//        }
+//        saveInvoiceItems(invoiceItems);
+//    }
+
+
+    public void orderChanged(Order order) {
+<span class="nc" id="L57">        Invoice invoice = order.getInvoice();</span>
+<span class="nc" id="L58">        Set&lt;InvoiceItem&gt; invoiceItems = invoice.getInvoiceItems();</span>
+<span class="nc" id="L59">        resetInvoiceItems(invoiceItems);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        for (OrderItem orderItem : order.getOrderItems()) {</span>
+<span class="nc" id="L61">            BigDecimal productQuantity = orderItem.getQuantity();</span>
+<span class="nc" id="L62">            Product product = orderItem.getProduct();</span>
+<span class="nc" id="L63">            Set&lt;ComponentProduct&gt; componentProducts = product.getComponentProducts();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            for (ComponentProduct componentProduct : componentProducts) {</span>
+<span class="nc" id="L65">                Component component = componentProduct.getComponent();</span>
+<span class="nc" id="L66">                InvoiceItem invoiceItem = invoiceItems.stream()</span>
+<span class="nc" id="L67">                        .filter(i -&gt; i.getComponent().equals(component)).findFirst()</span>
+<span class="nc" id="L68">                        .orElseGet(() -&gt; {</span>
+<span class="nc" id="L69">                            InvoiceItem newInvoiceItem = new InvoiceItem();</span>
+<span class="nc" id="L70">                            newInvoiceItem.setInvoice(invoice);</span>
+<span class="nc" id="L71">                            newInvoiceItem.setComponent(component);</span>
+<span class="nc" id="L72">                            newInvoiceItem.setQuantity(BigDecimal.ZERO);</span>
+<span class="nc" id="L73">                            newInvoiceItem.setPrice(BigDecimal.ZERO);</span>
+<span class="nc" id="L74">                            invoiceItemRepository.save(newInvoiceItem);</span>
+<span class="nc" id="L75">                            invoiceItems.add(newInvoiceItem);</span>
+<span class="nc" id="L76">                            return newInvoiceItem;</span>
+                        });
+<span class="nc" id="L78">                invoiceItem.setPrice(component.getAveragePrice());</span>
+<span class="nc" id="L79">                BigDecimal componentQuantity = productQuantity.multiply(componentProduct.getQuantity());</span>
+<span class="nc" id="L80">                invoiceItem.setQuantity(invoiceItem.getQuantity().add(componentQuantity));</span>
+<span class="nc" id="L81">            }</span>
+<span class="nc" id="L82">        }</span>
+<span class="nc" id="L83">        saveInvoiceItems(invoiceItems);</span>
+<span class="nc" id="L84">    }</span>
+
+    public void orderDeleted(Order order) {
+<span class="nc" id="L87">        Invoice invoice = order.getInvoice();</span>
+<span class="nc" id="L88">        Set&lt;InvoiceItem&gt; invoiceItems = invoice.getInvoiceItems();</span>
+<span class="nc" id="L89">        resetInvoiceItems(invoiceItems);</span>
+<span class="nc" id="L90">    }</span>
+
+    private void resetInvoiceItems(Set&lt;InvoiceItem&gt; invoiceItems) {
+<span class="nc" id="L93">        invoiceItems.forEach(i -&gt; {</span>
+<span class="nc" id="L94">            componentService.increaseComponentBalance(i.getComponent().getId(),</span>
+<span class="nc" id="L95">                    i.getQuantity(),</span>
+<span class="nc" id="L96">                    i.getPrice().multiply(i.getQuantity()));</span>
+<span class="nc" id="L97">            i.setQuantity(BigDecimal.ZERO);</span>
+<span class="nc" id="L98">        });</span>
+<span class="nc" id="L99">    }</span>
+
+    private void saveInvoiceItems(Set&lt;InvoiceItem&gt; invoiceItems) {
+<span class="nc" id="L102">        invoiceItems.forEach(i -&gt; {</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if (i.getQuantity().compareTo(BigDecimal.ZERO) == 0) {</span>
+<span class="nc" id="L104">                invoiceItemRepository.delete(i);</span>
+            } else {
+<span class="nc" id="L106">                componentService.decreaseComponentBalance(i.getComponent().getId(), i.getQuantity());</span>
+<span class="nc" id="L107">                invoiceItemRepository.save(i);</span>
+            }
+<span class="nc" id="L109">        });</span>
+<span class="nc" id="L110">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

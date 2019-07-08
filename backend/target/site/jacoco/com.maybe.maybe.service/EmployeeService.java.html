@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EmployeeService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maybe</a> &gt; <a href="index.source.html" class="el_package">com.maybe.maybe.service</a> &gt; <span class="el_source">EmployeeService.java</span></div><h1>EmployeeService.java</h1><pre class="source lang-java linenums">package com.maybe.maybe.service;
+
+import com.maybe.maybe.dto.EmployeeDTO;
+import com.maybe.maybe.entity.Employee;
+import com.maybe.maybe.entity.enums.converter.UserRoleConverter;
+import com.maybe.maybe.repository.EmployeeRepository;
+import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+
+@Service
+public class EmployeeService {
+    private EmployeeRepository employeeRepository;
+
+<span class="fc" id="L18">    public EmployeeService(EmployeeRepository employeeRepository) {</span>
+<span class="fc" id="L19">        this.employeeRepository = employeeRepository;</span>
+<span class="fc" id="L20">    }</span>
+
+    public Employee findById(Long id) {
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (employeeRepository.findEmployeeById(id) != null) {</span>
+<span class="fc" id="L24">            return employeeRepository.findEmployeeById(id);</span>
+        } else {
+<span class="fc" id="L26">            throw new EntityNotFoundException(&quot;Can not find employee by id = &quot; + id);</span>
+        }
+    }
+
+    public List&lt;Employee&gt; findAll() {
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        if (employeeRepository.findEmployeeById(1L) != null) {</span>
+<span class="fc" id="L32">            return employeeRepository.findAll();</span>
+        } else {
+<span class="fc" id="L34">            throw new EntityNotFoundException(&quot;Can not find any employee&quot;);</span>
+        }
+    }
+
+    public Employee createFromDTO(EmployeeDTO employeeDTO) {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        if (employeeRepository.findEmployeeByLogin(employeeDTO.getLogin()) == null) {</span>
+<span class="fc" id="L40">            Employee employee = new Employee();</span>
+<span class="fc" id="L41">            employee.setName(employeeDTO.getName());</span>
+<span class="fc" id="L42">            employee.setLogin(employeeDTO.getLogin());</span>
+<span class="fc" id="L43">            employee.setPassword(new BCryptPasswordEncoder().encode(employeeDTO.getPassword()));</span>
+<span class="fc" id="L44">            employee.setUserRole(new UserRoleConverter().convertToEntityAttribute(employeeDTO.getRoleId()));</span>
+<span class="fc" id="L45">            employee.setInvoiceList(null);</span>
+<span class="fc" id="L46">            return employeeRepository.save(employee);</span>
+        } else {
+<span class="fc" id="L48">            throw new BeanCreationException(&quot;Can not create entity by dto &quot; + employeeDTO.toString());</span>
+        }
+    }
+
+    public Employee updateById(Long id, EmployeeDTO employeeRequest) {
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        if (employeeRepository.findEmployeeById(id) != null) {</span>
+<span class="fc" id="L54">            Employee employee = employeeRepository.findEmployeeById(id);</span>
+<span class="fc" id="L55">            employee.setName(employeeRequest.getName());</span>
+<span class="fc" id="L56">            employee.setLogin(employeeRequest.getLogin());</span>
+<span class="fc" id="L57">            employee.setPassword(new BCryptPasswordEncoder().encode(employeeRequest.getPassword()));</span>
+<span class="fc" id="L58">            employee.setUserRole(new UserRoleConverter().convertToEntityAttribute(employeeRequest.getRoleId()));</span>
+<span class="fc" id="L59">            employee.setInvoiceList(null);</span>
+<span class="fc" id="L60">            employee.setId(id);</span>
+<span class="fc" id="L61">            return employeeRepository.save(employee);</span>
+        } else {
+<span class="fc" id="L63">            throw new EntityNotFoundException(&quot;Can not update employee by id = &quot; + id);</span>
+        }
+    }
+
+    public Employee deleteById(Long id){
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        if(employeeRepository.findEmployeeById(id) != null){</span>
+<span class="fc" id="L69">            Employee employee = employeeRepository.findEmployeeById(id);</span>
+<span class="fc" id="L70">            employeeRepository.deleteById(id);</span>
+<span class="fc" id="L71">            return employee;</span>
+        } else {
+<span class="fc" id="L73">            throw new EntityNotFoundException(&quot;Can not delete employee by id = &quot; + id);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
