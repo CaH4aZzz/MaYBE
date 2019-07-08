@@ -73,4 +73,8 @@ public class EmployeeService {
             throw new EntityNotFoundException("Can not delete employee by id = " + id);
         }
     }
+
+    public Employee findEmployeeByLogin(String login) {
+        return employeeRepository.findEmployeeByLogin(login);
+    }
 }

@@ -6,8 +6,7 @@ import com.maybe.maybe.dto.ProductReportDTO;
 import com.maybe.maybe.dto.SummaryDTO;
 import com.maybe.maybe.service.StatisticsService;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/statistics")
 public class StatisticsController {
 
