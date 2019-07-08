@@ -14,7 +14,7 @@ class OrderItemService {
         return axios.get(`${API_URL}/${id}/orderItems`);
     }
 
-    addOrderItemToOrder(orderId, price, productId, quantity){
+    addOrderItemToOrder(orderId, price, productId, quantity) {
 
         return axios({
             method: 'post',

@@ -8,9 +8,9 @@ class MaybeRight extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="myComp">
                 <Switch>
-                    <Route path="/orders/:id" component={ProductList}/>
+                    <Route path="/orders/:id" exact component={ProductList}/>
                     <Route path="/" component={DeskList}/>
                     {/*<Route path="/" render={() => "No order selected"}/>*/}
                     {/*<Route path="/components" component={ComponentList}/>*/}

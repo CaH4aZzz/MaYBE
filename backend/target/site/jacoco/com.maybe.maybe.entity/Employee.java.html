@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Employee.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maybe</a> &gt; <a href="index.source.html" class="el_package">com.maybe.maybe.entity</a> &gt; <span class="el_source">Employee.java</span></div><h1>Employee.java</h1><pre class="source lang-java linenums">package com.maybe.maybe.entity;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.maybe.maybe.entity.enums.UserRole;
+import com.maybe.maybe.entity.enums.converter.UserRoleConverter;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = &quot;employee&quot;)
+<span class="fc" id="L15">public class Employee extends AbstractEntity {</span>
+    @NotNull
+    @Column(name = &quot;name&quot;, nullable = false)
+    private String name;
+
+    @NotNull
+    @Column(name = &quot;login&quot;, nullable = false, length = 50)
+    private String login;
+
+    @NotNull
+    @Column(name = &quot;password&quot;, nullable = false, length = 60)
+    @JsonIgnore
+    private String password;
+
+    @NotNull
+    @Convert(converter = UserRoleConverter.class)
+    @Column(name = &quot;role_id&quot;, nullable = false)
+    private UserRole userRole;
+
+<span class="fc" id="L34">    @OneToMany(mappedBy = &quot;employee&quot;)</span>
+    @JsonBackReference
+    private Set&lt;Invoice&gt; invoiceList = new HashSet&lt;&gt;();
+
+    public String getName() {
+<span class="fc" id="L39">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L43">        this.name = name;</span>
+<span class="fc" id="L44">    }</span>
+
+    public String getLogin() {
+<span class="fc" id="L47">        return login;</span>
+    }
+
+    public void setLogin(String login) {
+<span class="fc" id="L51">        this.login = login;</span>
+<span class="fc" id="L52">    }</span>
+
+    public String getPassword() {
+<span class="nc" id="L55">        return password;</span>
+    }
+
+    public void setPassword(String password) {
+<span class="fc" id="L59">        this.password = password;</span>
+<span class="fc" id="L60">    }</span>
+
+    public UserRole getUserRole() {
+<span class="fc" id="L63">        return userRole;</span>
+    }
+
+    public void setUserRole(UserRole userRole) {
+<span class="fc" id="L67">        this.userRole = userRole;</span>
+<span class="fc" id="L68">    }</span>
+
+    public Set&lt;Invoice&gt; getInvoiceList() {
+<span class="nc" id="L71">        return invoiceList;</span>
+    }
+
+    public void setInvoiceList(Set&lt;Invoice&gt; invoiceList) {
+<span class="fc" id="L75">        this.invoiceList = invoiceList;</span>
+<span class="fc" id="L76">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L80">        return &quot;Employee{&quot; +</span>
+                &quot;login='&quot; + login + '\'' +
+                &quot;, password='&quot; + password + '\'' +
+                &quot;, userRole=&quot; + userRole +
+                &quot;, invoiceList=&quot; + invoiceList +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

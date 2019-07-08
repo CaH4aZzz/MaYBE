@@ -19,7 +19,7 @@ class ProductList extends Component {
 
     componentDidMount() {
         console.log('resresh prod');
-        console.log(this.props.myData)
+        console.log(this.props.myData);
         this.refreshProducts();
 
         // console.log('looking for route props', this.props)

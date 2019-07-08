@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Invoice.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">maybe</a> &gt; <a href="index.source.html" class="el_package">com.maybe.maybe.entity</a> &gt; <span class="el_source">Invoice.java</span></div><h1>Invoice.java</h1><pre class="source lang-java linenums">package com.maybe.maybe.entity;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.maybe.maybe.entity.enums.InvoiceType;
+import com.maybe.maybe.entity.enums.converter.InvoiceTypeConverter;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = &quot;invoice&quot;)
+<span class="fc" id="L16">public class Invoice extends AbstractEntity {</span>
+    @NotNull
+    @Column(name = &quot;name&quot;, nullable = false)
+    private String name;
+
+    @NotNull
+    @Convert(converter = InvoiceTypeConverter.class)
+    @Column(name = &quot;invoice_type_id&quot;, nullable = false)
+    private InvoiceType invoiceType;
+
+    @NotNull
+    @Column(name = &quot;date_created&quot;, nullable = false)
+    private LocalDateTime dateCreated;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = &quot;employee_id&quot;, nullable = false)
+    @JsonManagedReference
+    private Employee employee;
+
+<span class="fc" id="L36">    @NotNull</span>
+    @OneToMany(mappedBy = &quot;invoice&quot;)
+    @JsonManagedReference
+    private Set&lt;InvoiceItem&gt; invoiceItems = new HashSet&lt;&gt;();
+
+    public String getName() {
+<span class="fc" id="L42">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L46">        this.name = name;</span>
+<span class="fc" id="L47">    }</span>
+
+    public InvoiceType getInvoiceType() {
+<span class="fc" id="L50">        return invoiceType;</span>
+    }
+
+    public void setInvoiceType(InvoiceType invoiceType) {
+<span class="fc" id="L54">        this.invoiceType = invoiceType;</span>
+<span class="fc" id="L55">    }</span>
+
+    public LocalDateTime getDateCreated() {
+<span class="fc" id="L58">        return dateCreated;</span>
+    }
+
+    public void setDateCreated(LocalDateTime dateCreated) {
+<span class="fc" id="L62">        this.dateCreated = dateCreated;</span>
+<span class="fc" id="L63">    }</span>
+
+    public Employee getEmployee() {
+<span class="fc" id="L66">        return employee;</span>
+    }
+
+    public void setEmployee(Employee employee) {
+<span class="fc" id="L70">        this.employee = employee;</span>
+<span class="fc" id="L71">    }</span>
+
+    public Set&lt;InvoiceItem&gt; getInvoiceItems() {
+<span class="fc" id="L74">        return invoiceItems;</span>
+    }
+
+    public void setInvoiceItems(Set&lt;InvoiceItem&gt; invoiceItems) {
+<span class="nc" id="L78">        this.invoiceItems = invoiceItems;</span>
+<span class="nc" id="L79">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

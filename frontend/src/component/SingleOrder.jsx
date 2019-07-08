@@ -10,7 +10,8 @@ class SingleOrder extends Component {
         this.state = {
             id: this.props.match.params.id,
             orderItems: [],
-            deskId: ''
+            deskId: '',
+            total: ''
         };
     }
 
@@ -22,29 +23,39 @@ class SingleOrder extends Component {
             return
         }
 
-        const response = await OrderService.getOrderById(this.state.id)
-
+        const response = await OrderService.getOrderById(this.state.id);
         this.setState({
-            id:response.data.id,
-            deskId: response.data.deskId
+            id: response.data.id,
+            deskId: response.data.deskId,
+            total: response.data.total
         });
-
-        this.props.onOrderLoaded(response.data)
-
     }
 
     render() {
-        let {id, deskId} = this.state;
+        let {id, deskId, total} = this.state;
         return (
             <div>
-                <div >
-                    <p style={{float: "left", width: "50%", fontSize: "20px"}}>Order # {id}</p>
-                    <p style={{float: "right", width: "50%", fontSize: "20px"}}>Table # {deskId}</p>
+                <div>
+                    <p style={{float: "left", width: "30%", fontSize: "20px"}}>Order # {id}</p>
+                    <p style={{float: "right", width: "30%", fontSize: "20px"}}>Total {total}</p>
+                    <p style={{float: "right", width: "30%", fontSize: "20px"}}>Table # {deskId}</p>
                 </div>
                 <OrderItemList id={id}/>
+                <div className="row">
+                    <button className="btn btn-success" onClick={() => this.props.history.goBack()}>Back</button>
+                    <button className="btn btn-warning" onClick={() => this.closeOrder(id, deskId)}>Close</button>
+                </div>
             </div>
         )
     }
+
+    async closeOrder(orderId, deskId) {
+        const employeeId = 1;
+        const response = await OrderService.closeOrder(orderId, deskId, employeeId);
+        console.log("close order " + response);
+        this.props.history.push('/');
+    }
 }
+
 
 export default SingleOrder

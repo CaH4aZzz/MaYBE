@@ -20,7 +20,7 @@ class MaybeLeft extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="myComp">
                 <Switch>
                     <Route path="/" exact component={OrderList}/>
                     <Route path="/components/:id" exact component={OrderList}/>
