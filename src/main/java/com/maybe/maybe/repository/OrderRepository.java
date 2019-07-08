@@ -1,5 +1,6 @@
 package com.maybe.maybe.repository;
 
+import com.maybe.maybe.dto.DeskReportDTO;
 import com.maybe.maybe.dto.EmployeeReportDTO;
 import com.maybe.maybe.dto.SummaryDTO;
 import com.maybe.maybe.entity.Order;
@@ -27,5 +28,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "WHERE o.dateCreated BETWEEN :dateFrom AND :dateTo " +
             "GROUP BY(e.name)")
     List<EmployeeReportDTO> getEmployeeReport(LocalDateTime dateFrom, LocalDateTime dateTo);
+
+    @Query("select new  com.maybe.maybe.dto.DeskReportDTO(d.name, count(o.id), sum(o.total))\n" +
+            "from Order o, Desk d \n" +
+            "where o.dateCreated between :dateFrom and :dateTo \n" +
+            "group by(d.name)")
+    List<DeskReportDTO> getDeskReport(LocalDateTime dateFrom, LocalDateTime dateTo);
 
 }
