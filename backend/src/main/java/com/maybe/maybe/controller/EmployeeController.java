@@ -52,10 +52,10 @@ public class EmployeeController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/employees/{id}")
-    public ResponseEntity<Employee> deleteEmployeeById(@PathVariable @Min(1) Long id) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(employeeService.deleteById(id));
+    public void deleteEmployeeById(@PathVariable @Min(1) Long id) {
+        employeeService.deleteById(id);
     }
 
 }
