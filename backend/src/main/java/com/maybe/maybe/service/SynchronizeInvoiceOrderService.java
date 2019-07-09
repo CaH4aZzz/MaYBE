@@ -19,40 +19,6 @@ public class SynchronizeInvoiceOrderService {
         this.invoiceItemRepository = invoiceItemRepository;
     }
 
-//    public void orderChanged(Order order) {
-//        Invoice invoice = order.getInvoice();
-//        Set<InvoiceItem> invoiceItems = invoice.getInvoiceItems();
-//        resetInvoiceItems(invoiceItems);
-//        for (OrderItem orderItem : order.getOrderItems()) {
-//            BigDecimal productQuantity = orderItem.getQuantity();
-//            Product product = orderItem.getProduct();
-//            Set<ComponentProduct> componentProducts = product.getComponentProducts();
-//            for (ComponentProduct componentProduct : componentProducts) {
-//                Component component = componentProduct.getComponent();
-//                InvoiceItem invoiceItem;
-//                Optional<InvoiceItem> optionalInvoiceItem = invoiceItems.stream()
-//                        .filter(i -> i.getComponent().equals(component)).findFirst();
-//                if (optionalInvoiceItem.isPresent()) {
-//                    invoiceItem = optionalInvoiceItem.get();
-//                } else {
-//                    invoiceItem = new InvoiceItem();
-//                    invoiceItem.setInvoice(invoice);
-//                    invoiceItem.setComponent(component);
-//                    invoiceItem.setQuantity(BigDecimal.ZERO);
-//                    invoiceItem.setPrice(BigDecimal.ZERO);
-//                    invoiceItemRepository.save(invoiceItem);
-//                    invoiceItems.add(invoiceItem);
-////                    invoice.setInvoiceItems(invoiceItems);
-//                }
-//                invoiceItem.setPrice(component.getAveragePrice());
-//                BigDecimal componentQuantity = productQuantity.multiply(componentProduct.getQuantity());
-//                invoiceItem.setQuantity(invoiceItem.getQuantity().add(componentQuantity));
-//            }
-//        }
-//        saveInvoiceItems(invoiceItems);
-//    }
-
-
     public void orderChanged(Order order) {
         Invoice invoice = order.getInvoice();
         Set<InvoiceItem> invoiceItems = invoice.getInvoiceItems();
