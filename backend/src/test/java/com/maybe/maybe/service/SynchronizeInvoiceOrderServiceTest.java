@@ -14,18 +14,15 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(JUnitParamsRunner.class)
@@ -33,9 +30,6 @@ public class SynchronizeInvoiceOrderServiceTest {
 
     @InjectMocks
     private SynchronizeInvoiceOrderService synchronizeInvoiceOrderService;
-
-    @Mock
-    private ComponentService componentService;
 
     @Mock
     private InvoiceItemRepository invoiceItemRepository;
@@ -61,9 +55,6 @@ public class SynchronizeInvoiceOrderServiceTest {
     @Test
     @Parameters(method = "parametersToTest")
     public void orderDeleted(Order order) {
-
-        ArgumentCaptor<BigDecimal> capture = ArgumentCaptor.forClass(BigDecimal.class);
-
         synchronizeInvoiceOrderService.orderDeleted(order);
         Set<InvoiceItem> invoiceItems = order.getInvoice().getInvoiceItems();
 
