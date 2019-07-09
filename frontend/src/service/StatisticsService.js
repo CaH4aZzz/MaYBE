@@ -23,6 +23,11 @@ class StatisticsService {
         console.log("in employee report");
         return axios.get(`${API_URL}/employee-report/?dateFrom=` + dateFrom + `&dateTo=` + dateTo)
     }
+
+    getDeskReport(dateFrom, dateTo) {
+        console.log("in desk report");
+        return axios.get(`${API_URL}/desk-report/?dateFrom=` + dateFrom + `&dateTo=` + dateTo)
+    }
 }
 
 export default new StatisticsService()
