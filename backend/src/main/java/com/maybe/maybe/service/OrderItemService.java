@@ -110,7 +110,6 @@ public class OrderItemService {
         BigDecimal total = order.getTotal().add(price);
         order.setTotal(total);
 
-        //setComponentProductsIntoInvoiceItem(product.getComponentProducts(), order, orderItem);
         synchronizeInvoiceOrderService.orderChanged(order);
 
         orderService.save(order);
@@ -126,6 +125,7 @@ public class OrderItemService {
         orderItemDTO.setProductId(orderItem.getProduct().getId());
         orderItemDTO.setQuantity(orderItem.getQuantity());
         orderItemDTO.setPrice(orderItem.getPrice());
+        orderItemDTO.setProductName(orderItem.getProduct().getName());
 
         return orderItemDTO;
 
@@ -143,6 +143,7 @@ public class OrderItemService {
             orderItemDTO.setProductId(orderItemList.get(i).getProduct().getId());
             orderItemDTO.setQuantity(orderItemList.get(i).getQuantity());
             orderItemDTO.setPrice(orderItemList.get(i).getPrice());
+            orderItemDTO.setProductName(orderItemList.get(i).getProduct().getName());
             orderItemDTOSList.add(orderItemDTO);
         });
 
@@ -158,15 +159,6 @@ public class OrderItemService {
         BigDecimal newTotal = order.getTotal().subtract(orderItemForDelete.getPrice());
 
         order.setTotal(newTotal);
-
-//        orderItemForDelete.getProduct().getComponentProducts().stream().
-//                forEach(componentProduct ->
-//                        componentService.increaseComponentBalance(componentProduct.getComponent().getId(),
-//                                orderItemForDelete.getQuantity().multiply(componentProduct.getQuantity()),
-//                                componentProduct.getComponent().getTotal()
-//                                ));
-
-        //todo delete invoiceItem need here
 
         orderService.save(order);
 
