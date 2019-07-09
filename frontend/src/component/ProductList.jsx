@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import ProductService from "../service/ProductService";
 import OrderItemService from "../service/OrderItemService";
 import Table from "react-bootstrap/Table";
+import {withRouter} from "react-router";
 
 class ProductList extends Component {
 
@@ -18,11 +19,8 @@ class ProductList extends Component {
     }
 
     componentDidMount() {
-        console.log('resresh prod');
         console.log(this.props.myData);
         this.refreshProducts();
-
-        // console.log('looking for route props', this.props)
     }
 
     refreshProducts() {
@@ -59,7 +57,8 @@ class ProductList extends Component {
         const productId = this.state.productBeingAdded;
         const orderId = this.props.match.params.id;
 
-        OrderItemService.addOrderItemToOrder(orderId, price, productId, productsNum);
+        const response = OrderItemService.addOrderItemToOrder(orderId, price, productId, productsNum);
+        console.log("response = ", response);
         this.refreshProducts();
     };
 
@@ -99,13 +98,12 @@ class ProductList extends Component {
                         }
                         </tbody>
                     </Table>
-                    <div className="row">
-                        <button className="btn btn-success" onClick={this.addComponentClicked}>Add</button>
-                    </div>
                 </div>
             </div>
         )
     }
 }
 
-export default ProductList
+// export default ProductList
+
+export default withRouter(ProductList)

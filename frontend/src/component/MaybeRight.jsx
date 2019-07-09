@@ -10,8 +10,8 @@ class MaybeRight extends Component {
         return (
             <div className="myComp">
                 <Switch>
+                    <Route path="/" exact component={DeskList}/>
                     <Route path="/orders/:id" exact component={ProductList}/>
-                    <Route path="/" component={DeskList}/>
                     {/*<Route path="/" render={() => "No order selected"}/>*/}
                     {/*<Route path="/components" component={ComponentList}/>*/}
 

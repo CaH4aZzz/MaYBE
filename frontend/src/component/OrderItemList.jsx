@@ -32,7 +32,7 @@ class OrderItemList extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="tableContainer">
                 <Table striped bordered hover>
                     <thead>
                     <tr>

@@ -17,10 +17,15 @@ class NaviBar extends Component {
         this.props.history.push('/statistics');
     }
 
+    async goHome() {
+        console.log("in home");
+        this.props.history.push('/');
+    }
+
     render() {
         return (
             <div className="container">
-                <h1>Maybe</h1>
+                <h1 onClick={() => this.goHome()}>Maybe</h1>
                 <button className="btn btn-primary" onClick={() => this.goToStatistics()}>Statistics</button>
                 <button className="btn btn-primary">Admin</button>
             </div>
