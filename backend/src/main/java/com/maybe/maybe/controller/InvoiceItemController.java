@@ -26,38 +26,39 @@ public class InvoiceItemController {
 
     @Statistic
     @GetMapping("/invoices/{invoiceId}/invoiceItems")
-    public ResponseEntity<Page<InvoiceItem>> getInvoiceItems(
+    public Page<InvoiceItem> getInvoiceItems(
             @PathVariable("invoiceId") @Min(1) Long invoiceId,
             @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
         Page<InvoiceItem> invoiceItems = invoiceItemService.findAllByInvoice_Id(invoiceId, pageable);
-        return new ResponseEntity<>(invoiceItems, HttpStatus.OK);
+        return invoiceItems;
     }
 
     @Statistic
     @GetMapping("/invoiceItems/{invoiceItemId}")
-    public ResponseEntity<InvoiceItem> getInvoiceItem(
+    public InvoiceItem getInvoiceItem(
             @PathVariable("invoiceItemId") @Min(1) Long invoiceItemId) {
         InvoiceItem invoiceItem = invoiceItemService.findById(invoiceItemId);
-        return new ResponseEntity<>(invoiceItem, HttpStatus.OK);
+        return invoiceItem;
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("invoices/{invoiceId}/invoiceItems")
-    public ResponseEntity<InvoiceItem> createInvoiceItem(
+    public InvoiceItem createInvoiceItem(
             @PathVariable("invoiceId") @Min(1) Long invoiceId,
             @Valid @RequestBody InvoiceItemDTO invoiceItemDTO) {
         InvoiceItem invoiceItem = invoiceItemService.createFromDTO(invoiceItemDTO, invoiceId);
-        return new ResponseEntity<>(invoiceItem, HttpStatus.CREATED);
+        return invoiceItem;
     }
 
     @Statistic
     @PutMapping("/invoiceItems/{invoiceItemId}")
-    public ResponseEntity<InvoiceItem> updateInvoiceItem(
+    public InvoiceItem updateInvoiceItem(
             @PathVariable("invoiceItemId") @Min(1) Long invoiceItemId,
             @Valid @RequestBody InvoiceItemDTO invoiceItemDTO) {
         InvoiceItem invoiceItem = invoiceItemService.findById(invoiceItemId);
         invoiceItemService.updateFromDTO(invoiceItem, invoiceItemDTO);
-        return new ResponseEntity<>(invoiceItem, HttpStatus.OK);
+        return invoiceItem;
     }
 
     @Statistic

@@ -28,11 +28,11 @@ public class ComponentProductController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/{productId}/components")
-    public ResponseEntity<ComponentProduct> addComponentProduct(@PathVariable Long productId,
+    public ComponentProduct addComponentProduct(@PathVariable Long productId,
                                                                 @Valid @RequestBody ComponentProductDTO componentProductDTO) {
-        return new ResponseEntity<>(componentProductService.saveDTO(productId, componentProductDTO),
-                HttpStatus.CREATED);
+        return componentProductService.saveDTO(productId, componentProductDTO);
     }
 
     @Statistic

@@ -30,9 +30,10 @@ public class ProductController {
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductDTO productDTO) {
-        return new ResponseEntity<>(productService.saveDTO(productDTO), HttpStatus.CREATED);
+    public Product addProduct(@Valid @RequestBody ProductDTO productDTO) {
+        return productService.saveDTO(productDTO);
     }
 
     @Statistic
