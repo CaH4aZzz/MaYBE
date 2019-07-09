@@ -34,6 +34,9 @@ public class SynchronizeInvoiceOrderServiceTest {
     @Mock
     private InvoiceItemRepository invoiceItemRepository;
 
+    @Mock
+    private ComponentService componentService;
+
     @Before
     public void initMock(){
         initMocks(this);
