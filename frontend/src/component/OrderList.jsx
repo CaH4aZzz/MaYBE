@@ -14,9 +14,6 @@ class OrderList extends Component {
         // this.addComponentClicked = this.addComponentClicked.bind(this);
     }
 
-    updatePage = () => {
-    };
-
     componentDidMount() {
         this.refreshOrders();
     }

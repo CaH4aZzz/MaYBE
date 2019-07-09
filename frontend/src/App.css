@@ -42,6 +42,7 @@ button {
 .myComp {
     width: 45%;
     display: inline-block;
+    text-align: match-parent;
 }
 
 .superComponent {

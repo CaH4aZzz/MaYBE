@@ -6,7 +6,7 @@ class SingleOrder extends Component {
 
     constructor(props) {
         super(props);
-        console.log('single order');
+        console.log(this.props);
         this.state = {
             id: this.props.match.params.id,
             orderItems: [],
@@ -56,6 +56,5 @@ class SingleOrder extends Component {
         this.props.history.push('/');
     }
 }
-
 
 export default SingleOrder
