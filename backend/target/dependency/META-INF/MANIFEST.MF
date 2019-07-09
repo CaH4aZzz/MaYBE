@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Implementation-Title: maybe
+Implementation-Title: maybe-backend
 Implementation-Version: 0.0.1-SNAPSHOT
 Start-Class: com.maybe.maybe.MaYBEApplication
 Spring-Boot-Classes: BOOT-INF/classes/
