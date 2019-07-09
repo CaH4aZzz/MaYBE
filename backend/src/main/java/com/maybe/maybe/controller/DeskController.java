@@ -25,36 +25,32 @@ public class DeskController {
 
     @Statistic
     @GetMapping("/desks/{id}")
-    public ResponseEntity<Desk> getDeskById(@PathVariable @Min(1) Long id) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(deskService.findById(id));
+    public Desk getDeskById(@PathVariable @Min(1) Long id) {
+        return deskService.findById(id);
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/desks/{name}")
-    public ResponseEntity<Desk> createDesk(@PathVariable @Size(min = 4, max = 50) String name) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(deskService.createFromDTO(new DeskDTO(name)));
+    public Desk createDesk(@PathVariable @Size(min = 4, max = 50) String name) {
+        return deskService.createFromDTO(new DeskDTO(name));
     }
     @Statistic
     @GetMapping("/desks")
-    public ResponseEntity<List<Desk>> getDeskList(@RequestParam(required = false) DeskState state) {
+    public List<Desk> getDeskList(@RequestParam(required = false) DeskState state) {
         if (state == null) {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(deskService.findAll());
+            return deskService.findAll();
         } else {
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(deskService.findAllByState(state));
+            return deskService.findAllByState(state);
         }
 
     }
 
     @Statistic
     @PutMapping("/desks/{id}/{name}")
-    public ResponseEntity<Desk> updateDeskById(@PathVariable @Min(1) Long id,
+    public Desk updateDeskById(@PathVariable @Min(1) Long id,
                                                @PathVariable @Size(min = 4, max = 50) String name) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(deskService.updateById(id, new DeskDTO(name)));
+        return deskService.updateById(id, new DeskDTO(name));
     }
 
     @Statistic

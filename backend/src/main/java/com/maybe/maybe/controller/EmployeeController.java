@@ -24,32 +24,29 @@ public class EmployeeController {
 
     @Statistic
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployById(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(employeeService.findById(id));
+    public Employee getEmployById(@PathVariable Long id) {
+        return employeeService.findById(id);
     }
 
     @Statistic
     @GetMapping("/employees")
-    public ResponseEntity<List<Employee>> getEmployeeList() {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(employeeService.findAll());
+    public List<Employee> getEmployeeList() {
+        return employeeService.findAll();
     }
 
     @Statistic
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/employees")
-    public ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(employeeService.createFromDTO(employeeDTO));
+    public Employee createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        return employeeService.createFromDTO(employeeDTO);
     }
 
     @Statistic
     @PutMapping("/employees/{id}")
-    public ResponseEntity<Employee> updateEmployeeById(@PathVariable("id") Long id,
+    public Employee updateEmployeeById(@PathVariable("id") Long id,
                                                        @RequestBody EmployeeDTO employeeDTO) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(employeeService.updateById(id, employeeDTO));
+        return employeeService.updateById(id, employeeDTO);
     }
 
     @Statistic
