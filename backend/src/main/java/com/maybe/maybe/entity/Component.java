@@ -25,10 +25,10 @@ public class Component extends AbstractEntity {
     private Measure measure;
 
     @Column(name = "quantity", nullable = false, scale = 15, precision = 5)
-    private BigDecimal quantity;
+    private BigDecimal quantity = BigDecimal.ZERO;
 
     @Column(name = "total", nullable = false, scale = 12, precision = 5)
-    private BigDecimal total;
+    private BigDecimal total = BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "component")
     @JsonBackReference
