@@ -11,7 +11,7 @@ Application for managing orders (and products) in the cafe. (MaYBE) The goal of 
 </ul>
 <p><i><b>potential features:</b></i> staff time tracking, kitchen order management, reservation and pre-orders,
  integration with payment systems</p>
-<p><i><b>Used technologies:</b></i>Java 8, Spring boot (security, web, data), Maven, embedded Tomcat, Postgresql,
+<p><i><b>used technologies: </b></i>Java 8, Spring boot (security, web, data), Maven, embedded Tomcat, Postgresql,
  Liquibase, Hibernate, Jackson, Validation, JUnit, Swagger, Docker, SCRUM, Travis CI (Jenkins), Git, React. </p>
 <p><b>DB schema</b></p>
 <a href="https://ibb.co/NZ56T88"><img src="https://i.ibb.co/yWtn4ww/maybe.png" alt="maybe" border="0"></a>
