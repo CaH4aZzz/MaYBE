@@ -35,8 +35,8 @@ class OrderList extends Component {
         return (
 
             <div className="container">
-                <h3>All Orders</h3>
-                <div className="container">
+                <p>All Orders</p>
+                <div className="container scroll">
                     <Table striped bordered hover>
                         <thead>
                         <tr>

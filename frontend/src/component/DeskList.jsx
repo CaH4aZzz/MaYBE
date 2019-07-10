@@ -28,7 +28,7 @@ class DeskList extends Component {
     render() {
         return (
             <div className="tableContainer">
-                <h3>All Desks</h3>
+                <p>All Desks</p>
                 <div className="container">
                     <Table striped bordered hover>
                         <thead>

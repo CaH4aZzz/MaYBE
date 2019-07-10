@@ -13,6 +13,20 @@
     margin: 5px;
 }
 
+p{
+    font-size: 20px;
+}
+
+.flex{
+    display: flex;
+    justify-content: center;
+}
+
+.scroll{
+    overflow-y: scroll;
+    height: 400px;
+}
+
 #tableProd {
     position: absolute;
     top: 0;
@@ -48,3 +62,12 @@ button {
 .superComponent {
     border: black 1px solid;
 }
+.compWithOrderAndTables{
+    height: 81vh;
+    overflow-y: scroll;
+    display: flex;
+    justify-content: center;
+}
+
+
+

@@ -32,7 +32,7 @@ class OrderItemList extends Component {
 
     render() {
         return (
-            <div className="tableContainer">
+            <div className="container scroll">
                 <Table striped bordered hover>
                     <thead>
                     <tr>
@@ -52,7 +52,7 @@ class OrderItemList extends Component {
                                         <td>{orderItem.quantity}</td>
                                         <td>
                                             <button className="btn btn-success"
-                                                    onClick={() => this.componentDidMount}>Update
+                                                    onClick={() => componentDidMount}>Update
                                             </button>
                                         </td>
                                     </tr>

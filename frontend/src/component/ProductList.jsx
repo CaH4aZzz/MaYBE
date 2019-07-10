@@ -65,8 +65,8 @@ class ProductList extends Component {
     render() {
         return (
             <div className="container">
-                <h3>All Products</h3>
-                <div className="container">
+                <p>All Products</p>
+                <div className="container scroll">
                     <Table striped bordered hover>
                         <thead>
                         <tr>
