@@ -41,7 +41,7 @@ class DeskList extends Component {
                         {
                             this.state.desks.map(
                                 desk =>
-                                    <tr className="tableRow" key={desk.id}
+                                    <tr key={desk.id}
                                         onClick={() => this.createOrder(desk.id)}>
                                         <td>{desk.name}</td>
                                         <td>{desk.deskState}</td>

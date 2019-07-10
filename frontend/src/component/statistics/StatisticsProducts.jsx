@@ -10,14 +10,14 @@ function parseDate(date) {
     return newDate;
 }
 
-function getNextDateItem(date, isNotLast){
+function getNextDateItem(date, isNotLast) {
     let newDate = '';
     if (date.length === 2) {
         newDate += date;
-        if(isNotLast) newDate += "-";
+        if (isNotLast) newDate += "-";
     } else {
         newDate += '0' + date;
-        if(isNotLast) newDate += "-";
+        if (isNotLast) newDate += "-";
     }
     return newDate;
 }

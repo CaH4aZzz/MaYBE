@@ -12,50 +12,36 @@ class Statistics extends Component {
         };
         this.publish = this.publish.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.getSummary = this.getSummary.bind(this);
     }
 
     render() {
         return (
             <div className="container">
-                <div className="statButtons" style={{border: "solid black 1px"}}>
+                <div className="statButtons">
                     <input
                         type="text"
                         name="dateFrom"
-                        placeholder="Enter topic here..."
+                        placeholder="Date from"
                         value={this.state.dateFrom}
                         onChange={this.handleChange}
                     />
                     <input
                         type="text"
                         name="dateTo"
-                        placeholder="Enter payload here..."
+                        placeholder="Date to"
                         value={this.state.dateTo}
                         onChange={this.handleChange}
                     />
-                    <button onClick={() => this.getSummary()}>Summary</button>
-                    {/*<button onClick={() => this.getProductStat()}>Product Stat</button>*/}
-                    <button onClick={() => this.getComponentStat()}>Component Stat</button>
-                    <button onClick={() => this.getEmployeeStat()}>Employee Stat</button>
-                    <button onClick={() => this.getDeskStat()}>Desk Stat</button>
+                    <button className="btn btn-primary" onClick={() => this.getComponentStat()}>Component Stat</button>
+                    <button className="btn btn-primary" onClick={() => this.getDeskStat()}>Desk Stat</button>
                 </div>
             </div>
         )
     }
 
-    async getSummary() {
-        this.props.dateFr(this.state.dateFrom, this.state.dateTo);
-        this.props.history.push('/summary');
-    }
-
     async getComponentStat() {
         this.props.dateFr(this.state.dateFrom, this.state.dateTo);
         this.props.history.push('/component-report');
-    }
-
-    async getEmployeeStat() {
-        this.props.dateFr(this.state.dateFrom, this.state.dateTo);
-        this.props.history.push('/employee-report');
     }
 
     async getDeskStat() {
@@ -72,8 +58,6 @@ class Statistics extends Component {
             [target.name]: target.value
         });
     }
-
-
 }
 
 export default Statistics

@@ -21,7 +21,7 @@ class OrderItemList extends Component {
     refreshOrderItems() {
         OrderItemService.getOrderItemsById(this.props.id).then(
             response => {
-                console.log(response.data.content);
+                console.log("ORDER ITEMS", response.data.content);
                 this.setState({
                     orderItems: response.data.content
                 });
@@ -47,12 +47,12 @@ class OrderItemList extends Component {
                         this.state.orderItems.map(function (orderItem, index) {
                                 return (
                                     <tr key={index}>
-                                        <td>{orderItem.productId}</td>
+                                        <td>{orderItem.productName}</td>
                                         <td>{orderItem.price}</td>
                                         <td>{orderItem.quantity}</td>
                                         <td>
                                             <button className="btn btn-success"
-                                                    onClick={() => componentDidMount}>Update
+                                                    onClick={() => this.refreshOrderItems}>Update
                                             </button>
                                         </td>
                                     </tr>

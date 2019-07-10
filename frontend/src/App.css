@@ -13,18 +13,18 @@
     margin: 5px;
 }
 
-p{
+p {
     font-size: 20px;
 }
 
-.flex{
+.flex {
     display: flex;
     justify-content: center;
 }
 
-.scroll{
+.scroll {
     overflow-y: scroll;
-    height: 400px;
+    height: 70vh;
 }
 
 #tableProd {
@@ -34,9 +34,15 @@ p{
     border-radius: 0 0 0.5em 0.5em;
 }
 
-.table {
-    height: 150px;
-    overflow-y: scroll;
+
+Table td {
+    height: 50px;
+    vertical-align: center;
+}
+
+.table td {
+    height: 50px;
+    vertical-align: center;
 }
 
 .mainDiv {
@@ -62,11 +68,19 @@ button {
 .superComponent {
     border: black 1px solid;
 }
-.compWithOrderAndTables{
+
+.compWithOrderAndTables {
     height: 81vh;
-    overflow-y: scroll;
     display: flex;
     justify-content: center;
+}
+
+td {
+    height: 50px;
+}
+
+tr {
+    height: 50px;
 }
 
 

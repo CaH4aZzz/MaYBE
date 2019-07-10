@@ -37,7 +37,7 @@ class StatisticsEmployee extends Component {
                         {
                             this.state.statisticsList.map(function (statisticsItem, index) {
                                     return (
-                                        <tr className="tableRow" key={index}>
+                                        <tr key={index}>
                                             <td>{statisticsItem.employeeName}</td>
                                             <td>{statisticsItem.orderCount}</td>
                                             <td>{statisticsItem.total}</td>
