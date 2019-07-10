@@ -1,8 +1,18 @@
 version: '2'
 services:
-  app:
-    build: .
-    image: app
+  app-front:
+    build: frontend
+    image: maybe-front
+    volumes:
+      - client:/app
+    ports:
+      - '3000:3000'
+    command: npm start
+    depends_on:
+      - app-back
+  app-back:
+    build: backend
+    image: maybe-back
     ports:
       - "8080:8080"
     depends_on:
@@ -19,3 +29,4 @@ services:
       - "5432:5432"
 volumes:
   sample_db: {}
+  client: {}
