@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ComponentsDataService from "../service/ComponentsDataService";
+import ComponentsDataService from "../service/ComponentsService";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 
 class SingleComponent extends Component {
@@ -63,8 +63,8 @@ class SingleComponent extends Component {
         if (!values.name) {
             errors.name = 'Enter Component name'
         }
-        if (!values.quantity) {
-            errors.quantity = 'Enter quantity of Component'
+        if (!values.measure) {
+            errors.measure = 'Enter measure of Component'
         }
         return errors
     }
@@ -88,19 +88,15 @@ class SingleComponent extends Component {
                                 <Form>
                                     <ErrorMessage name="name" component="div"
                                                   className="alert alert-warning"/>
-                                    <ErrorMessage name="quantity" component="div"
+                                    <ErrorMessage name="measure" component="div"
                                                   className="alert alert-warning"/>
-                                    <fieldset className="form-group">
-                                        <label>Id</label>
-                                        <Field className="form-control" type="text" name="id" disabled/>
-                                    </fieldset>
                                     <fieldset className="form-group">
                                         <label>Name</label>
                                         <Field className="form-control" type="text" name="name"/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Quantity</label>
-                                        <Field className="form-control" type="text" name="quantity"/>
+                                        <Field className="form-control" type="text" name="quantity" disabled/>
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Measure</label>
@@ -108,7 +104,7 @@ class SingleComponent extends Component {
                                     </fieldset>
                                     <fieldset className="form-group">
                                         <label>Total</label>
-                                        <Field className="form-control" type="text" name="total"/>
+                                        <Field className="form-control" type="text" name="total" disabled/>
                                     </fieldset>
                                     <button className="btn btn-success" type="submit">Save</button>
                                 </Form>

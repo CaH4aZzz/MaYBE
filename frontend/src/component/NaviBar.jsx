@@ -6,6 +6,14 @@ class NaviBar extends Component {
         this.goToStatistics = this.goToStatistics.bind(this);
     }
 
+    render() {
+        return (
+            <div className="container">
+                <h1 onClick={() => this.goHome()}>Maybe</h1>
+            </div>
+        )
+    }
+
     async componentDidMount() {
         console.log("in navy bar " + this.state);
         console.log(this.props);
@@ -20,16 +28,6 @@ class NaviBar extends Component {
     async goHome() {
         console.log("in home");
         this.props.history.push('/');
-    }
-
-    render() {
-        return (
-            <div className="container">
-                <h1 onClick={() => this.goHome()}>Maybe</h1>
-                <button className="btn btn-primary" onClick={() => this.goToStatistics()}>Statistics</button>
-                <button className="btn btn-primary">Admin</button>
-            </div>
-        )
     }
 }
 

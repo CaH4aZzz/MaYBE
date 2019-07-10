@@ -2,14 +2,12 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:8080/api/components';
 
-class ComponentsDataService {
+class ComponentsService {
     retrieveAllComponents() {
-        console.log('int getAll()');
         return axios.get(API_URL);
     }
 
     retrieveComponentById(id) {
-        console.log("in getById id = " + id);
         return axios.get(`${API_URL}/${id}`);
     }
 
@@ -22,4 +20,4 @@ class ComponentsDataService {
     }
 }
 
-export default new ComponentsDataService()
+export default new ComponentsService()

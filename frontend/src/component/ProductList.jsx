@@ -1,78 +1,51 @@
-// @import url(https://unpkg.com/bootstrap@4.1.0/dist/css/bootstrap.min.css);
 import React, {Component} from 'react';
 import ProductService from "../service/ProductService";
-import OrderItemService from "../service/OrderItemService";
-import Table from "react-bootstrap/Table";
-import {withRouter} from "react-router";
 
 class ProductList extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            productsNum: '',
-            productBeingAdded: null,
             products: []
         };
-        this.refreshProducts = this.refreshProducts.bind(this);
-        this.addProductToOrder = this.addProductToOrder.bind(this);
+        this.refreshPropducts = this.refreshPropducts.bind(this);
+        this.updateProductClicked = this.updateProductClicked.bind(this);
+        this.addProductClicked = this.addProductClicked.bind(this);
     }
 
     componentDidMount() {
-        console.log(this.props.myData);
-        this.refreshProducts();
+        this.refreshPropducts();
     }
 
-    refreshProducts() {
+    refreshPropducts() {
         ProductService.getAllProducts().then(
             response => {
+                console.log(response.data.content);
                 this.setState({products: response.data.content});
             }
         )
     }
 
-    addProductToOrder(id) {
-        this.setState({
-            productBeingAdded: id
-        })
+    updateProductClicked(id) {
+        console.log("update product id = ", id);
+        this.props.history.push('/products/' + id);
     }
 
-    handleInputChange = (evt) => {
-        this.setState({
-            productsNum: evt.target.value
-        })
-    };
-
-    addProdToOrderSubmit = (price) => {
-
-        const productsNum = parseInt(this.state.productsNum, 10);
-
-        const isValid = productsNum && productsNum > 0 && productsNum % 1 === 0;
-
-        if (!isValid) {
-            alert('Please enter positive integer');
-            return;
-        }
-
-        const productId = this.state.productBeingAdded;
-        const orderId = this.props.match.params.id;
-
-        const response = OrderItemService.addOrderItemToOrder(orderId, price, productId, productsNum);
-        console.log("response = ", response);
-        this.refreshProducts();
-    };
+    addProductClicked() {
+        console.log('add clicked');
+        this.props.history.push('/products/-1')
+    }
 
     render() {
         return (
             <div className="container">
                 <h3>All Products</h3>
                 <div className="container">
-                    <Table striped bordered hover>
+                    <table className="table" style={{width: '90%'}}>
                         <thead>
                         <tr>
                             <th>Name</th>
                             <th>Price</th>
-                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -83,27 +56,22 @@ class ProductList extends Component {
                                         <td>{product.name}</td>
                                         <td>{product.price}</td>
                                         <td>
-                                            {this.state.productBeingAdded !== product.id ? (
-                                                <button className="btn btn-success"
-                                                        onClick={() => this.addProductToOrder(product.id)}>Add to order
-                                                </button>
-                                            ) : <><input onChange={this.handleInputChange}/>
-                                                <button className="btn btn-success"
-                                                        onClick={() => this.addProdToOrderSubmit(product.price)}>Add
-                                                </button>
-                                            </>}
+                                            <button className="btn btn-success"
+                                                    onClick={() => this.updateProductClicked(product.id)}>Update
+                                            </button>
                                         </td>
                                     </tr>
                             )
                         }
                         </tbody>
-                    </Table>
+                    </table>
+                    <div className="row">
+                        <button className="btn btn-success" onClick={this.addProductClicked}>Add</button>
+                    </div>
                 </div>
             </div>
         )
     }
 }
 
-// export default ProductList
-
-export default withRouter(ProductList)
+export default ProductList

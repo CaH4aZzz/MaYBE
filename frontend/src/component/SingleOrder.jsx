@@ -35,10 +35,10 @@ class SingleOrder extends Component {
         let {id, deskId, total} = this.state;
         return (
             <div>
-                <div>
-                    <p style={{float: "left", width: "30%", fontSize: "20px"}}>Order # {id}</p>
-                    <p style={{float: "right", width: "30%", fontSize: "20px"}}>Total {total}</p>
-                    <p style={{float: "right", width: "30%", fontSize: "20px"}}>Table # {deskId}</p>
+                <div className="flex">
+                    <p style={{width: "33%", fontSize: "20px"}}>Order # {id}</p>
+                    <p style={{width: "33%", fontSize: "20px"}}>Total {total}</p>
+                    <p style={{width: "33%", fontSize: "20px"}}>Table # {deskId}</p>
                 </div>
                 <OrderItemList id={id}/>
                 <div className="row">

@@ -28,7 +28,7 @@ class DeskList extends Component {
     render() {
         return (
             <div className="tableContainer">
-                <h3>All Desks</h3>
+                <p>All Desks</p>
                 <div className="container">
                     <Table striped bordered hover>
                         <thead>
@@ -41,7 +41,7 @@ class DeskList extends Component {
                         {
                             this.state.desks.map(
                                 desk =>
-                                    <tr className="tableRow" key={desk.id}
+                                    <tr key={desk.id}
                                         onClick={() => this.createOrder(desk.id)}>
                                         <td>{desk.name}</td>
                                         <td>{desk.deskState}</td>

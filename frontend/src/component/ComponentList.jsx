@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ComponentsDataService from "../service/ComponentsDataService"
+import ComponentsDataService from "../service/ComponentsService"
 
 class ComponentList extends Component {
 
@@ -27,6 +27,7 @@ class ComponentList extends Component {
     }
 
     updateComponentClicked(id) {
+        console.log("update comp id = ", id);
         this.props.history.push('/components/' + id);
     }
 
